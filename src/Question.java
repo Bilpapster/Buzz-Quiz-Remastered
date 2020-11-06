@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.HashSet;
 
 
 /**
@@ -65,6 +64,7 @@ public class Question {
     }
 
 
+
     public void displayQuestion() {
         System.out.printf("--------Category: %s-------\n", questionType.toString());
         System.out.println("--------" + questionText + "--------");
@@ -80,6 +80,7 @@ public class Question {
      */
     public boolean isCorrectAnswer(String playerChoice) {
         return answers.get(playerChoice).equals(correctAnswer);
+        // TODO: add a check for invalid answers if we're not gonna address them in the parser class
     }
 
 }

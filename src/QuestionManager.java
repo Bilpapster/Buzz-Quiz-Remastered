@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class QuestionManager {
-    ArrayList<Question> listOfQuestions;
+    private ArrayList<Question> listOfQuestions;
 
     public QuestionManager() {
         listOfQuestions = new ArrayList<>();
@@ -26,6 +26,21 @@ public class QuestionManager {
      */
     public void shuffleQuestions() {
         Collections.shuffle(listOfQuestions);
+    }
+
+    /**
+     * Method for acessing the size of the list of questios [TEMPORARY]
+     * @return the number of remaining questions in the list
+     */
+    public int questionsRemaining() {
+        return listOfQuestions.size();
+    }
+
+    /**
+     * Returns the next question for the player(s)
+     */
+    public Question getNextQuestion() {
+        return listOfQuestions.get(0);
     }
 
     /**

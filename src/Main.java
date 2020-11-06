@@ -11,13 +11,13 @@ public class Main {
         System.out.print("State your name player: ");
         Player player1 = new Player(input.nextLine());
 
-        while(questionManager.listOfQuestions.size() > 0) {
+        while(questionManager.questionsRemaining() > 0) { // temporary way of knowing when the game will end, will be changed to rounds later on
             System.out.println();
             System.out.println();
             player1.printScore();
-            questionManager.listOfQuestions.get(0).displayQuestion();
+            questionManager.getNextQuestion().displayQuestion();
             String ans = input.nextLine();
-            if (questionManager.listOfQuestions.get(0).isCorrectAnswer(ans)) {
+            if (questionManager.getNextQuestion().isCorrectAnswer(ans)) {
                 System.out.println("Correct!");
                 player1.updateScore(1000);
             }
