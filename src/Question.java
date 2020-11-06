@@ -15,6 +15,7 @@ public class Question {
 
     /**
      * The first of two constructors used to create a Question object without a picture
+     *
      * @param questionText the question text
      * @param correctAnswer the correct answer, depicted with a string
      * @param answers a hashmap containing both the letters for the questions and the questions
@@ -43,6 +44,10 @@ public class Question {
         this.picture = picture;
     }
 
+    public String getCorrectAnswer() {
+        return correctAnswer;
+    }
+
     public QuestionType getQuestionType() {
         return questionType;
     }
@@ -58,6 +63,7 @@ public class Question {
     public String getPicture() {
         return picture;
     }
+
 
     public void displayQuestion() {
         System.out.printf("--------Category: %s-------\n", questionType.toString());
