@@ -43,8 +43,11 @@ public class StandardRound implements RoundI {
     public void giveCredits(String givenAnswer) {
         if (questionTeller.getNextQuestion().isCorrectAnswer(givenAnswer)) {
             for (PlayerTest player : players) {
+                System.out.println("Correct!");
                 player.updateScore(1000);
             }
+        } else {
+            System.out.println("Wrong...");
         }
     }
 
