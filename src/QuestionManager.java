@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,7 +25,7 @@ public class QuestionManager {
     /**
      * Shuffles the list of question using <code>Collections.shuffle()</code>
      */
-    public void shuffleQuestions() {
+    private void shuffleQuestions() {
         Collections.shuffle(listOfQuestions);
     }
 
@@ -49,35 +50,35 @@ public class QuestionManager {
      */
     public void createQuestions() {
 
-        HashMap<String, String> answer1 = new HashMap<>();
-        answer1.put("a", "George Washington");
-        answer1.put("b", "Donald J. Trump");
-        answer1.put("c", "Lyndon B. Johnson");
-        answer1.put("d", "Abraham Lincoln");
-        addNewQuestion(new Question("Who was the first president of the US?", "George Washington", answer1, QuestionType.History, false));
+        String[] answers1 = {"George Washington", "Donald J. Trump", "Lyndon B. Johnson","Abraham Lincoln"};
+        addNewQuestion(new Question("Who was the first president of the US?", "George Washington", getQuestionAnswers(answers1), QuestionType.History, false));
 
+        String[] answers2 = {"1988", "1987", "1990", "1992"};
+        addNewQuestion(new Question("When were System of A Down formed?", "1988", getQuestionAnswers(answers2), QuestionType.Music, false));
 
-        HashMap<String, String> answer2 = new HashMap<>();
-        answer2.put("a", "1988");
-        answer2.put("b", "1987");
-        answer2.put("c", "1990");
-        answer2.put("d", "1992");
-        addNewQuestion(new Question("When were System of A Down formed?", "1988", answer2, QuestionType.Music, false));
+        String[] answers3 = {"Paraguay", "Brazil", "Germany", "Uruguay"};
+        addNewQuestion(new Question("What country won the very first FIFA World Cup in 1930?", "Uruguay", getQuestionAnswers(answers3), QuestionType.Sports, false));
 
-//        HashSet<String> answer3 = new HashSet<>();
-//        answer3.add("Hig's Bosson");
-//        answer3.add("Carbon");
-//        answer3.add("Hydrogen");
-//        answer3.add("Oxygen");
-//        addNewQuestion(new Question("Which is considered to be the first particle?", "Hig's Bosson", answer3, QuestionType.Science, false));
-//
-//        HashSet<String> answer4 = new HashSet<>();
-//        answer4.add("Legionnaires");
-//        answer4.add("Emperor's Guard");
-//        answer4.add("Praetorian Guard");
-//        answer4.add("Shock Troops of Rome");
-//        addNewQuestion(new Question("Who were the Roman Emperor's Elite Guard?", "Praetorian Guard", answer4, QuestionType.Music, false));
+        String[] answers4 = {"Sebastian Vettel", "Michael Schumacher", "Max Verstappen", "Valtteri Bottas"};
+        addNewQuestion(new Question("Which racer holds the record for the most Grand Prix wins?", "Michael Schumacher", getQuestionAnswers(answers4), QuestionType.Sports, false));
 
+        String[] answers5 = {"2004", "2008", "2009", "2007"};
+        addNewQuestion(new Question("What year was the very first model of the iPhone released?", "2007", getQuestionAnswers(answers5), QuestionType.Technology, false));
+
+        String[] answers6 = {"HyperText Transfer Protocol", "Highly Transposed Text Protocol", "Helios Transport Transcontinental Productions", "Hi-Tao Tsushimi Products"};
+        addNewQuestion(new Question("What does HTTP stand for?", "HyperText Transfer Protocol", getQuestionAnswers(answers6), QuestionType.Technology, false));
+
+        String[] answers7 = {"Alexander Fleming", "Florence Nightingale", "Alexander Papanikolaou", "Joseph Bohr"};
+        addNewQuestion(new Question("Who discovered Penicillin", "Alexander Fleming", getQuestionAnswers(answers7), QuestionType.Science, false));
+
+        String[] answers8 = {"3", "4", "5", "1"};
+        addNewQuestion(new Question("How many molecules of oxygen does ozone have?", "3", getQuestionAnswers(answers8), QuestionType.Science, false));
+
+        String[] answers9 = {"China", "England", "Japan", "Brazil"};
+        addNewQuestion(new Question("Which country invented tea?", "China", getQuestionAnswers(answers9), QuestionType.Food_and_Culture, false));
+
+        String[] answers10 = {"Saigo Takamori", "Emperor Hirohito", "Shinzo Abe", "Emperor Akihito"};
+        addNewQuestion(new Question("Who is widely considered to be the 'Last Samurai'?", "Saigo Takamori", getQuestionAnswers(answers10),QuestionType.History, false));
 
         shuffleQuestions();
 
@@ -87,6 +88,27 @@ public class QuestionManager {
 //        HashSet<Question> finalListOfQuestions = listOfQuestions;
 //        return finalListOfQuestions;
 //    }
+
+    /**
+     * Method that returns a hashMap containing the answers provided in the arguments, after they have been shuffled
+     *
+     * @param answerValues a String array containing the answers
+     * @return a <code>HashMap</code> with alphabetically ordered keys and the shuffled answerValues as the values
+     */
+    private HashMap<String, String> getQuestionAnswers(String[] answerValues) {
+
+        ArrayList<String> answers = new ArrayList<>();
+        for(String i: answerValues)
+            answers.add(i);
+        Collections.shuffle(answers);
+
+        HashMap<String, String> finalAnswers = new HashMap<>();
+        Character answerIndex = 'a';
+        for(String i: answers)
+            finalAnswers.put((answerIndex++).toString(), i);
+        return finalAnswers;
+
+    }
 
     public void printAllQuestions() {
         for(Question i: listOfQuestions)
