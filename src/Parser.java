@@ -49,6 +49,8 @@ public class Parser {
      */
     public Boolean isValidAnswer(String givenAnswer) {
 
+        //TODO (papster) utilize keySet in place of this shit code
+
         return (givenAnswer.equals("a")
                 || givenAnswer.equals("b")
                 || givenAnswer.equals("c")
