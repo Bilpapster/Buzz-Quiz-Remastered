@@ -6,11 +6,11 @@ public class PlayerTest {
     private int score; // same as Player
     private String name; // same as Player
 
-    private Parser parser; // added to test Parser class
+    private Parser parser = new Parser(); // initialization was missing!
 
     /**
      * same as Player
-     * @param name
+     * @param name 
      */
     public PlayerTest(String name) {
         this.score = 0;
