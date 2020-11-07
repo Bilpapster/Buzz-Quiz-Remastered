@@ -1,22 +1,21 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class StandardRound implements RoundI {
 
-    private String name;
     private int numberOfQuestions;
     private ArrayList<PlayerTest> players;
     private QuestionManager questionTeller;
     private Parser parser;
+    private static final int pointsEarnedOnCorrectAnswer = 1000;
 
     /**
      * Constructs a StandardRound object with given attirbutes
      *
-     * @param name              the name of the round
      * @param numberOfQuestions the number of questions in the round
      * @param players           array list of the players involved in the round
      */
-    public StandardRound(String name, int numberOfQuestions, ArrayList<PlayerTest> players) {
-        this.name = name;
+    public StandardRound(int numberOfQuestions, ArrayList<PlayerTest> players) {
         this.numberOfQuestions = numberOfQuestions;
         this.players = players;
         this.questionTeller = new QuestionManager();
@@ -25,12 +24,14 @@ public class StandardRound implements RoundI {
     }
 
     /**
-     * Getter for the round name.
-     *
-     * @return the round name
+     * Getter for the round description. Written hard coded TEMPORARILY.
      */
-    public String getName() {
-        return this.name;
+    public void printDescription() {
+        System.out.printf("In this round you are going to be asked " + this.getNumberOfQuestions() + " questions.%n"
+                + "For every correct answer, you earn " + this.pointsEarnedOnCorrectAnswer + " points!%n"
+                + "Press enter to start round ");
+        Scanner dummyScanner = new Scanner(System.in);
+        dummyScanner.nextLine();
     }
 
     /**
