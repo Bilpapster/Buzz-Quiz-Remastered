@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 
 /**
@@ -63,6 +65,9 @@ public class Question {
         return picture;
     }
 
+    public Set<String> getAnswerKeySet() { // lowers the cohesion of the class, need to look into it
+        return answers.keySet();
+    }
 
 
     public void displayQuestion() {
