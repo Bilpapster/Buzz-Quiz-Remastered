@@ -40,7 +40,8 @@ public class QuestionManager {
      * Returns the next question for the player(s)
      */
     public Question getNextQuestion() {
-        return listOfQuestions.get(0);
+        Question returnQuestion = listOfQuestions.get(0);
+        return returnQuestion;
     }
 
     /**
