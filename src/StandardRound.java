@@ -32,24 +32,22 @@ public class StandardRound implements RoundI {
         System.out.println();
         questionTeller.getNextQuestion().displayQuestion();
     }
+
     @Override
-    public void collectAnswer() {
-        String givenAnswer = parser.askForAnswer();
+    public String readAnswer() {
+        return parser.askForAnswer();
 
     }
 
     @Override
-    public void giveCredits() {
-        return;
-    }
-
-    public void playRound() {
-        for (int question = 0; question < getNumberOfQuestions(); question++) {
-            askQuestion();
-            collectAnswer();
-            giveCredits();
+    public void giveCredits(String givenAnswer) {
+        if (questionTeller.getNextQuestion().isCorrectAnswer(givenAnswer)) {
+            for (PlayerTest player : players) {
+                player.updateScore(1000);
+            }
         }
     }
+
 }
 
 
