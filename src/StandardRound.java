@@ -53,6 +53,7 @@ public class StandardRound implements RoundI {
         } else {
             System.out.println("Wrong...");
         }
+        questionTeller.removeAnsweredQuestion();
     }
 
 }
