@@ -42,20 +42,16 @@ public class Parser {
     }
 
     /**
-     * Checks whether a given answer is valid or not. The code can become a lot smarter.
+     * Checks whether a given answer is valid or not. The code can still become a lot smarter.
      *
      * @param givenAnswer a string to check its validity as an answer
      * @return true if the string is a valid answer, else false.
      */
     public Boolean isValidAnswer(String givenAnswer) {
-        if (givenAnswer.length() > 1) {
-            return false;
-        }
 
-        if (!(givenAnswer.equals("a") || givenAnswer.equals("b")
-                || givenAnswer.equals("c") || givenAnswer.equals("d"))) {
-            return false;
-        }
-        return true;
+        return (givenAnswer.equals("a")
+                || givenAnswer.equals("b")
+                || givenAnswer.equals("c")
+                || givenAnswer.equals("d"));
     }
 }
