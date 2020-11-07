@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  * A simple class representing a parsing object in our game.
@@ -30,30 +31,14 @@ public class Parser {
      *
      * @return a valid answer given by user
      */
-    public String askForAnswer() {
+    public String askForAnswer(Set<String> answerKeySet) {
         System.out.print("Your answer: ");
         String givenAnswer = inputScanner.nextLine();
 
-        while (!isValidAnswer(givenAnswer)) {
-            System.out.print("Invalid answer. Valid options: [a, b, c, d]. Your answer: ");
+        while (!answerKeySet.contains(givenAnswer)) {
+            System.out.print("Invalid answer. Valid options: " + answerKeySet.toString() + ". Your answer: ");
             givenAnswer = inputScanner.nextLine();
         }
         return givenAnswer;
-    }
-
-    /**
-     * Checks whether a given answer is valid or not. The code can still become a lot smarter.
-     *
-     * @param givenAnswer a string to check its validity as an answer
-     * @return true if the string is a valid answer, else false.
-     */
-    public Boolean isValidAnswer(String givenAnswer) {
-
-        //TODO (papster) utilize keySet in place of this shit code
-
-        return (givenAnswer.equals("a")
-                || givenAnswer.equals("b")
-                || givenAnswer.equals("c")
-                || givenAnswer.equals("d"));
     }
 }
