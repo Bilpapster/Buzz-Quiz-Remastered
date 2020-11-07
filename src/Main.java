@@ -10,26 +10,29 @@ public class Main {
         PlayerTest player1 = new PlayerTest(parser.askForName());
         players.add(player1);
 
-        StandardRound firstRound = new StandardRound("1st Round", 2, players);
-        StandardRound secondRound = new StandardRound("2nd Round", 2, players);
-        StandardRound thirdRound = new StandardRound("3rd Round", 2, players);
+        StandardRound firstRound = new StandardRound(3, players);
+        StandardRound secondRound = new StandardRound(2, players);
+        StandardRound thirdRound = new StandardRound(4, players);
 
         rounds.add(firstRound);
         rounds.add(secondRound);
         rounds.add(thirdRound);
 
+        int roundsCounter = 1;
         for (RoundI round : rounds) {
-            System.out.println("**********" + round.getName() + "**********");
-            for (int question = 0; question < firstRound.getNumberOfQuestions(); question++) {
-                firstRound.askQuestion();
-                String givenAnswer = firstRound.readAnswer();
-                firstRound.giveCredits(givenAnswer);
+            System.out.println();
+            System.out.println("**********" + " Round " + roundsCounter + " **********");
+            round.printDescription();
+            for (int question = 0; question < round.getNumberOfQuestions(); question++) {
+                round.askQuestion();
+                String givenAnswer = round.readAnswer();
+                round.giveCredits(givenAnswer);
             }
             System.out.println();
+            System.out.println("End of Round " + (roundsCounter++) + ".");
+            player1.printScore();
             System.out.println();
         }
-
-        player1.printScore();
     }
 
 }
