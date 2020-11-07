@@ -17,6 +17,10 @@ public class StandardRound implements RoundI {
         this.parser = new Parser();
     }
 
+    public String getName() {
+        return this.name;
+    }
+
     @Override
     public int getNumberOfQuestions() {
         return this.numberOfQuestions;
