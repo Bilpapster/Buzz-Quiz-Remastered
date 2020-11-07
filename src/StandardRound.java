@@ -39,8 +39,7 @@ public class StandardRound implements RoundI {
 
     @Override
     public String readAnswer() {
-        return parser.askForAnswer();
-
+        return parser.askForAnswer(questionTeller.getNextQuestion().getAnswerKeySet());
     }
 
     @Override
