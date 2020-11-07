@@ -69,7 +69,7 @@ public class QuestionManager {
         addNewQuestion(new Question("What does HTTP stand for?", "HyperText Transfer Protocol", getQuestionAnswers(answers6), QuestionType.Technology, false));
 
         String[] answers7 = {"Alexander Fleming", "Florence Nightingale", "Alexander Papanikolaou", "Joseph Bohr"};
-        addNewQuestion(new Question("Who discovered Penicillin", "Alexander Fleming", getQuestionAnswers(answers7), QuestionType.Science, false));
+        addNewQuestion(new Question("Who discovered Penicillin?", "Alexander Fleming", getQuestionAnswers(answers7), QuestionType.Science, false));
 
         String[] answers8 = {"3", "4", "5", "1"};
         addNewQuestion(new Question("How many molecules of oxygen does ozone have?", "3", getQuestionAnswers(answers8), QuestionType.Science, false));
@@ -79,6 +79,21 @@ public class QuestionManager {
 
         String[] answers10 = {"Saigo Takamori", "Emperor Hirohito", "Shinzo Abe", "Emperor Akihito"};
         addNewQuestion(new Question("Who is widely considered to be the 'Last Samurai'?", "Saigo Takamori", getQuestionAnswers(answers10),QuestionType.History, false));
+
+        String[] answers11 = {"10.000", "15.000", "20.000", "8.000"};
+        addNewQuestion(new Question("How many taste buds does the human tongue have?", "10.000", getQuestionAnswers(answers11),QuestionType.Science, false));
+
+        String[] answers12 = {"Bail", "Francis", "Bob", "Ben"};
+        addNewQuestion(new Question("What was the name of the adoptive father of Princess Leia Organa from Star Wars?", "Bail", getQuestionAnswers(answers12), QuestionType.Movies_and_Series, false));
+
+        String[] answers13 = {"Vilnius", "Riga", "Krakow", "Minsk"};
+        addNewQuestion(new Question("What is the capital of Lithuania?", "Vilnius", getQuestionAnswers(answers13), QuestionType.Geography, false));
+
+        String[] answers14 = {"Germany", "Netherlands", "Austria", "Luxembourg"};
+        addNewQuestion(new Question("With which country does France NOT share a land border with?", "Austria", getQuestionAnswers(answers14), QuestionType.Geography, false));
+
+        String[] answers15 = {"Industrial Metal", "Heavy Metal", "Power Metal", "Death Metal"};
+        addNewQuestion(new Question("In which genre of metal do the songs of the german metal band 'Rammstein' belong to?", "Industrial Metal", getQuestionAnswers(answers15), QuestionType.Music, false));
 
         shuffleQuestions();
 
@@ -98,8 +113,7 @@ public class QuestionManager {
     private HashMap<String, String> getQuestionAnswers(String[] answerValues) {
 
         ArrayList<String> answers = new ArrayList<>();
-        for(String i: answerValues)
-            answers.add(i);
+        Collections.addAll(answers, answerValues);
         Collections.shuffle(answers);
 
         HashMap<String, String> finalAnswers = new HashMap<>();
