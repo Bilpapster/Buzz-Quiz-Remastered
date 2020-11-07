@@ -32,8 +32,6 @@ public class StandardRound implements RoundI {
         System.out.println();
         questionTeller.getNextQuestion().displayQuestion();
     }
-}
-
     @Override
     public void collectAnswer() {
         String givenAnswer = parser.askForAnswer();
@@ -42,13 +40,16 @@ public class StandardRound implements RoundI {
 
     @Override
     public void giveCredits() {
-
+        return;
     }
 
     public void playRound() {
         for (int question = 0; question < getNumberOfQuestions(); question++) {
             askQuestion();
-            String givenAnswer = collectAnswer();
+            collectAnswer();
             giveCredits();
         }
     }
+}
+
+
