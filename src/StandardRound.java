@@ -2,18 +2,18 @@ import java.util.ArrayList;
 
 public class StandardRound implements RoundI {
 
-    private int numberOfQuestions;
-    private ArrayList<Player> players;
-    private QuestionManager questionManager;
-    private Parser parser;
-    private static final int pointsEarnedOnCorrectAnswer = 1000;
+    protected int numberOfQuestions;
+    protected ArrayList<Player> players;
+    protected QuestionManager questionManager;
+    protected Parser parser;
+    protected int pointsEarnedOnCorrectAnswer;
 
     /**
      * Constructs a StandardRound object with given attirbutes
      *
      * @param numberOfQuestions the number of questions in the round
      * @param players           array list of the players involved in the round
-     * @param questionManager    a question-managing object, responsible for the questions of the round
+     * @param questionManager   a question-managing object, responsible for the questions of the round
      * @param parser            a parsing object responsible for communicating with player(s) via console
      */
     public StandardRound(int numberOfQuestions, ArrayList<Player> players, QuestionManager questionManager, Parser parser) {
@@ -21,14 +21,15 @@ public class StandardRound implements RoundI {
         this.players = players;
         this.questionManager = questionManager;
         this.parser = parser;
+        this.pointsEarnedOnCorrectAnswer = 1000;
     }
 
     /**
-     * Getter for the round description. Written hard coded TEMPORARILY.
+     * Printing method for the round description. Written hard coded TEMPORARILY.
      */
     public void printDescription() {
         System.out.printf("In this round you are going to be asked " + this.getNumberOfQuestions() + " questions.%n"
-                + "For every correct answer, you earn " + this.pointsEarnedOnCorrectAnswer + " points!%n"
+                + "For every correct answer, you earn " + this.getPointsEarnedOnCorrectAnswer() + " points!%n"
                 + "Press enter to start round ");
         parser.getEnter();
     }
@@ -51,6 +52,26 @@ public class StandardRound implements RoundI {
     @Override
     public ArrayList<Player> getPlayers() {
         return this.players;
+    }
+
+    /**
+     * Getter for the variable storing the points earned on correct answer.
+     * In this type of round, the points are the same for every question.
+     *
+     * @return the number of points earned on correct answer
+     */
+    public int getPointsEarnedOnCorrectAnswer() {
+        return pointsEarnedOnCorrectAnswer;
+    }
+
+    /**
+     * Setter for the variable storing the points earned on correct answer. Only for inside-class use.
+     * In this type of round, the points are the same for every question.
+     * However, it will have great usefulness for subclasses.
+     * @param pointsEarnedOnCorrectAnswer the desired number of points to update the pointsEarnedOnCorrectAnswer variable.
+     */
+    protected void setPointsEarnedOnCorrectAnswer(int pointsEarnedOnCorrectAnswer) {
+        this.pointsEarnedOnCorrectAnswer = pointsEarnedOnCorrectAnswer;
     }
 
     /**
@@ -87,13 +108,14 @@ public class StandardRound implements RoundI {
         if (questionManager.getNextQuestion().isCorrectAnswer(givenAnswer)) {
             for (Player player : players) {
                 System.out.println("Correct!");
-                player.updateScore(1000);
+                player.updateScore(getPointsEarnedOnCorrectAnswer());
             }
         } else {
             System.out.println("Wrong...");
         }
         questionManager.removeAnsweredQuestion();
     }
+
 }
 
 
