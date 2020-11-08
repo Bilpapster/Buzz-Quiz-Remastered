@@ -4,6 +4,7 @@
 public class Player {
     private int score;
     private String name;
+    private Parser parser = new Parser();
 
 
     /**
@@ -14,6 +15,15 @@ public class Player {
     public Player(String name) {
         this.score = 0;
         this.name = name;
+    }
+
+    /**
+     * Creates a PlayerTest object with a name given by user and initializes the score to 0.
+     * Utilizes the Parser class
+     */
+    public Player() {
+        this.score = 0;
+        this.name = parser.askForName();
     }
 
     public int getScore() {
@@ -36,5 +46,4 @@ public class Player {
     public void updateScore(int points) {
         score += points;
     }
-
 }
