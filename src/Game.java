@@ -22,9 +22,8 @@ public class Game {
 
     public void initializeGamePlay() {
         players.add(new Player());
-        rounds.add(new StandardRound(4, players, questionManager, parser));
-        rounds.add(new StandardRound(3, players, questionManager, parser));
-        rounds.add(new StandardRound(2, players, questionManager, parser));
+        rounds.add(new StandardRound(5, players, questionManager, parser));
+        rounds.add(new BettingRound(5, players, questionManager, parser));
     }
 
     public void play() {
