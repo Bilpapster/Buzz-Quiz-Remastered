@@ -41,4 +41,11 @@ public class Parser {
         }
         return givenAnswer;
     }
+
+    /**
+     * very simple, auxiliary method for pausing game until player presses enter button
+     */
+    public void getEnter() {
+        inputScanner.nextLine();
+    }
 }
