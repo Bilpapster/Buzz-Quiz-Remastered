@@ -24,6 +24,7 @@ public class Game {
         players.add(new Player());
         rounds.add(new StandardRound(5, players, questionManager, parser));
         rounds.add(new BettingRound(5, players, questionManager, parser));
+        rounds.add(new StopTheClockRound(5, players, questionManager, parser));
     }
 
     public void play() {
