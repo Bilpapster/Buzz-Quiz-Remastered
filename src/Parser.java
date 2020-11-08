@@ -42,6 +42,17 @@ public class Parser {
         return givenAnswer;
     }
 
+    public String askForBet(Set<String> acceplableBetsSet) {
+        System.out.print("Place your bet: ");
+        String givenBet = inputScanner.nextLine();
+
+        while (!acceplableBetsSet.contains(givenBet)) {
+            System.out.print("Invalid answer. Valid options: " + acceplableBetsSet.toString() + ". Your bet: ");
+            givenBet = inputScanner.nextLine();
+        }
+        return givenBet;
+    }
+
     /**
      * very simple, auxiliary method for pausing game until player presses enter button
      */
