@@ -61,7 +61,9 @@ public class StandardRound implements RoundI {
     @Override
     public void askQuestion() {
         System.out.println();
-        questionTeller.getNextQuestion().displayQuestion();
+        questionTeller.getNextQuestion().displayCategory();
+        questionTeller.getNextQuestion().displayQuestionBody();
+        questionTeller.getNextQuestion().displayOptions();
     }
 
     /**
