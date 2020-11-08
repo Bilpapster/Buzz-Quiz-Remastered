@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Game {
-    private ArrayList<PlayerTest> players;
+    private ArrayList<Player> players;
     private ArrayList<RoundI> rounds;
     private Parser parser;
 
@@ -11,14 +11,14 @@ public class Game {
         parser = new Parser();
     }
 
-    public Game(ArrayList<PlayerTest> players, ArrayList<RoundI> rounds, Parser parser) {
+    public Game(ArrayList<Player> players, ArrayList<RoundI> rounds, Parser parser) {
         this.players = players;
         this.rounds = rounds;
         this.parser = parser;
     }
 
     public void initializeGamePlay() {
-        players.add(new PlayerTest());
+        players.add(new Player());
         rounds.add(new StandardRound(4, players));
         rounds.add(new StandardRound(3, players));
         rounds.add(new StandardRound(2, players));
@@ -37,7 +37,7 @@ public class Game {
             }
             System.out.println();
             System.out.println("End of Round " + (roundsCounter++) + ".");
-            for (PlayerTest player : players) {
+            for (Player player : players) {
                 player.printScore();
             }
         }

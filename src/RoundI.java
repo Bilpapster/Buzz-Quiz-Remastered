@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public interface RoundI {
     void printDescription();
     int getNumberOfQuestions();
-    ArrayList<PlayerTest> getPlayers();
+    ArrayList<Player> getPlayers();
 
     void askQuestion();
     String readAnswer();

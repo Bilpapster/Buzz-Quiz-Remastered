@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class StandardRound implements RoundI {
 
     private int numberOfQuestions;
-    private ArrayList<PlayerTest> players;
+    private ArrayList<Player> players;
     private QuestionManager questionTeller;
     private Parser parser;
     private static final int pointsEarnedOnCorrectAnswer = 1000;
@@ -15,7 +15,7 @@ public class StandardRound implements RoundI {
      * @param numberOfQuestions the number of questions in the round
      * @param players           array list of the players involved in the round
      */
-    public StandardRound(int numberOfQuestions, ArrayList<PlayerTest> players) {
+    public StandardRound(int numberOfQuestions, ArrayList<Player> players) {
         this.numberOfQuestions = numberOfQuestions;
         this.players = players;
         this.questionTeller = new QuestionManager();
@@ -50,7 +50,7 @@ public class StandardRound implements RoundI {
      * @return an array list containing the players involved in the round
      */
     @Override
-    public ArrayList<PlayerTest> getPlayers() {
+    public ArrayList<Player> getPlayers() {
         return this.players;
     }
 
@@ -84,7 +84,7 @@ public class StandardRound implements RoundI {
     @Override
     public void giveCredits(String givenAnswer) {
         if (questionTeller.getNextQuestion().isCorrectAnswer(givenAnswer)) {
-            for (PlayerTest player : players) {
+            for (Player player : players) {
                 System.out.println("Correct!");
                 player.updateScore(1000);
             }
