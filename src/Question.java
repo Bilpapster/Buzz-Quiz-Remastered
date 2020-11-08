@@ -69,13 +69,25 @@ public class Question {
         return answers.keySet();
     }
 
-
-    public void displayQuestion() {
+    public void displayCategory() {
         System.out.printf("--------Category: %s-------\n", questionType.toString());
+    }
+
+    public void displayQuestionBody() {
         System.out.println("--------" + questionText + "--------");
+    }
+
+    public void displayOptions() {
         for(String i : answers.keySet())
             System.out.println(i + ") " + answers.get(i));
     }
+
+//    public void displayQuestion() {
+//        System.out.printf("--------Category: %s-------\n", questionType.toString());
+//        System.out.println("--------" + questionText + "--------");
+//        for(String i : answers.keySet())
+//            System.out.println(i + ") " + answers.get(i));
+//    }
 
     /**
      * A method that checks if the answer provided to it matches the question's correct answer
