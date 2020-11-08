@@ -14,13 +14,14 @@ public class StandardRound implements RoundI {
      *
      * @param numberOfQuestions the number of questions in the round
      * @param players           array list of the players involved in the round
+     * @param questionTeller    a question-managing object, responsible for the questions of the round
+     * @param parser            a parsing object responsible for communicating with player(s) via console
      */
-    public StandardRound(int numberOfQuestions, ArrayList<Player> players) {
+    public StandardRound(int numberOfQuestions, ArrayList<Player> players, QuestionManager questionTeller, Parser parser) {
         this.numberOfQuestions = numberOfQuestions;
         this.players = players;
-        this.questionTeller = new QuestionManager();
-        questionTeller.createQuestions();
-        this.parser = new Parser();
+        this.questionTeller = questionTeller;
+        this.parser = parser;
     }
 
     /**
