@@ -3,11 +3,14 @@ import java.util.ArrayList;
 public class Game {
     private ArrayList<Player> players;
     private ArrayList<RoundI> rounds;
+    private QuestionManager questionManager;
     private Parser parser;
 
     public Game() {
         players = new ArrayList<>();
         rounds = new ArrayList<>();
+        questionManager = new QuestionManager();
+        questionManager.createQuestions();
         parser = new Parser();
     }
 
@@ -19,9 +22,9 @@ public class Game {
 
     public void initializeGamePlay() {
         players.add(new Player());
-        rounds.add(new StandardRound(4, players));
-        rounds.add(new StandardRound(3, players));
-        rounds.add(new StandardRound(2, players));
+        rounds.add(new StandardRound(4, players, questionManager, parser));
+        rounds.add(new StandardRound(3, players, questionManager, parser));
+        rounds.add(new StandardRound(2, players, questionManager, parser));
     }
 
     public void play() {
