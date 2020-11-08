@@ -125,8 +125,11 @@ public class QuestionManager {
     }
 
     public void printAllQuestions() {
-        for(Question i: listOfQuestions)
-            i.displayQuestion();
+        for (Question i : listOfQuestions) {
+            i.displayCategory();
+            i.displayQuestionBody();
+            i.displayOptions();
+        }
     }
 
 }
