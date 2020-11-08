@@ -1,11 +1,10 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class StandardRound implements RoundI {
 
     private int numberOfQuestions;
     private ArrayList<Player> players;
-    private QuestionManager questionTeller;
+    private QuestionManager questionManager;
     private Parser parser;
     private static final int pointsEarnedOnCorrectAnswer = 1000;
 
@@ -14,13 +13,13 @@ public class StandardRound implements RoundI {
      *
      * @param numberOfQuestions the number of questions in the round
      * @param players           array list of the players involved in the round
-     * @param questionTeller    a question-managing object, responsible for the questions of the round
+     * @param questionManager    a question-managing object, responsible for the questions of the round
      * @param parser            a parsing object responsible for communicating with player(s) via console
      */
-    public StandardRound(int numberOfQuestions, ArrayList<Player> players, QuestionManager questionTeller, Parser parser) {
+    public StandardRound(int numberOfQuestions, ArrayList<Player> players, QuestionManager questionManager, Parser parser) {
         this.numberOfQuestions = numberOfQuestions;
         this.players = players;
-        this.questionTeller = questionTeller;
+        this.questionManager = questionManager;
         this.parser = parser;
     }
 
@@ -61,9 +60,9 @@ public class StandardRound implements RoundI {
     @Override
     public void askQuestion() {
         System.out.println();
-        questionTeller.getNextQuestion().displayCategory();
-        questionTeller.getNextQuestion().displayQuestionBody();
-        questionTeller.getNextQuestion().displayOptions();
+        questionManager.getNextQuestion().displayCategory();
+        questionManager.getNextQuestion().displayQuestionBody();
+        questionManager.getNextQuestion().displayOptions();
     }
 
     /**
@@ -73,7 +72,7 @@ public class StandardRound implements RoundI {
      */
     @Override
     public String readAnswer() {
-        return parser.askForAnswer(questionTeller.getNextQuestion().getAnswerKeySet());
+        return parser.askForAnswer(questionManager.getNextQuestion().getAnswerKeySet());
     }
 
     /**
@@ -85,7 +84,7 @@ public class StandardRound implements RoundI {
      */
     @Override
     public void giveCredits(String givenAnswer) {
-        if (questionTeller.getNextQuestion().isCorrectAnswer(givenAnswer)) {
+        if (questionManager.getNextQuestion().isCorrectAnswer(givenAnswer)) {
             for (Player player : players) {
                 System.out.println("Correct!");
                 player.updateScore(1000);
@@ -93,7 +92,7 @@ public class StandardRound implements RoundI {
         } else {
             System.out.println("Wrong...");
         }
-        questionTeller.removeAnsweredQuestion();
+        questionManager.removeAnsweredQuestion();
     }
 }
 
