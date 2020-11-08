@@ -31,8 +31,7 @@ public class StandardRound implements RoundI {
         System.out.printf("In this round you are going to be asked " + this.getNumberOfQuestions() + " questions.%n"
                 + "For every correct answer, you earn " + this.pointsEarnedOnCorrectAnswer + " points!%n"
                 + "Press enter to start round ");
-        Scanner dummyScanner = new Scanner(System.in);
-        dummyScanner.nextLine();
+        parser.getEnter();
     }
 
     /**
