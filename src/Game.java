@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Game {
@@ -5,13 +6,15 @@ public class Game {
     private ArrayList<RoundI> rounds;
     private QuestionManager questionManager;
     private Parser parser;
+    private HighscoreManager highscoreManager;
 
-    public Game() {
+    public Game() throws IOException {
         players = new ArrayList<>();
         rounds = new ArrayList<>();
         questionManager = new QuestionManager();
         questionManager.createQuestions();
         parser = new Parser();
+        highscoreManager = new HighscoreManager();
     }
 
     public Game(ArrayList<Player> players, ArrayList<RoundI> rounds, Parser parser) {
@@ -22,9 +25,9 @@ public class Game {
 
     public void initializeGamePlay() {
         players.add(new Player());
-        rounds.add(new StandardRound(5, players, questionManager, parser));
-        rounds.add(new BettingRound(5, players, questionManager, parser));
-        rounds.add(new StopTheClockRound(5, players, questionManager, parser));
+        rounds.add(new StandardRound(3, players, questionManager, parser));
+//        rounds.add(new BettingRound(5, players, questionManager, parser));
+//        rounds.add(new StopTheClockRound(5, players, questionManager, parser));
     }
 
     public void play() {
@@ -44,5 +47,6 @@ public class Game {
                 player.printScore();
             }
         }
+        highscoreManager.updateHighscores(players);
     }
 }

@@ -1,14 +1,20 @@
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class QuestionManager {
     private ArrayList<Question> listOfQuestions;
+    private FileManager files;
 
-    public QuestionManager() {
+    public QuestionManager() throws IOException {
         listOfQuestions = new ArrayList<>();
+        try {
+            files = new FileManager();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void addNewQuestion(Question newQuestion) {
@@ -46,10 +52,33 @@ public class QuestionManager {
     }
 
     /**
-     * Temporary function which fills the question list with hardcoded questions. Will be removed when we switch over to file parsing
+     * Creates question objects with data from the FileManager and pushes the questions to the list of questions
      */
     public void createQuestions() {
 
+        ArrayList<String> questionsFromFile;
+        questionsFromFile = files.getQuestionsFromFile();
+        for(String i: questionsFromFile) {
+
+            StringTokenizer tokenizedQuestion = new StringTokenizer(i,"/");
+            ArrayList<String> tokenizedQuestionList = new ArrayList<>();
+            while(tokenizedQuestion.hasMoreTokens())
+                tokenizedQuestionList.add(tokenizedQuestion.nextToken());
+
+            String questionText = tokenizedQuestionList.get(0);
+            String questionAnswer = tokenizedQuestionList.get(tokenizedQuestionList.size()-2);
+            QuestionType questionType = QuestionType.valueOf(tokenizedQuestionList.get(tokenizedQuestionList.size()-1));
+
+            tokenizedQuestionList.remove(0);
+            tokenizedQuestionList.remove(tokenizedQuestionList.size()-1);
+            tokenizedQuestionList.remove(tokenizedQuestionList.size()-1);
+
+            addNewQuestion(new Question(questionText, questionAnswer, getQuestionAnswers(tokenizedQuestionList), questionType, false));
+
+        }
+
+
+        /**
         String[] answers1 = {"George Washington", "Donald J. Trump", "Lyndon B. Johnson","Abraham Lincoln"};
         addNewQuestion(new Question("Who was the first president of the US?", "George Washington", getQuestionAnswers(answers1), QuestionType.History, false));
 
@@ -94,7 +123,7 @@ public class QuestionManager {
 
         String[] answers15 = {"Industrial Metal", "Heavy Metal", "Power Metal", "Death Metal"};
         addNewQuestion(new Question("In which genre of metal do the songs of the german metal band 'Rammstein' belong to?", "Industrial Metal", getQuestionAnswers(answers15), QuestionType.Music, false));
-
+    */
         shuffleQuestions();
 
     }
@@ -110,10 +139,9 @@ public class QuestionManager {
      * @param answerValues a String array containing the answers
      * @return a <code>HashMap</code> with alphabetically ordered keys and the shuffled answerValues as the values
      */
-    private HashMap<String, String> getQuestionAnswers(String[] answerValues) {
+    private HashMap<String, String> getQuestionAnswers(ArrayList<String> answerValues) {
 
-        ArrayList<String> answers = new ArrayList<>();
-        Collections.addAll(answers, answerValues);
+        ArrayList<String> answers = answerValues;
         Collections.shuffle(answers);
 
         HashMap<String, String> finalAnswers = new HashMap<>();
