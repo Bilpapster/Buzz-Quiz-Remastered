@@ -1,9 +1,6 @@
-import com.sun.source.tree.Tree;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class FileManager {
@@ -21,6 +18,11 @@ public class FileManager {
         }
     }
 
+    /**
+     * Parses the questions.txt file and fetches each line of it
+     *
+     * @return an <code>ArrayList&#60;String&#62;</code> containing the line strings of questions.txt
+     */
     public ArrayList<String> getQuestionsFromFile() {
         ArrayList<String> questions = new ArrayList<>();
         try {
@@ -36,14 +38,20 @@ public class FileManager {
         return questions;
     }
 
-    public TreeMap<String, Integer> getHighscoresFromFile() {
-        TreeMap<String, Integer> highscores = new TreeMap<>();
+    /**
+     * Parses the highscores.txt file and fetches the Name:Score pairs from it
+     *
+     * @return a <code>HashMap&#60;String, Integer&#62;</code>  containing 'User':'score' key/pair values
+     */
+    public HashMap<String, Integer> getHighscoresFromFile() {
+        HashMap<String, Integer> highscores = new HashMap<>();
         if (highScoreFile.length() == 0)
             return highscores;
         try {
             Scanner fileReader = new Scanner(highScoreFile);
             while(fileReader.hasNextLine()) {
-                StringTokenizer highscoreLine = new StringTokenizer(fileReader.nextLine(),":");
+                String temp = fileReader.nextLine();
+                StringTokenizer highscoreLine = new StringTokenizer(temp,":");
                 highscores.put(highscoreLine.nextToken(), Integer.parseInt(highscoreLine.nextToken()));
             }
         } catch(IOException e) {
@@ -52,12 +60,23 @@ public class FileManager {
         return highscores;
     }
 
-    public void updateHighscoresOnFile(TreeMap<String, Integer> newHighscores) {
+    /**
+     * Sorts the values (scores) of the given HashMap using a temporary ArrayList&#60;Map.Entry&#60;String, Integer&#62;&#62; initialized
+     * with the <code>newHighscores</code> entry set after executing <code>Collections.sort()</code> with the custom comparator method for
+     * highscores {@link HighscoreComparator}, and then prints the sorted highscores in 'highscores.txt' (descending order)
+     *
+     * @param newHighscores a <code>HashMap&#60;String, Integer&#62; containing 'Name':'Score' keypair values</code>
+     */
+    public void updateHighscoresOnFile(HashMap<String, Integer> newHighscores) {
         try {
             FileWriter fileWriter = new FileWriter(highScoreFile);
-            //int placementIndex = 1;
-            for(String i: newHighscores.keySet())
-                fileWriter.write(i + ":" + newHighscores.get(i) + "\n");
+            ArrayList<Map.Entry<String,Integer>> highscoreList = new ArrayList<>(newHighscores.entrySet());
+            Collections.sort(highscoreList, new HighscoreComparator());
+            LinkedHashMap<String, Integer> finalHighscores = new LinkedHashMap<>();
+            for(Map.Entry<String, Integer> i: highscoreList)
+                finalHighscores.put(i.getKey(), i.getValue());
+            for(String i: finalHighscores.keySet())
+                fileWriter.write(i + ":" + finalHighscores.get(i) + "\n");
             fileWriter.close();
         } catch(IOException e) {
             e.printStackTrace();
