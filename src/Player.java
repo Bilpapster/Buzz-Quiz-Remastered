@@ -26,14 +26,27 @@ public class Player {
         this.name = parser.askForName();
     }
 
+    /**
+     * Getter for the score attribute.
+     *
+     * @return the current score of the player.
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * Getter for the name attribute.
+     *
+     * @return the player's name.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Prints the player's name, followed by their score.
+     */
     public void printScore() {
         System.out.printf("%s's score: %d points.%n", name, score);
     }
