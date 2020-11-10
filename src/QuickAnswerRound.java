@@ -10,9 +10,10 @@ public class QuickAnswerRound extends StopTheClockRound {
 
     @Override
     public void printDescription() {
-        System.out.printf("In this round you are going to be asked " + this.getNumberOfQuestionsRemaining() + " questions. You will have 5 seconds to answer!%n"
+        System.out.printf("In this round you are going to be asked " + this.getNumberOfQuestionsInRound() + " questions.%n"
                 + "At first you are let to know the category and the question itself. Press enter to show available options and make the clock running!%n" +
-                "Answering the question correctly will add to your score as many points as the remaining  miliseconds times 0.2!%n" +
+                "The quicker to answer the question correctly gets 1000 points, while the second correct player gets the half of them, 500!%n" +
+                "No points available for other players, even if they answer correctly, so be as quick as possible!%n" +
                 "Press enter to start round ");
         parser.getEnter();
     }

@@ -25,8 +25,9 @@ public class ThermometerRound extends StandardRound {
      */
     @Override
     public void printDescription() {
-        System.out.printf("In this round you are going to be asked " + this.getNumberOfQuestionsRemaining() + " questions.%n"
-                + "For every correct answer, you earn " + this.getCreditPoints() + " points!%n"
+        System.out.printf("In this round you are going to be asked questions, till someone reaches (at least) five correct answers!%n"
+                + "But, be careful! You need to have at least one correct answer more than all the other players, in order to win the round!%n"
+                + "The winner gets 5000 points!%n"
                 + "Press enter to start round ");
         parser.getEnter();
     }
@@ -68,6 +69,10 @@ public class ThermometerRound extends StandardRound {
             players.clear();
             players.addAll(playersReachedWinningZone);
             winningScore++;
+        }
+
+        for (Player player : players) {
+            System.out.println(player.getName() + ": " + correctAnswersInRound.get((player)) + " correct answers in this round.");
         }
         questionManager.removeAnsweredQuestion();
     }
