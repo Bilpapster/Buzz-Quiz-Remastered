@@ -101,7 +101,6 @@ public class Question {
      */
     public boolean isCorrectAnswer(String playerChoice) {
         return answers.get(playerChoice).equals(correctAnswer);
-        // TODO: add a check for invalid answers if we're not gonna address them in the parser class
     }
 
 }
