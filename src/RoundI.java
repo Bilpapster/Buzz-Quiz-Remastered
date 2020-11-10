@@ -1,20 +1,25 @@
 import java.util.ArrayList;
 
+/**
+ * An interface, representing a round in our game.
+ */
 public interface RoundI {
 
     /**
-     * Prints description of the round and/or any soecial instructions the player is needed to know.
+     * Prints description of the round and/or any special instructions the player is needed to know.
      */
     void printDescription();
 
     /**
-     * Returns the number of questions in the round.
-     * @return number of questions in the round.
+     * Checks whether the round is over or not.
+     *
+     * @return true if the round is over, else false.
      */
-    int getNumberOfQuestions();
+    Boolean isOver();
 
     /**
      * Getter for the players structure of the round.
+     *
      * @return an ArrayList containing the the players involved in the round.
      */
     ArrayList<Player> getPlayers();
@@ -25,14 +30,12 @@ public interface RoundI {
     void askQuestion();
 
     /**
-     * Collects the answer given by player(s).
-     * @return a valid answer given by player(s)
+     * Collects the answers given by players involved in the round.
      */
-    String readAnswer();
+    void readAnswers();
 
     /**
-     * Takes care of updating the player(s)' score, depending on comparing the given answer to the correct one.
-     * @param givenAnswer the answer given by player(s).
+     * Takes care of updating the players' score.
      */
-    void giveCredits(String givenAnswer);
+    void giveCredits();
 }
