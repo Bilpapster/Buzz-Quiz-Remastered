@@ -28,8 +28,9 @@ public class Parser {
     /**
      * Shows a helping message to user. Asks for their answer.
      * Does answer validation check, so that it is one of the acceptable ones.
+     * The answer is asked repeatedly, until an accepted one is given.
      *
-     * @return a valid answer given by user
+     * @return a valid answer given by user.
      */
     public String askForAnswer(Set<String> answerKeySet) {
         System.out.print("Your answer: ");
@@ -42,6 +43,14 @@ public class Parser {
         return givenAnswer;
     }
 
+    /**
+     * Shows a helping message to user. Asks for their bet.
+     * Does answer validation check, so that it is one of the acceptable ones.
+     * The bet is asked repeatedly, until an acceptable one is given.
+     *
+     * @param acceplableBetsSet a set of acceptable bets to ask for
+     * @return a valid bet given by user.
+     */
     public String askForBet(Set<String> acceplableBetsSet) {
         System.out.print("Place your bet: ");
         String givenBet = inputScanner.nextLine();
