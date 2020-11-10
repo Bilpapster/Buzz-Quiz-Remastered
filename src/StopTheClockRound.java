@@ -1,11 +1,12 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A class representing a specific type of round.
  */
 public class StopTheClockRound extends StandardRound {
 
-    private long milliSecondsElapsedOnAnswer;
+    protected HashMap<Player, Long> milliSecondsElapsedOnAnswer;
 
     /**
      * Constructs a StopTheClockRound object with given attributes.
@@ -17,21 +18,16 @@ public class StopTheClockRound extends StandardRound {
      */
     public StopTheClockRound(int numberOfQuestions, ArrayList<Player> players, QuestionManager questionManager, Parser parser) {
         super(numberOfQuestions, players, questionManager, parser);
-        this.milliSecondsElapsedOnAnswer = 0;
+        this.milliSecondsElapsedOnAnswer = new HashMap<>();
     }
 
     @Override
     public void printDescription() {
-        System.out.printf("In this round you are going to be asked " + this.getNumberOfQuestions() + " questions. You will have 5 seconds to answer!%n"
+        System.out.printf("In this round you are going to be asked " + this.getNumberOfQuestionsRemaining() + " questions. You will have 5 seconds to answer!%n"
                 + "At first you are let to know the category and the question itself. Press enter to show available options and make the clock running!%n" +
                 "Answering the question correctly will add to your score as many points as the remaining  miliseconds times 0.2!%n" +
                 "Press enter to start round ");
         parser.getEnter();
-    }
-
-    @Override
-    protected void setPointsEarnedOnCorrectAnswer(int pointsEarnedOnCorrectAnswer) {
-        this.pointsEarnedOnCorrectAnswer = (int) ((5000 - milliSecondsElapsedOnAnswer) * 0.2);
     }
 
     @Override
@@ -44,24 +40,20 @@ public class StopTheClockRound extends StandardRound {
     }
 
     @Override
-    public String readAnswer() {
-        long start = System.currentTimeMillis();
-        String answerToReturn = super.readAnswer();
-        this.milliSecondsElapsedOnAnswer = System.currentTimeMillis() - start;
-        this.setPointsEarnedOnCorrectAnswer(0);
-        return answerToReturn;
+    public void readAnswers() {
+        for (Player player : players) {
+            System.out.print(player.getName() + ", it is your turn. ");
+            Long startTimeInMillis = System.currentTimeMillis();
+            answersGivenByPlayers.put(player, parser.askForAnswer(questionManager.getNextQuestion().getAnswerKeySet()));
+            this.milliSecondsElapsedOnAnswer.put(player, System.currentTimeMillis() - startTimeInMillis);
+        }
     }
 
     @Override
-    public void giveCredits(String givenAnswer) {
-        if (questionManager.getNextQuestion().isCorrectAnswer(givenAnswer)) {
-            for (Player player : players) {
-                System.out.println("Correct! +" + getPointsEarnedOnCorrectAnswer() + " points!");
-                player.updateScore(getPointsEarnedOnCorrectAnswer());
-            }
-        } else {
-            System.out.println("Wrong...");
-        }
-        questionManager.removeAnsweredQuestion();
+    protected void executeActionsOnCorrectAnswer(Player player) {
+        creditPoints = (int) (this.milliSecondsElapsedOnAnswer.get(player) * 0.2);
+        System.out.print(player.getName() + ": Correct! +" + creditPoints);
+        player.updateScore(creditPoints);
+        System.out.println();
     }
 }
