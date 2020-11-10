@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 /**
@@ -7,6 +8,7 @@ import java.util.TreeMap;
  */
 public class BettingRound extends StandardRound {
     private TreeMap<String, Integer> acceptableBets;
+    private HashMap<Player, Integer> betsPlacedByPlayers;
 
     /**
      * Constructs a BettingRound object with given attributes.
@@ -19,6 +21,11 @@ public class BettingRound extends StandardRound {
     public BettingRound(int numberOfQuestions, ArrayList<Player> players, QuestionManager questionManager, Parser parser) {
         super(numberOfQuestions, players, questionManager, parser);
         initializeAcceptableBetsSet();
+
+        betsPlacedByPlayers = new HashMap<>();
+        for (Player player : players) {
+            betsPlacedByPlayers.put(player, 0);
+        }
     }
 
     /**
@@ -37,7 +44,7 @@ public class BettingRound extends StandardRound {
      */
     @Override
     public void printDescription() {
-        System.out.printf("In this round you are going to be asked " + this.getNumberOfQuestions() + " questions.%n"
+        System.out.printf("In this round you are going to be asked " + this.getNumberOfQuestionsRemaining() + " questions.%n"
                 + "At first, you are let to know the category of the question and you are asked to place a bet " + acceptableBets.keySet() +
                 " Answering correctly will add to your score as many points as your bet!%n" +
                 " But be careful! Answering the question wrong will cost you your bet!%n"
@@ -53,28 +60,27 @@ public class BettingRound extends StandardRound {
     public void askQuestion() {
         System.out.println();
         questionManager.getNextQuestion().displayCategory();
-        this.setPointsEarnedOnCorrectAnswer(Integer.parseInt(parser.askForBet(acceptableBets.keySet())));
+
+        for (Player player : players) {
+            System.out.print(player.getName() + ", it is your turn. ");
+            betsPlacedByPlayers.put(player, Integer.parseInt(parser.askForBet(acceptableBets.keySet())));
+        }
+
         questionManager.getNextQuestion().displayQuestionBody();
         questionManager.getNextQuestion().displayOptions();
     }
 
-    /**
-     *
-     * @param givenAnswer the answer to compare against the correct one, in order to give credits or not
-     */
     @Override
-    public void giveCredits(String givenAnswer) {
-        if (questionManager.getNextQuestion().isCorrectAnswer(givenAnswer)) {
-            for (Player player : players) {
-                System.out.println("Correct! +" + getPointsEarnedOnCorrectAnswer() + " points!");
-                player.updateScore(getPointsEarnedOnCorrectAnswer());
-            }
-        } else {
-            for (Player player : players) {
-                System.out.println("Wrong...! - " + getPointsEarnedOnCorrectAnswer() + " points!");
-                player.updateScore(getPointsEarnedOnCorrectAnswer() * (-1));
-            }
-        }
-        questionManager.removeAnsweredQuestion();
+    protected void executeActionsOnCorrectAnswer(Player player) {
+        System.out.print(player.getName() + ": Correct! +" + this.betsPlacedByPlayers.get(player));
+        player.updateScore(this.betsPlacedByPlayers.get(player));
+        System.out.println();
+    }
+
+    @Override
+    protected void executeActionsOnWrongAnswer(Player player) {
+        System.out.print(player.getName() + ": Wrong... -" + this.betsPlacedByPlayers.get(player));
+        player.updateScore(this.betsPlacedByPlayers.get(player) * (-1));
+        System.out.println();
     }
 }
