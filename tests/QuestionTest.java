@@ -42,6 +42,17 @@ public class QuestionTest {
         assertEquals("This is a test question", question1.getQuestionText());
         assertEquals("Yes", question1.getCorrectAnswer());
         assertEquals(question1Answers.get("a"), question1.getCorrectAnswer());
+        assertEquals(QuestionType.History, question1.getQuestionType());
+
+        HashMap<String, String> questionWithPictureAnswers = new HashMap<>();
+        questionWithPictureAnswers.put("a", "I think");
+        questionWithPictureAnswers.put("b", "It");
+        questionWithPictureAnswers.put("c", "Definitely");
+        questionWithPictureAnswers.put("d", "Does");
+        Question questionWithPicture = new Question("Does this question have a picture?", "Definitely", questionWithPictureAnswers, QuestionType.Technology, true, "image1.png");
+
+        assertEquals(true, questionWithPicture.hasPicture());
+        assertEquals("image1.png", questionWithPicture.getPicture());
 
     }
 
