@@ -1,15 +1,18 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class StandardRound implements RoundI {
 
-    protected int numberOfQuestions;
+    protected int numberOfQuestionsInRound;
+    protected int numberOfQuestionsRemaining;
     protected ArrayList<Player> players;
+    protected HashMap<Player, String> answersGivenByPlayers;
     protected QuestionManager questionManager;
     protected Parser parser;
-    protected int pointsEarnedOnCorrectAnswer;
+    protected int creditPoints;
 
     /**
-     * Constructs a StandardRound object with given attirbutes
+     * Constructs a StandardRound object with given attributes
      *
      * @param numberOfQuestions the number of questions in the round
      * @param players           array list of the players involved in the round
@@ -17,21 +20,33 @@ public class StandardRound implements RoundI {
      * @param parser            a parsing object responsible for communicating with player(s) via console
      */
     public StandardRound(int numberOfQuestions, ArrayList<Player> players, QuestionManager questionManager, Parser parser) {
-        this.numberOfQuestions = numberOfQuestions;
+        this.numberOfQuestionsInRound = numberOfQuestions;
+        this.numberOfQuestionsRemaining = numberOfQuestions;
+
+        this.answersGivenByPlayers = new HashMap<>();
+        for (Player player : players) {
+            answersGivenByPlayers.put(player, "No answer yet");
+        }
+
         this.players = players;
         this.questionManager = questionManager;
         this.parser = parser;
-        this.pointsEarnedOnCorrectAnswer = 1000;
+        this.creditPoints = 1000;
     }
 
     /**
      * Printing method for the round description. Written hard coded TEMPORARILY.
      */
     public void printDescription() {
-        System.out.printf("In this round you are going to be asked " + this.getNumberOfQuestions() + " questions.%n"
-                + "For every correct answer, you earn " + this.getPointsEarnedOnCorrectAnswer() + " points!%n"
+        System.out.printf("In this round you are going to be asked " + this.getNumberOfQuestionsInRound() + " questions.%n"
+                + "For every correct answer, you earn " + this.getCreditPoints() + " points!%n"
                 + "Press enter to start round ");
         parser.getEnter();
+    }
+
+    @Override
+    public Boolean isOver() {
+        return !(this.numberOfQuestionsRemaining > 0);
     }
 
     /**
@@ -39,9 +54,12 @@ public class StandardRound implements RoundI {
      *
      * @return the number of questions in the round
      */
-    @Override
-    public int getNumberOfQuestions() {
-        return this.numberOfQuestions;
+    public int getNumberOfQuestionsInRound() {
+        return this.numberOfQuestionsInRound;
+    }
+
+    public int getNumberOfQuestionsRemaining() {
+        return this.numberOfQuestionsRemaining;
     }
 
     /**
@@ -60,18 +78,19 @@ public class StandardRound implements RoundI {
      *
      * @return the number of points earned on correct answer
      */
-    public int getPointsEarnedOnCorrectAnswer() {
-        return pointsEarnedOnCorrectAnswer;
+    public int getCreditPoints() {
+        return creditPoints;
     }
 
     /**
      * Setter for the variable storing the points earned on correct answer. Only for inside-class use.
      * In this type of round, the points are the same for every question.
      * However, it will have great usefulness for subclasses.
-     * @param pointsEarnedOnCorrectAnswer the desired number of points to update the pointsEarnedOnCorrectAnswer variable.
+     *
+     * @param creditPoints the desired number of points to update the pointsEarnedOnCorrectAnswer variable.
      */
-    protected void setPointsEarnedOnCorrectAnswer(int pointsEarnedOnCorrectAnswer) {
-        this.pointsEarnedOnCorrectAnswer = pointsEarnedOnCorrectAnswer;
+    protected void setCreditPoints(int creditPoints) {
+        this.creditPoints = creditPoints;
     }
 
     /**
@@ -88,34 +107,48 @@ public class StandardRound implements RoundI {
 
     /**
      * Reads the answer given by player, executing data validation.
-     *
-     * @return a valid answer given by the player.
      */
     @Override
-    public String readAnswer() {
-        return parser.askForAnswer(questionManager.getNextQuestion().getAnswerKeySet());
+    public void readAnswers() {
+        for (Player player : players) {
+            System.out.print(player.getName() + ", it is your turn. ");
+            answersGivenByPlayers.put(player, parser.askForAnswer(questionManager.getNextQuestion().getAnswerKeySet()));
+        }
     }
 
     /**
      * Updates the points of the player (if needed).
      * Prints a message, based on the correctness of the given answer.
      * Discards the current question as answered, so that it does not show up again, during the game.
-     *
-     * @param givenAnswer the answer to compare against the correct one, in order to give credits or not
      */
     @Override
-    public void giveCredits(String givenAnswer) {
-        if (questionManager.getNextQuestion().isCorrectAnswer(givenAnswer)) {
-            for (Player player : players) {
-                System.out.println("Correct!");
-                player.updateScore(getPointsEarnedOnCorrectAnswer());
+    public void giveCredits() {
+
+        for (Player player : players) {
+            if (questionManager.getNextQuestion().isCorrectAnswer(answersGivenByPlayers.get(player))) {
+                executeActionsOnCorrectAnswer(player);
+            } else {
+                executeActionsOnWrongAnswer(player);
             }
-        } else {
-            System.out.println("Wrong...");
         }
-        questionManager.removeAnsweredQuestion();
+        executeActionsOnEndOfQuestion();
     }
 
+    protected void executeActionsOnCorrectAnswer(Player player) {
+        System.out.print(player.getName() + ": Correct! +" + this.getCreditPoints());
+        player.updateScore(this.getCreditPoints());
+        System.out.println();
+    }
+
+    protected void executeActionsOnWrongAnswer(Player player) {
+        System.out.print(player.getName() + ": Wrong ...");
+        System.out.println();
+    }
+
+    protected void executeActionsOnEndOfQuestion() {
+        this.numberOfQuestionsRemaining--;
+        questionManager.removeAnsweredQuestion();
+    }
 }
 
 
