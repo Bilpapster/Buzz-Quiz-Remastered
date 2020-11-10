@@ -48,15 +48,15 @@ public class Parser {
      * Does answer validation check, so that it is one of the acceptable ones.
      * The bet is asked repeatedly, until an acceptable one is given.
      *
-     * @param acceplableBetsSet a set of acceptable bets to ask for
+     * @param acceptableBetsSet a set of acceptable bets to ask for
      * @return a valid bet given by user.
      */
-    public String askForBet(Set<String> acceplableBetsSet) {
+    public String askForBet(Set<String> acceptableBetsSet) {
         System.out.print("Place your bet: ");
         String givenBet = inputScanner.nextLine();
 
-        while (!acceplableBetsSet.contains(givenBet)) {
-            System.out.print("Invalid answer. Valid options: " + acceplableBetsSet.toString() + ". Your bet: ");
+        while (!acceptableBetsSet.contains(givenBet)) {
+            System.out.print("Invalid answer. Valid options: " + acceptableBetsSet.toString() + ". Your bet: ");
             givenBet = inputScanner.nextLine();
         }
         return givenBet;
