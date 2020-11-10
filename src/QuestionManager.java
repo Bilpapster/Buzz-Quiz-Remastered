@@ -52,7 +52,9 @@ public class QuestionManager {
     }
 
     /**
-     * Creates question objects with data from the FileManager and pushes the questions to the list of questions
+     * Creates question objects with data from the FileManager, after it has tokenized and parsed them and pushes the questions to the list of questions<br><br>
+     * <b>NOTE:</b> This method will only work if the 'questions.txt' file uses the proprietary format the developers intended, altering the delimiter symbol
+     * or the way the answer is formatted will result in the code needing to be overhauled.
      */
     public void createQuestions() {
 
@@ -60,20 +62,26 @@ public class QuestionManager {
         questionsFromFile = files.getQuestionsFromFile();
         for(String i: questionsFromFile) {
 
-            StringTokenizer tokenizedQuestion = new StringTokenizer(i,"/");
+            StringTokenizer tokenizedQuestion = new StringTokenizer(i,"/"); // split question line from file using the '/' delimiter
             ArrayList<String> tokenizedQuestionList = new ArrayList<>();
             while(tokenizedQuestion.hasMoreTokens())
                 tokenizedQuestionList.add(tokenizedQuestion.nextToken());
 
-            String questionText = tokenizedQuestionList.get(0);
-            String questionAnswer = tokenizedQuestionList.get(tokenizedQuestionList.size()-2);
-            QuestionType questionType = QuestionType.valueOf(tokenizedQuestionList.get(tokenizedQuestionList.size()-1));
+            String questionText = tokenizedQuestionList.get(0); // extract question text
+            String questionAnswer = tokenizedQuestionList.get(tokenizedQuestionList.size()-4); // extract question answer
+            QuestionType questionType = QuestionType.valueOf(tokenizedQuestionList.get(tokenizedQuestionList.size()-3)); // extract question type
+            boolean hasPicture = tokenizedQuestionList.get(tokenizedQuestionList.size()-2).equals("false")? false : true; // extract whether or not it has an extra file associated with it
+            String fileLocation = tokenizedQuestionList.get(tokenizedQuestionList.size()-1); // extract file location
 
-            tokenizedQuestionList.remove(0);
-            tokenizedQuestionList.remove(tokenizedQuestionList.size()-1);
-            tokenizedQuestionList.remove(tokenizedQuestionList.size()-1);
+            tokenizedQuestionList.remove(0); // remove question text
 
-            addNewQuestion(new Question(questionText, questionAnswer, getQuestionAnswers(tokenizedQuestionList), questionType, false));
+            for(int a = 0; a < 4; a++)
+                tokenizedQuestionList.remove(tokenizedQuestionList.size()-1); // trim everything but the possible answers
+
+            if (!hasPicture)
+                addNewQuestion(new Question(questionText, questionAnswer, getQuestionAnswers(tokenizedQuestionList), questionType, hasPicture));
+            else
+                addNewQuestion(new Question(questionText, questionAnswer, getQuestionAnswers(tokenizedQuestionList), questionType, hasPicture, fileLocation));
 
         }
 
