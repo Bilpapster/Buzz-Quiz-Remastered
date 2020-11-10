@@ -45,14 +45,26 @@ public class Question {
         this.picture = picture;
     }
 
+    /**
+     * Return's a Question object's question text
+     * @return the Question object's question text
+     */
     public String getQuestionText() {
         return questionText;
     }
 
+    /**
+     * Return's a Question object's correct answer
+     * @return the Question Object's correct answer
+     */
     public String getCorrectAnswer() {
         return correctAnswer;
     }
 
+    /**
+     * Returns the Question Object's question type
+     * @return the Question Object's question type
+     */
     public QuestionType getQuestionType() {
         return questionType;
     }
@@ -77,10 +89,16 @@ public class Question {
         System.out.printf("--------Category: %s-------\n", questionType.toString());
     }
 
+    /**
+     * Pretty prints a Question object's question text
+     */
     public void displayQuestionBody() {
         System.out.println("--------" + questionText + "--------");
     }
 
+    /**
+     * Pretty prints all the available answers for a Question object
+     */
     public void displayOptions() {
         for(String i : answers.keySet())
             System.out.println(i + ") " + answers.get(i));
@@ -101,7 +119,6 @@ public class Question {
      */
     public boolean isCorrectAnswer(String playerChoice) {
         return answers.get(playerChoice).equals(correctAnswer);
-        // TODO: add a check for invalid answers if we're not gonna address them in the parser class
     }
 
 }
