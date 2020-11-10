@@ -25,9 +25,13 @@ public class Game {
 
     public void initializeGamePlay() {
         players.add(new Player());
-        rounds.add(new StandardRound(3, players, questionManager, parser));
-//        rounds.add(new BettingRound(5, players, questionManager, parser));
-//        rounds.add(new StopTheClockRound(5, players, questionManager, parser));
+        players.add(new Player());
+        players.add(new Player());
+        rounds.add(new StandardRound(1, players, questionManager, parser));
+        rounds.add(new BettingRound(1, players, questionManager, parser));
+        rounds.add(new StopTheClockRound(1, players, questionManager, parser));
+        rounds.add(new QuickAnswerRound(1, players, questionManager, parser));
+        rounds.add(new ThermometerRound(players, questionManager, parser));
     }
 
     public void play() {
@@ -36,10 +40,10 @@ public class Game {
             System.out.println();
             System.out.println("**********" + " Round " + roundsCounter + " **********");
             round.printDescription();
-            for (int question = 0; question < round.getNumberOfQuestions(); question++) {
+            while (! round.isOver()) {
                 round.askQuestion();
-                String givenAnswer = round.readAnswer();
-                round.giveCredits(givenAnswer);
+                round.readAnswers();
+                round.giveCredits();
             }
             System.out.println();
             System.out.println("End of Round " + (roundsCounter++) + ".");
