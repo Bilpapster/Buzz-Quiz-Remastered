@@ -111,6 +111,9 @@ public class QuestionManager {
 
     }
 
+    /**
+     * Pretty prints all the components of every Question inside QuestionManager's listOfQuestions
+     */
     public void printAllQuestions() {
         for (Question i : listOfQuestions) {
             i.displayCategory();

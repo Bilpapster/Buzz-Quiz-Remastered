@@ -7,11 +7,13 @@ public class HighscoreManager {
 
     /**
      * The class constructor which initializes the FileManager attribute and fetches current highscores before the game starts
-     *
-     * @throws IOException
      */
-    public HighscoreManager() throws IOException {
-        fileManager = new FileManager();
+    public HighscoreManager() {
+        try {
+            fileManager = new FileManager();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
         fileHighscores = fileManager.getHighscoresFromFile();
     }
 
@@ -31,6 +33,9 @@ public class HighscoreManager {
         fileManager.updateHighscoresOnFile(fileHighscores);
     }
 
+    /**
+     * Displays the highscores from the 'highscores.txt' in descending order
+     */
     public void displayHighscores() {
         LinkedHashMap<String, Integer> highscoreTable = fileManager.getHighscoresFromFile();
         System.out.println("-------------HIGHSCORE LEADERBOARD-------------");

@@ -7,6 +7,11 @@ public class FileManager {
 
     private File highScoreFile, questionsFile;
 
+    /**
+     * Creates a FileManager object and initializes its two File fields to the correct files. If the user has deleted or has is playing
+     * for the first time, creates the 'highscores.txt' file.
+     * @throws IOException
+     */
     public FileManager() throws IOException {
         highScoreFile = new File("highscores.txt");
         questionsFile = new File("questions.txt");
