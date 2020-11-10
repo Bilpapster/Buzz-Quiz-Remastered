@@ -45,6 +45,10 @@ public class Question {
         this.picture = picture;
     }
 
+    public String getQuestionText() {
+        return questionText;
+    }
+
     public String getCorrectAnswer() {
         return correctAnswer;
     }
