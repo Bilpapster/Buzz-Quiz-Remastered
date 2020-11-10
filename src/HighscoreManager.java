@@ -1,11 +1,9 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.TreeMap;
+import java.util.*;
 
 public class HighscoreManager {
     FileManager fileManager;
-    HashMap<String, Integer> fileHighscores;
+    LinkedHashMap<String, Integer> fileHighscores;
 
     /**
      * The class constructor which initializes the FileManager attribute and fetches current highscores before the game starts
@@ -31,6 +29,13 @@ public class HighscoreManager {
                 fileHighscores.put(i.getName(), i.getScore());
         }
         fileManager.updateHighscoresOnFile(fileHighscores);
+    }
+
+    public void displayHighscores() {
+        LinkedHashMap<String, Integer> highscoreTable = fileManager.getHighscoresFromFile();
+        System.out.println("-------------HIGHSCORE LEADERBOARD-------------");
+        for(String i: highscoreTable.keySet())
+            System.out.println(i + ": " + highscoreTable.get(i) + " points");
     }
 
 }

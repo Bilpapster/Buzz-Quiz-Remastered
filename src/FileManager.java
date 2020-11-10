@@ -43,8 +43,8 @@ public class FileManager {
      *
      * @return a <code>HashMap&#60;String, Integer&#62;</code>  containing 'User':'score' key/pair values
      */
-    public HashMap<String, Integer> getHighscoresFromFile() {
-        HashMap<String, Integer> highscores = new HashMap<>();
+    public LinkedHashMap<String, Integer> getHighscoresFromFile() {
+        LinkedHashMap<String, Integer> highscores = new LinkedHashMap<>();
         if (highScoreFile.length() == 0)
             return highscores;
         try {
@@ -67,7 +67,7 @@ public class FileManager {
      *
      * @param newHighscores a <code>HashMap&#60;String, Integer&#62; containing 'Name':'Score' keypair values</code>
      */
-    public void updateHighscoresOnFile(HashMap<String, Integer> newHighscores) {
+    public void updateHighscoresOnFile(LinkedHashMap<String, Integer> newHighscores) {
         try {
             FileWriter fileWriter = new FileWriter(highScoreFile);
             ArrayList<Map.Entry<String,Integer>> highscoreList = new ArrayList<>(newHighscores.entrySet());
