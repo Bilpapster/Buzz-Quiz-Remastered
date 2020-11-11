@@ -47,7 +47,7 @@ public class BettingRound extends StandardRound {
     }
 
     /**
-     * Prints the round description. Asks for the player to press enter.
+     * Prints the round description. Asks from the player to press enter.
      */
     @Override
     public void printDescription() {
@@ -60,7 +60,7 @@ public class BettingRound extends StandardRound {
     }
 
     /**
-     * Displays the question to players. At first, the question category is displayed and the players are asked to place a bet.
+     * Displays the current question to players. At first, the question category is displayed and the players are asked to place a bet.
      * After the bet placement, the question itself and the available answers are displayed simultaneously.
      */
     @Override
