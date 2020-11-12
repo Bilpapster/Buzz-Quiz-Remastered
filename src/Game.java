@@ -24,9 +24,16 @@ public class Game {
     }
 
     public void initializeGamePlay() {
+        try {
+            FileManager files = new FileManager();
+            files.getQuestionsFromFile();
+            files.getHighscoresFromFile();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
         players.add(new Player());
-        players.add(new Player());
-        players.add(new Player());
+//        players.add(new Player());
+//        players.add(new Player());
         rounds.add(new StandardRound(1, players, questionManager, parser));
         rounds.add(new BettingRound(1, players, questionManager, parser));
         rounds.add(new StopTheClockRound(1, players, questionManager, parser));
