@@ -81,7 +81,7 @@ public class BettingRound extends StandardRound {
     }
 
     /**
-     * Executes all necessary actions on a player that has answered a question correctly.
+     * Executes all necessary actions on a player that has answered the current question correctly.
      * Prints success message and updates the player's score, by adding the bet amount.
      * Only for inside-class and sub-classes use.
      *

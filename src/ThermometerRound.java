@@ -8,6 +8,13 @@ public class ThermometerRound extends StandardRound {
     private Boolean winnerFound;
     private int winningScore;
 
+    /**
+     * Constructs a StandardRound object with given attributes
+     *
+     * @param players         array list of the players involved in the round
+     * @param questionManager a question-managing object, responsible for the questions of the round
+     * @param parser          a parsing object responsible for communicating with players via console
+     */
     public ThermometerRound(ArrayList<Player> players, QuestionManager questionManager, Parser parser) {
         super(0, players, questionManager, parser);
         this.creditPoints = 5000;
@@ -21,7 +28,7 @@ public class ThermometerRound extends StandardRound {
     }
 
     /**
-     * Printing method for the round description. Written hard coded TEMPORARILY.
+     * Prints the round description. Asks from the player to press enter.
      */
     @Override
     public void printDescription() {
@@ -32,11 +39,23 @@ public class ThermometerRound extends StandardRound {
         parser.getEnter();
     }
 
+    /**
+     * Decides whether the round is finished or not.
+     *
+     * @return true if the round is over, else false.
+     */
     @Override
     public Boolean isOver() {
         return this.winnerFound;
     }
 
+    /**
+     * Executes all necessary actions on a player that has answer correctly a question of the round.
+     * Prints a success message and updates the player's number of correct answers in round, by adding credit points.
+     * Only for inside-class and inside-subclasses use.
+     *
+     * @param player the player that has answered the current question correctly
+     */
     @Override
     protected void executeActionsOnCorrectAnswer(Player player) {
         System.out.print(player.getName() + ": Correct!");
@@ -44,12 +63,10 @@ public class ThermometerRound extends StandardRound {
         System.out.println();
     }
 
-    @Override
-    protected void executeActionsOnWrongAnswer(Player player) {
-        System.out.print(player.getName() + ": Wrong...");
-        System.out.println();
-    }
-
+    /**
+     * Executes all necessary actions at the end of a question.
+     * Checks if the winner of the round is can be declared.
+     */
     @Override
     protected void executeActionsOnEndOfQuestion() {
         HashSet<Player> playersReachedWinningZone = new HashSet<>();
@@ -61,7 +78,7 @@ public class ThermometerRound extends StandardRound {
 
         if (playersReachedWinningZone.size() == 1) {
             for (Player player : playersReachedWinningZone) {
-                System.out.println(player.getName() + " is the winner of the round! +" + getCreditPoints());
+                System.out.println(player.getName() + " is the winner of the round! +" + creditPoints);
                 player.updateScore(creditPoints);
                 winnerFound = true;
             }
@@ -77,6 +94,11 @@ public class ThermometerRound extends StandardRound {
         questionManager.removeAnsweredQuestion();
     }
 
+    /**
+     * Increases by one the number of correct answers given by the player in the round.
+     * Only for inside-class use.
+     * @param player the player who answered the current question correctly.
+     */
     private void addOneCorrectAnswerTo(Player player) {
         correctAnswersInRound.put(player, correctAnswersInRound.get(player) + 1);
     }

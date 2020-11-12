@@ -21,6 +21,9 @@ public class StopTheClockRound extends StandardRound {
         this.milliSecondsElapsedOnAnswer = new HashMap<>();
     }
 
+    /**
+     * Prints the round description. Asks from the player to press enter.
+     */
     @Override
     public void printDescription() {
         System.out.printf("In this round you are going to be asked " + this.getNumberOfQuestionsRemaining() + " questions. You will have 5 seconds to answer!%n"
@@ -30,6 +33,10 @@ public class StopTheClockRound extends StandardRound {
         parser.getEnter();
     }
 
+    /**
+     * Displays the current question to players. The category and the question body are displayed at first.
+     * The players are asked to press enter, in order for the available options to show up.
+     */
     @Override
     public void askQuestion() {
         System.out.println();
@@ -39,16 +46,27 @@ public class StopTheClockRound extends StandardRound {
         questionManager.getNextQuestion().displayOptions();
     }
 
+    /**
+     * Reads the answers given by players, executing data validation.
+     * Stores their answers to the answers' HashMap, by over-writing the new answers on the already stored answers from the previous question.
+     */
     @Override
     public void readAnswers() {
         for (Player player : players) {
             System.out.print(player.getName() + ", it is your turn. ");
-            Long startTimeInMillis = System.currentTimeMillis();
+            long startTimeInMillis = System.currentTimeMillis();
             answersGivenByPlayers.put(player, parser.askForAnswer(questionManager.getNextQuestion().getAnswerKeySet()));
             this.milliSecondsElapsedOnAnswer.put(player, System.currentTimeMillis() - startTimeInMillis);
         }
     }
 
+    /**
+     * Executes all necessary actions on a player that has answer correctly a question of the round.
+     * Prints a success message and updates the player's score, by adding credit points, according to how fast the player had answered.
+     * Only for inside-class and inside-subclasses use.
+     *
+     * @param player the player that has answered a question correctly
+     */
     @Override
     protected void executeActionsOnCorrectAnswer(Player player) {
         creditPoints = (int) (this.milliSecondsElapsedOnAnswer.get(player) * 0.2);
