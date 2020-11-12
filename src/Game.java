@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Game {
@@ -8,7 +7,7 @@ public class Game {
     private Parser parser;
     private HighscoreManager highscoreManager;
 
-    public Game() throws IOException {
+    public Game() {
         players = new ArrayList<>();
         rounds = new ArrayList<>();
         questionManager = new QuestionManager();
@@ -24,16 +23,9 @@ public class Game {
     }
 
     public void initializeGamePlay() {
-        try {
-            FileManager files = new FileManager();
-            files.getQuestionsFromFile();
-            files.getHighscoresFromFile();
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
         players.add(new Player());
-//        players.add(new Player());
-//        players.add(new Player());
+        players.add(new Player());
+        players.add(new Player());
         rounds.add(new StandardRound(1, players, questionManager, parser));
         rounds.add(new BettingRound(1, players, questionManager, parser));
         rounds.add(new StopTheClockRound(1, players, questionManager, parser));
