@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * A class representing a specific type of round, where, besides answering correctly,
@@ -7,6 +9,8 @@ import java.util.ArrayList;
  */
 public class QuickAnswerRound extends StopTheClockRound {
 
+    private HashSet<Player> playersAnsweredCorrectly;
+    private HashMap<Player, Integer> orderOfAnsweringCorrectly;
 
     /**
      * Constructs a StopTheClockRound object with given attributes.
@@ -18,6 +22,8 @@ public class QuickAnswerRound extends StopTheClockRound {
      */
     public QuickAnswerRound(int numberOfQuestions, ArrayList<Player> players, QuestionManager questionManager, Parser parser) {
         super(numberOfQuestions, players, questionManager, parser);
+        playersAnsweredCorrectly = new HashSet<>();
+        orderOfAnsweringCorrectly = new HashMap<>();
         this.creditPoints = 1000;
     }
 
@@ -34,6 +40,32 @@ public class QuickAnswerRound extends StopTheClockRound {
                 "No points available for other players, even if they answer correctly, so be as quick as possible!%n");
     }
 
+    @Override
+    public void giveCredits() {
+
+        this.playersAnsweredCorrectly.clear();
+        for (Player player : players) {
+            if (questionManager.getNextQuestion().isCorrectAnswer(answersGivenByPlayers.get(player))) {
+                playersAnsweredCorrectly.add(player);
+            }
+        }
+        refreshOrder();
+        super.giveCredits();
+    }
+
+    private void refreshOrder() {
+        this.orderOfAnsweringCorrectly.clear();
+        for (Player player : playersAnsweredCorrectly) {
+            int answeringOrder = 1;
+            for (Player otherPlayer : playersAnsweredCorrectly) {
+                if (milliSecondsElapsedOnAnswer.get(otherPlayer) < milliSecondsElapsedOnAnswer.get(player)) {
+                    answeringOrder++;
+                }
+            }
+            orderOfAnsweringCorrectly.put(player, answeringOrder);
+        }
+    }
+
     /**
      * Executes all necessary actions on a player that has answered the current question correctly.
      * If the player was the fastest to answer correctly, they get rewarded by 1000 points.
@@ -44,36 +76,15 @@ public class QuickAnswerRound extends StopTheClockRound {
      */
     @Override
     protected void executeActionsOnCorrectAnswer(Player player) {
-
-        if (getAnsweringOrderOf(player) == 1) {
-            System.out.print(player.getName() + ": Correct! +" + creditPoints);
+        if (orderOfAnsweringCorrectly.get(player) == 1) {
+            System.out.print(player.getName() + ": Correct! +" + creditPoints + ". ");
             player.updateScore(creditPoints);
-            System.out.println();
-        } else if (getAnsweringOrderOf(player) == 2) {
-            System.out.print(player.getName() + ": Correct! +" + (creditPoints / 2));
+        } else if (orderOfAnsweringCorrectly.get(player) == 2) {
+            System.out.print(player.getName() + ": Correct! +" + (creditPoints / 2) + ". ");
             player.updateScore(creditPoints / 2);
-            System.out.println();
         } else {
-            System.out.print(player.getName() + ": Correct! No points because you answered in order " + getAnsweringOrderOf(player) + ", looser!");
-            System.out.println();
+            System.out.print(player.getName() + ": Correct! No points because you answered in order " + orderOfAnsweringCorrectly.get(player) + ", looser!");
         }
-
-    }
-
-    /**
-     * Based on the milliseconds elapsed for the players to answer the current question,
-     * returns the order of the given player. Returns 1 for the fastest and <numberOfPlayers> for the least fast.
-     *
-     * @param player the player to get the order of
-     * @return the player's order of answer
-     */
-    protected int getAnsweringOrderOf(Player player) {
-        int answeringOrder = 1;
-        for (Player otherPlayer : players) {
-            if (milliSecondsElapsedOnAnswer.get(otherPlayer) < milliSecondsElapsedOnAnswer.get(player)) {
-                answeringOrder++;
-            }
-        }
-        return answeringOrder;
+        System.out.println("Answering time: " + milliSecondsElapsedOnAnswer.get(player));
     }
 }
