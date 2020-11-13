@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class ThermometerRound extends StandardRound {
 
+    private ArrayList<Player> stillAlivePlayers;
     private HashMap<Player, Integer> correctAnswersInRound;
     private Boolean winnerFound;
     private int winningScore;
@@ -17,14 +17,19 @@ public class ThermometerRound extends StandardRound {
      */
     public ThermometerRound(ArrayList<Player> players, QuestionManager questionManager, Parser parser) {
         super(0, players, questionManager, parser);
-        this.creditPoints = 5000;
-        this.winnerFound = false;
-        this.winningScore = 5;
-        correctAnswersInRound = new HashMap<>();
 
+        stillAlivePlayers = new ArrayList<>();
+        stillAlivePlayers.addAll(players);
+
+        correctAnswersInRound = new HashMap<>();
         for (Player player : players) {
             correctAnswersInRound.put(player, 0);
         }
+
+        this.winnerFound = false;
+        this.winningScore = 5;
+        this.creditPoints = 5000;
+
     }
 
     /**
@@ -50,6 +55,39 @@ public class ThermometerRound extends StandardRound {
     }
 
     /**
+     * Reads the answers given by players, executing data validation.
+     * Stores their answers to the answers' HashMap, by over-writing the new answers on the already stored answers from the previous question.
+     */
+    @Override
+    public void readAnswers() {
+        answersGivenByPlayers.clear();
+        for (Player player : stillAlivePlayers) {
+            System.out.print(player.getName() + ", it is your turn. ");
+            answersGivenByPlayers.put(player, parser.askForAnswer(questionManager.getNextQuestion().getAnswerKeySet()));
+        }
+    }
+
+    /**
+     * For every player checks whether they have answered the current question correctly or not.
+     * Invokes necessary actions on both cases (correct or wrong answer).
+     */
+    @Override
+    public void giveCredits() {
+
+        /* The method's code is deliberately written abstract for inheritance and code re-use purposes.
+            Utilizes 3 simpler protected methods that build up to the total giveCredits task and can be overridden by sub-classes. */
+
+        for (Player player : stillAlivePlayers) {
+            if (questionManager.getNextQuestion().isCorrectAnswer(answersGivenByPlayers.get(player))) {
+                executeActionsOnCorrectAnswer(player);
+            } else {
+                executeActionsOnWrongAnswer(player);
+            }
+        }
+        executeActionsOnEndOfQuestion();
+    }
+
+    /**
      * Executes all necessary actions on a player that has answer correctly a question of the round.
      * Prints a success message and updates the player's number of correct answers in round, by adding credit points.
      * Only for inside-class and inside-subclasses use.
@@ -69,7 +107,7 @@ public class ThermometerRound extends StandardRound {
      */
     @Override
     protected void executeActionsOnEndOfQuestion() {
-        HashSet<Player> playersReachedWinningZone = new HashSet<>();
+        ArrayList<Player> playersReachedWinningZone = new ArrayList<>();
         for (Player player : players) {
             if (correctAnswersInRound.get(player) == winningScore) {
                 playersReachedWinningZone.add(player);
@@ -83,12 +121,12 @@ public class ThermometerRound extends StandardRound {
                 winnerFound = true;
             }
         } else if (playersReachedWinningZone.size() > 1) {
-            players.clear();
-            players.addAll(playersReachedWinningZone);
+            stillAlivePlayers.clear();
+            stillAlivePlayers.addAll(playersReachedWinningZone);
             winningScore++;
         }
 
-        for (Player player : players) {
+        for (Player player : stillAlivePlayers) {
             System.out.println(player.getName() + ": " + correctAnswersInRound.get((player)) + " correct answers in this round.");
         }
         questionManager.removeAnsweredQuestion();
