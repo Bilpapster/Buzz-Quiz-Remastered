@@ -30,13 +30,14 @@ public class StandardRound implements RoundI {
     }
 
     /**
-     * Prints the round description. Asks from the player to press enter.
+     * Getter for the round description.
+     *
+     * @return the round description
      */
-    public void printDescription() {
-        System.out.printf("In this round you are going to be asked " + this.numberOfQuestionsInRound + " questions.%n"
-                + "For every correct answer, you earn " + this.creditPoints + " points!%n"
-                + "Press enter to start round ");
-        parser.getEnter();
+    @Override
+    public String getDescription() {
+        return ("In this round you are going to be asked " + this.numberOfQuestionsInRound + " questions.%n"
+                + "For every correct answer, you earn " + this.creditPoints + " points!%n");
     }
 
     /**
@@ -109,7 +110,7 @@ public class StandardRound implements RoundI {
     public void giveCredits() {
 
         /* The method's code is deliberately written abstract for inheritance and code re-use purposes.
-            Utilizes 3 simpler protected methods that build up to the total giveCredits task and can be overrided by sub-classes. */
+            Utilizes 3 simpler protected methods that build up to the total giveCredits task and can be overridden by sub-classes. */
 
         for (Player player : players) {
             if (questionManager.getNextQuestion().isCorrectAnswer(answersGivenByPlayers.get(player))) {
@@ -156,5 +157,3 @@ public class StandardRound implements RoundI {
         questionManager.removeAnsweredQuestion();
     }
 }
-
-

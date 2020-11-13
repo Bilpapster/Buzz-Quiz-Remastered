@@ -24,8 +24,8 @@ public class Game {
 
     public void initializeGamePlay() {
         players.add(new Player());
-        players.add(new Player());
-        players.add(new Player());
+//        players.add(new Player());
+//        players.add(new Player());
         rounds.add(new StandardRound(1, players, questionManager, parser));
         rounds.add(new BettingRound(1, players, questionManager, parser));
         rounds.add(new StopTheClockRound(1, players, questionManager, parser));
@@ -38,7 +38,9 @@ public class Game {
         for (RoundI round : rounds) {
             System.out.println();
             System.out.println("**********" + " Round " + roundsCounter + " **********");
-            round.printDescription();
+            System.out.printf(round.getDescription());
+            System.out.print("Press enter to start round ");
+            parser.getEnter();
             while (! round.isOver()) {
                 round.askQuestion();
                 round.readAnswers();

@@ -28,15 +28,15 @@ public class ThermometerRound extends StandardRound {
     }
 
     /**
-     * Prints the round description. Asks from the player to press enter.
+     * Getter for the round description.
+     *
+     * @return the round description
      */
     @Override
-    public void printDescription() {
-        System.out.printf("In this round you are going to be asked questions, till someone reaches (at least) five correct answers!%n"
+    public String getDescription() {
+        return ("In this round you are going to be asked questions, till someone reaches (at least) five correct answers!%n"
                 + "But, be careful! You need to have at least one correct answer more than all the other players, in order to win the round!%n"
-                + "The winner gets 5000 points!%n"
-                + "Press enter to start round ");
-        parser.getEnter();
+                + "The winner gets 5000 points!%n");
     }
 
     /**
@@ -97,6 +97,7 @@ public class ThermometerRound extends StandardRound {
     /**
      * Increases by one the number of correct answers given by the player in the round.
      * Only for inside-class use.
+     *
      * @param player the player who answered the current question correctly.
      */
     private void addOneCorrectAnswerTo(Player player) {

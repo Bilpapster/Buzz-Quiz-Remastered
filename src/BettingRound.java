@@ -47,16 +47,16 @@ public class BettingRound extends StandardRound {
     }
 
     /**
-     * Prints the round description. Asks from the player to press enter.
+     * Getter for the round description.
+     *
+     * @return the round description
      */
     @Override
-    public void printDescription() {
-        System.out.printf("In this round you are going to be asked " + this.getNumberOfQuestionsRemaining() + " questions.%n"
+    public String getDescription() {
+        return ("In this round you are going to be asked " + this.getNumberOfQuestionsRemaining() + " questions.%n"
                 + "At first, you are let to know the category of the question and you are asked to place a bet " + acceptableBets.keySet() +
                 " Answering correctly will add to your score as many points as your bet!%n" +
-                " But, be careful! Answering the question wrong will cost you your bet!%n"
-                + "Press enter to start round ");
-        parser.getEnter();
+                " But, be careful! Answering the question wrong will cost you your bet!%n");
     }
 
     /**

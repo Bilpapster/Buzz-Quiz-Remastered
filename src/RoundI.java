@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An interface, representing a round in our game.
@@ -6,9 +6,11 @@ import java.util.ArrayList;
 public interface RoundI {
 
     /**
-     * Prints description of the round and/or any special instructions the player is needed to know.
+     * Getter for the round description.
+     *
+     * @return the round description
      */
-    void printDescription();
+    String getDescription();
 
     /**
      * Checks whether the round is over or not.
@@ -22,7 +24,7 @@ public interface RoundI {
      *
      * @return an ArrayList containing the the players involved in the round.
      */
-    ArrayList<Player> getPlayers();
+    List<Player> getPlayers();
 
     /**
      * Lets the player(s) know the question (category, question body and available answers).
