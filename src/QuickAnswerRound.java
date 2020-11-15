@@ -34,10 +34,10 @@ public class QuickAnswerRound extends StopTheClockRound {
      */
     @Override
     public String getDescription() {
-        return ("In this round you are going to be asked " + this.getNumberOfQuestionsInRound() + " questions.%n"
-                + "At first you are let to know the category and the question itself. Press enter to show available options and make the clock running!%n" +
-                "The quicker to answer the question correctly gets 1000 points, while the second correct player gets the half of them, 500!%n" +
-                "No points available for other players, even if they answer correctly, so be as quick as possible!%n");
+        return ("In this round you are going to be asked " + this.getNumberOfQuestionsInRound() + " questions.\n"
+                + "At first you are let to know the category and the question itself. Press enter to show available options and make the clock running!\n" +
+                "The quicker to answer the question correctly gets 1000 points, while the second correct player gets the half of them, 500!\n" +
+                "No points available for other players, even if they answer correctly, so be as quick as possible!\n");
     }
 
     @Override

@@ -39,9 +39,9 @@ public class ThermometerRound extends StandardRound {
      */
     @Override
     public String getDescription() {
-        return ("In this round you are going to be asked questions, till someone reaches (at least) five correct answers!%n"
-                + "But, be careful! You need to have at least one correct answer more than all the other players, in order to win the round!%n"
-                + "The winner gets 5000 points!%n");
+        return ("In this round you are going to be asked questions, till someone reaches (at least) five correct answers!\n"
+                + "But, be careful! You need to have at least one correct answer more than all the other players, in order to win the round!\n"
+                + "The winner gets 5000 points!\n");
     }
 
     /**

@@ -28,9 +28,9 @@ public class StopTheClockRound extends StandardRound {
      */
     @Override
     public String getDescription() {
-        return ("In this round you are going to be asked " + this.getNumberOfQuestionsRemaining() + " questions. You will have 5 seconds to answer!%n"
-                + "At first you are let to know the category and the question itself. Press enter to show available options and make the clock running!%n" +
-                "Answering the question correctly will add to your score as many points as the remaining  miliseconds times 0.2!%n");
+        return ("In this round you are going to be asked " + this.getNumberOfQuestionsRemaining() + " questions. You will have 5 seconds to answer!\n"
+                + "At first you are let to know the category and the question itself. Press enter to show available options and make the clock running!\n" +
+                "Answering the question correctly will add to your score as many points as the remaining  miliseconds times 0.2!\n");
     }
 
     /**

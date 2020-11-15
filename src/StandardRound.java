@@ -36,8 +36,8 @@ public class StandardRound implements RoundI {
      */
     @Override
     public String getDescription() {
-        return ("In this round you are going to be asked " + this.numberOfQuestionsInRound + " questions.%n"
-                + "For every correct answer, you earn " + this.creditPoints + " points!%n");
+        return ("In this round you are going to be asked " + this.numberOfQuestionsInRound + " questions.\n"
+                + "For every correct answer, you earn " + this.creditPoints + " points!\n");
     }
 
     /**

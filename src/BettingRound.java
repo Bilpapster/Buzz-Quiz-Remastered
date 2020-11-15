@@ -53,10 +53,10 @@ public class BettingRound extends StandardRound {
      */
     @Override
     public String getDescription() {
-        return ("In this round you are going to be asked " + this.getNumberOfQuestionsRemaining() + " questions.%n"
+        return ("In this round you are going to be asked " + this.getNumberOfQuestionsRemaining() + " questions.\n"
                 + "At first, you are let to know the category of the question and you are asked to place a bet " + acceptableBets.keySet() +
-                " Answering correctly will add to your score as many points as your bet!%n" +
-                " But, be careful! Answering the question wrong will cost you your bet!%n");
+                " Answering correctly will add to your score as many points as your bet!\n" +
+                " But, be careful! Answering the question wrong will cost you your bet!\n");
     }
 
     /**
