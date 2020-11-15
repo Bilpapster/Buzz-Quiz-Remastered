@@ -69,8 +69,9 @@ public class StopTheClockRound extends StandardRound {
      */
     @Override
     protected void executeActionsOnCorrectAnswer(Player player) {
-        creditPoints = (int) (this.milliSecondsElapsedOnAnswer.get(player) * 0.2);
+        creditPoints = 5000 - ((int) (this.milliSecondsElapsedOnAnswer.get(player) * 0.2));
         System.out.print(player.getName() + ": Correct! +" + creditPoints);
+        System.out.println(" Answering time: " + ((long) (milliSecondsElapsedOnAnswer.get(player)/1000)) + " seconds.");
         player.updateScore(creditPoints);
         System.out.println();
     }

@@ -85,6 +85,6 @@ public class QuickAnswerRound extends StopTheClockRound {
         } else {
             System.out.print(player.getName() + ": Correct! No points because you answered in order " + orderOfAnsweringCorrectly.get(player) + ", looser!");
         }
-        System.out.println("Answering time: " + milliSecondsElapsedOnAnswer.get(player));
+        System.out.println(" Answering time: " + ((long) (milliSecondsElapsedOnAnswer.get(player)/1000)) + " seconds.");
     }
 }
