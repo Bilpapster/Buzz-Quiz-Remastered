@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+package com;
+
 import java.util.HashMap;
 import java.util.Set;
 
@@ -15,7 +16,7 @@ public class Question {
     private QuestionType questionType;
 
     /**
-     * The first of two constructors used to create a Question object without a picture
+     * The first of two constructors used to create a com.Question object without a picture
      *
      * @param questionText the question text
      * @param correctAnswer the correct answer, depicted with a string
@@ -46,24 +47,24 @@ public class Question {
     }
 
     /**
-     * Return's a Question object's question text
-     * @return the Question object's question text
+     * Return's a com.Question object's question text
+     * @return the com.Question object's question text
      */
     public String getQuestionText() {
         return questionText;
     }
 
     /**
-     * Return's a Question object's correct answer
-     * @return the Question Object's correct answer
+     * Return's a com.Question object's correct answer
+     * @return the com.Question Object's correct answer
      */
     public String getCorrectAnswer() {
         return correctAnswer;
     }
 
     /**
-     * Returns the Question Object's question type
-     * @return the Question Object's question type
+     * Returns the com.Question Object's question type
+     * @return the com.Question Object's question type
      */
     public QuestionType getQuestionType() {
         return questionType;
@@ -89,15 +90,17 @@ public class Question {
         System.out.printf("--------Category: %s-------\n", questionType.toString());
     }
 
+
+
     /**
-     * Pretty prints a Question object's question text
+     * Pretty prints a com.Question object's question text
      */
     public void displayQuestionBody() {
         System.out.println("--------" + questionText + "--------");
     }
 
     /**
-     * Pretty prints all the available answers for a Question object
+     * Pretty prints all the available answers for a com.Question object
      */
     public void displayOptions() {
         for(String i : answers.keySet())

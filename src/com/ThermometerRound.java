@@ -1,3 +1,5 @@
+package com;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,7 +11,7 @@ public class ThermometerRound extends StandardRound {
     private int winningScore;
 
     /**
-     * Constructs a StandardRound object with given attributes
+     * Constructs a com.StandardRound object with given attributes
      *
      * @param players         array list of the players involved in the round
      * @param questionManager a question-managing object, responsible for the questions of the round

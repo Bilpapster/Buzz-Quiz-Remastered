@@ -1,3 +1,5 @@
+package com;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,7 +11,7 @@ public class StopTheClockRound extends StandardRound {
     protected HashMap<Player, Long> milliSecondsElapsedOnAnswer;
 
     /**
-     * Constructs a StopTheClockRound object with given attributes.
+     * Constructs a com.StopTheClockRound object with given attributes.
      *
      * @param numberOfQuestions the number of questions in the round.
      * @param players           the players involved in the round.

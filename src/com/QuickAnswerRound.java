@@ -1,3 +1,5 @@
+package com;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,7 +15,7 @@ public class QuickAnswerRound extends StopTheClockRound {
     private HashMap<Player, Integer> orderOfAnsweringCorrectly;
 
     /**
-     * Constructs a StopTheClockRound object with given attributes.
+     * Constructs a com.StopTheClockRound object with given attributes.
      *
      * @param numberOfQuestions the number of questions in round
      * @param players           the players involved in the round

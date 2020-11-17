@@ -1,17 +1,24 @@
+package com;
+
+import com.Parser;
+import com.Player;
+import com.QuestionManager;
+import com.StandardRound;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 
 /**
  * A class representing a specific type of round, where the players place a bet before each question.
- * The class is implemented as sub-class of the StandardRound class.
+ * The class is implemented as sub-class of the com.StandardRound class.
  */
 public class BettingRound extends StandardRound {
     private TreeMap<String, Integer> acceptableBets; // stores the acceptable bets that players can place. Remains intact during round.
     private HashMap<Player, Integer> betsPlacedByPlayers; // stores the bets placed by players at the current question. Values change during round.
 
     /**
-     * Constructs a BettingRound object with given attributes.
+     * Constructs a com.BettingRound object with given attributes.
      *
      * @param numberOfQuestions the number of questions in the round
      * @param players           the players involved in the round

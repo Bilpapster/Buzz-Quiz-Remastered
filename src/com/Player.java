@@ -1,3 +1,5 @@
+package com;
+
 /**
  * A simple class representing a player in our game
  */
@@ -18,8 +20,8 @@ public class Player {
     }
 
     /**
-     * Creates a PlayerTest object with a name given by user and initializes the score to 0.
-     * Utilizes the Parser class
+     * Creates a com.PlayerTest object with a name given by user and initializes the score to 0.
+     * Utilizes the com.Parser class
      */
     public Player() {
         this.score = 0;

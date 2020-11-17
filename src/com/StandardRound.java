@@ -1,3 +1,5 @@
+package com;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,7 +14,7 @@ public class StandardRound implements RoundI {
     protected int creditPoints;                                 // the points earned on correct answer
 
     /**
-     * Constructs a StandardRound object with given attributes
+     * Constructs a com.StandardRound object with given attributes
      *
      * @param numberOfQuestions the number of questions in the round
      * @param players           array list of the players involved in the round

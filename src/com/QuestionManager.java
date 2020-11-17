@@ -1,3 +1,5 @@
+package com;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -50,7 +52,7 @@ public class QuestionManager {
     }
 
     /**
-     * Creates question objects with data from the FileManager, after it has tokenized and parsed them and pushes the questions to the list of questions<br><br>
+     * Creates question objects with data from the com.FileManager, after it has tokenized and parsed them and pushes the questions to the list of questions<br><br>
      * <b>NOTE:</b> This method will only work if the 'questions.txt' file uses the proprietary format the developers intended, altering the delimiter symbol
      * or the way the answer is formatted will result in the code needing to be overhauled.
      */
@@ -87,8 +89,8 @@ public class QuestionManager {
 
     }
 
-//    public HashSet<Question> getListOfQuestions() {
-//        HashSet<Question> finalListOfQuestions = listOfQuestions;
+//    public HashSet<com.Question> getListOfQuestions() {
+//        HashSet<com.Question> finalListOfQuestions = listOfQuestions;
 //        return finalListOfQuestions;
 //    }
 
@@ -112,7 +114,7 @@ public class QuestionManager {
     }
 
     /**
-     * Pretty prints all the components of every Question inside QuestionManager's listOfQuestions
+     * Pretty prints all the components of every com.Question inside com.QuestionManager's listOfQuestions
      */
     public void printAllQuestions() {
         for (Question i : listOfQuestions) {

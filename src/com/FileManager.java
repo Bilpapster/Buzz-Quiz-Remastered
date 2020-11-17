@@ -1,3 +1,5 @@
+package com;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,7 +10,7 @@ public class FileManager {
     private File highScoreFile, questionsFile;
 
     /**
-     * Creates a FileManager object and initializes its two File fields to the correct files. If the user has deleted or has is playing
+     * Creates a com.FileManager object and initializes its two File fields to the correct files. If the user has deleted or has is playing
      * for the first time, creates the 'highscores.txt' file.
      * @throws IOException
      */

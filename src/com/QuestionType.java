@@ -1,3 +1,5 @@
+package com;
+
 /**
  * Class containing all the possible types for the questions
  */
