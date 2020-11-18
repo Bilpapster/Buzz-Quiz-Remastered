@@ -4,10 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class MainMenuFrame extends JFrame implements ActionListener {
     JButton player1btn;
     JButton player2btn;
+    JButton highscoreBtn;
 
     public MainMenuFrame() {
         this.setTitle("Buzz! Quiz World!");
@@ -49,6 +51,8 @@ public class MainMenuFrame extends JFrame implements ActionListener {
         player1btn = new JButton("Start 1-player game");
         player1btn.setBounds(200, 100, 100, 50);
         player2btn = new JButton("Start 2-player game");
+        highscoreBtn = new JButton("View high-scores");
+        highscoreBtn.addActionListener(this::actionPerformed);
         player1btn.addActionListener(this::actionPerformed);
         player2btn.addActionListener(this::actionPerformed);
 
@@ -65,6 +69,8 @@ public class MainMenuFrame extends JFrame implements ActionListener {
         btn1C.gridx = 0;
         btn1C.gridy = 1;
         buttonsPanel.add(player2btn, btn1C);
+        btn1C.gridy = 2;
+        buttonsPanel.add(highscoreBtn, btn1C);
 
         this.add(titlePanel, BorderLayout.NORTH);
         this.add(buttonsPanel, BorderLayout.CENTER);
@@ -86,6 +92,12 @@ public class MainMenuFrame extends JFrame implements ActionListener {
         } else if (e.getSource() == player2btn) {
             this.dispose();
             PlayerInfoPage playerInfoPage = new PlayerInfoPage(2);
+        } else if (e.getSource() == highscoreBtn) {
+            try {
+                HighscoreMenu highscoreMenu = new HighscoreMenu();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         }
 
 
