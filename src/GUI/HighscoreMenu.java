@@ -24,7 +24,7 @@ public class HighscoreMenu implements ActionListener {
     JTable highscoreTable;
     String[][] tableData;
     String sorting = "descending";
-    String[] columns = {"Player", "Score"};
+    final String[] columns = {"Player", "Score"};
 
 
     /**
@@ -47,6 +47,7 @@ public class HighscoreMenu implements ActionListener {
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.getContentPane().setBackground(Color.darkGray);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.pack();
     }
@@ -74,6 +75,7 @@ public class HighscoreMenu implements ActionListener {
         sortingBtn = new JButton();
         sortingBtn.setText("\uD83E\uDC6B");
         sortingBtn.addActionListener(this::actionPerformed);
+        sortingBtn.setToolTipText("Sorting");
         header.add(sortingBtn, BorderLayout.WEST);
     }
 
