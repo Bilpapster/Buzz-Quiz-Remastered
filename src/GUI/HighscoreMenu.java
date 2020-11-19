@@ -4,20 +4,28 @@ import com.FileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.LinkedHashMap;
+import java.lang.reflect.Array;
+import java.util.*;
 
 /**
  *A class which represents the highscore menu window
  */
-public class HighscoreMenu {
+public class HighscoreMenu implements ActionListener {
     JFrame frame;
     JPanel header;
     JLabel highscoreTitle;
+    JButton sortingBtn;
     LinkedHashMap<String, Integer> highscores;
     FileManager fileManager;
     JScrollPane highscorePane;
     JTable highscoreTable;
+    String[][] tableData;
+    String sorting = "descending";
+    String[] columns = {"Player", "Score"};
+
 
     /**
      * Default constructor of the HighscoreMenu class, which creates the window and fills it up with relevant information
@@ -37,10 +45,10 @@ public class HighscoreMenu {
         frame = new JFrame();
         frame.setTitle("Buzz! Highscores");
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        frame.setSize(720, 820);
         frame.setLayout(new BorderLayout());
         frame.getContentPane().setBackground(Color.darkGray);
         frame.setVisible(true);
+        frame.pack();
     }
 
     /**
@@ -56,9 +64,17 @@ public class HighscoreMenu {
         highscoreTitle.setHorizontalAlignment(JLabel.CENTER);
         highscoreTitle.setFont(new Font("Arial Black", Font.BOLD, 24));
         header.add(highscoreTitle, BorderLayout.CENTER);
+        setUpSortingBtn();
 
         frame.add(header, BorderLayout.NORTH);
 
+    }
+
+    private void setUpSortingBtn() {
+        sortingBtn = new JButton();
+        sortingBtn.setText("\uD83E\uDC6B");
+        sortingBtn.addActionListener(this::actionPerformed);
+        header.add(sortingBtn, BorderLayout.WEST);
     }
 
     /**
@@ -68,7 +84,7 @@ public class HighscoreMenu {
     private void setUpHighscoreList() {
         highscores = fileManager.getHighscoresFromFile();
 
-        String[][] tableData = new String[highscores.size()][2];
+        tableData = new String[highscores.size()][2];
         int index = 0;
         for(String i: highscores.keySet()) {
             tableData[index][0] = i;
@@ -76,7 +92,6 @@ public class HighscoreMenu {
             index++;
         }
 
-        String[] columns = {"Player", "Score"};
         highscoreTable = new JTable(tableData, columns) {
             private static final long serialVersionUID = 1L;
 
@@ -87,6 +102,9 @@ public class HighscoreMenu {
         };
         highscoreTable.setFocusable(false);
         highscoreTable.setCellSelectionEnabled(false);
+        highscoreTable.getTableHeader().setReorderingAllowed(false);
+        highscoreTable.setFillsViewportHeight(true);
+        highscoreTable.setDragEnabled(false);
         highscorePane = new JScrollPane(highscoreTable);
 
         frame.add(highscorePane, BorderLayout.CENTER);
@@ -94,5 +112,27 @@ public class HighscoreMenu {
 
     }
 
+    private void changeSorting() {
+        if (sorting.equals("descending")) {
+            sortingBtn.setText("\uD83E\uDC61");
+            sorting = "ascending";
+            Arrays.sort(tableData, Comparator.comparingInt(o -> Integer.parseInt(o[1])));
+        } else {
+            sortingBtn.setText("\uD83E\uDC6B");
+            sorting = "descending";
+            Arrays.sort(tableData, (a,b) -> Integer.parseInt(b[1])- Integer.parseInt(a[1]));
+        }
+        for(int i = 0; i < tableData.length; i++) {
+            highscoreTable.getModel().setValueAt(tableData[i][0], i, 0);
+            highscoreTable.getModel().setValueAt(tableData[i][1], i, 1);
+        }
 
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == sortingBtn)
+            changeSorting();
+    }
 }
