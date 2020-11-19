@@ -24,6 +24,7 @@ public class PlayerInfoPage implements ActionListener {
         playerInfoFrame.setSize(480, 240);
         playerInfoFrame.setLayout(new GridLayout(numberOfPlayers*2 + 1, 1));
         playerInfoFrame.getContentPane().setBackground(Color.darkGray);
+        playerInfoFrame.setLocationRelativeTo(null);
         playerInfoFrame.setVisible(true);
         for(int i = 0; i < numberOfPlayers; i++) {
             JLabel label = new JLabel("Player " + (i + 1) + " enter your name:");

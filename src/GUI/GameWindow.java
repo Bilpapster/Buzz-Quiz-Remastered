@@ -28,6 +28,7 @@ public class GameWindow implements ActionListener {
         gameFrame.setSize(1280, 720);
         gameFrame.setLayout(new BorderLayout());
         gameFrame.getContentPane().setBackground(Color.darkGray);
+        gameFrame.setLocationRelativeTo(null);
         gameFrame.setVisible(true);
 
         answersPanel.setLayout(new GridLayout(2,2));
