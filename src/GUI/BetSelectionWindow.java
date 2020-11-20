@@ -7,6 +7,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.concurrent.Flow;
 
+/**
+ * A GUI class for the betting window that appears during the Betting Round in which players can select the bet they
+ * will make for the coming round
+ */
 public class BetSelectionWindow implements ActionListener {
 
     JDialog dialog;
@@ -16,10 +20,18 @@ public class BetSelectionWindow implements ActionListener {
     final int[] betValues = {500, 750, 1000};
     private int finalBet;
 
+    /**
+     * Initializes the betting modal
+     * @param parentFrame the parent JFrame of the modal
+     */
     public BetSelectionWindow(final JFrame parentFrame) {
         setUpFrame(parentFrame);
     }
 
+    /**
+     * Sets up the JDialog frame and displays it
+     * @param parentFrame
+     */
     private void setUpFrame(final JFrame parentFrame) {
         dialog = new JDialog(parentFrame);
         dialog.setTitle("Betting time!");
@@ -37,6 +49,9 @@ public class BetSelectionWindow implements ActionListener {
         dialog.pack();
     }
 
+    /**
+     * Sets up the header for the betting window
+     */
     private void setUpHeader() {
         title = new JLabel();
         title.setText("Place your bet!");
@@ -46,6 +61,9 @@ public class BetSelectionWindow implements ActionListener {
         dialog.add(title, BorderLayout.NORTH);
     }
 
+    /**
+     * Sets up the panep in which the betting buttons are going to be positioned
+     */
     private void setUpButtonPanel() {
         buttonsPanel = new JPanel();
         buttonsPanel.setBackground(Color.darkGray);
@@ -53,6 +71,10 @@ public class BetSelectionWindow implements ActionListener {
         dialog.add(buttonsPanel, BorderLayout.CENTER);
     }
 
+    /**
+     * Sets up the <code>ArrayList</code> containing all the JButtons for each of the allowed
+     * betting values found in <code>betValues</code> and adds them to the button panel
+     */
     private void setUpBetBtns() {
         betButtons = new ArrayList<>();
         for(Integer i: betValues) {
@@ -66,6 +88,10 @@ public class BetSelectionWindow implements ActionListener {
             buttonsPanel.add(btn);
     }
 
+    /**
+     * Used to retrieve a user's choice for a bet <u><b>after a modal has been disposed.</b></u>
+     * @return an int representing the user's choice of betting value
+     */
     public int getFinalBet() {
         return finalBet;
     }
