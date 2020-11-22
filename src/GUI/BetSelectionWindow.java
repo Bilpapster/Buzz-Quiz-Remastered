@@ -1,9 +1,10 @@
 package GUI;
 
+import com.Player;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.concurrent.Flow;
 
@@ -11,20 +12,27 @@ import java.util.concurrent.Flow;
  * A GUI class for the betting window that appears during the Betting Round in which players can select the bet they
  * will make for the coming round
  */
-public class BetSelectionWindow implements ActionListener {
+public class BetSelectionWindow implements ActionListener, MouseListener {
 
     JDialog dialog;
     JLabel title;
+    JLabel footerTitle;
+    JLabel potentialWin;
+    JLabel potentialLoss;
+    JPanel footerPanel;
     ArrayList<JButton> betButtons;
     JPanel buttonsPanel;
     final int[] betValues = {500, 750, 1000};
+    final Player currentPlayer;
     private int finalBet;
 
     /**
      * Initializes the betting modal
      * @param parentFrame the parent JFrame of the modal
+     * @param currentPlayer the player that is currently betting
      */
-    public BetSelectionWindow(final JFrame parentFrame) {
+    public BetSelectionWindow(final JFrame parentFrame, Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
         setUpFrame(parentFrame);
     }
 
@@ -44,6 +52,7 @@ public class BetSelectionWindow implements ActionListener {
         setUpHeader();
         setUpButtonPanel();
         setUpBetBtns();
+        setUpFooter();
 
         dialog.setVisible(true);
         dialog.pack();
@@ -54,7 +63,7 @@ public class BetSelectionWindow implements ActionListener {
      */
     private void setUpHeader() {
         title = new JLabel();
-        title.setText("Place your bet!");
+        title.setText("Place your bet, " + currentPlayer.getName() + "!");
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setFont(new Font("Arial Black", Font.BOLD, 21));
         title.setForeground(Color.white);
@@ -88,6 +97,58 @@ public class BetSelectionWindow implements ActionListener {
             buttonsPanel.add(btn);
     }
 
+    private void setUpFooter() {
+        footerPanel = new JPanel();
+        footerPanel.setLayout(new GridBagLayout());
+        GridBagConstraints footerPanelConstraints = new GridBagConstraints();
+
+        footerPanelConstraints.fill = GridBagConstraints.HORIZONTAL;
+        footerPanelConstraints.gridy = 0;
+        footerPanelConstraints.gridx = 0;
+
+        footerTitle = new JLabel();
+        footerTitle.setText("Your total points after the bet is settled:");
+
+        footerPanel.add(footerTitle, footerPanelConstraints);
+        footerPanelConstraints.gridy = 1;
+
+        potentialWin = new JLabel();
+        footerPanel.add(potentialWin, footerPanelConstraints);
+        footerPanelConstraints.gridx = 1;
+
+        potentialLoss = new JLabel();
+        footerPanel.add(potentialLoss, footerPanelConstraints);
+
+        potentialLoss.setVisible(false);
+        potentialWin.setVisible(false);
+        footerTitle.setVisible(false);
+
+        for(JButton btn: betButtons)
+            btn.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    potentialWin.setText("On win: " + (betValues[betButtons.indexOf(e.getSource())] + currentPlayer.getScore()));
+                    potentialLoss.setText("On loss: " + (currentPlayer.getScore() - betValues[betButtons.indexOf(e.getSource())]));
+
+                    footerTitle.setVisible(true);
+                    potentialWin.setVisible(true);
+                    potentialLoss.setVisible(true);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    footerTitle.setVisible(false);
+                    potentialWin.setVisible(false);
+                    potentialLoss.setVisible(false);
+                }
+            });
+
+
+        dialog.add(footerPanel, BorderLayout.SOUTH);
+
+
+    }
+
     /**
      * Used to retrieve a user's choice for a bet <u><b>after a modal has been disposed.</b></u>
      * @return an int representing the user's choice of betting value
@@ -100,5 +161,34 @@ public class BetSelectionWindow implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         finalBet = betValues[betButtons.indexOf(e.getSource())];
         dialog.dispose();
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        footerTitle.setVisible(true);
+        potentialWin.setVisible(true);
+        potentialLoss.setVisible(true);
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        footerTitle.setVisible(false);
+        potentialWin.setVisible(false);
+        potentialLoss.setVisible(false);
     }
 }
