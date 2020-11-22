@@ -12,8 +12,9 @@ import java.util.concurrent.Flow;
  * A GUI class for the betting window that appears during the Betting Round in which players can select the bet they
  * will make for the coming round
  */
-public class BetSelectionWindow implements ActionListener, MouseListener {
+public class BetSelectionWindow implements ActionListener {
 
+    // TODO: make all the fields private where needed
     JDialog dialog;
     JLabel title;
     JLabel footerTitle;
@@ -97,6 +98,10 @@ public class BetSelectionWindow implements ActionListener, MouseListener {
             buttonsPanel.add(btn);
     }
 
+    /**
+     * Sets up the footer of the page which contains a JLabel listing the possible
+     * turnout for the bet, and hides it
+     */
     private void setUpFooter() {
         footerPanel = new JPanel();
         footerPanel.setLayout(new GridBagLayout());
@@ -126,7 +131,7 @@ public class BetSelectionWindow implements ActionListener, MouseListener {
         for(JButton btn: betButtons)
             btn.addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseEntered(MouseEvent e) {
+                public void mouseEntered(MouseEvent e) { // shows the footer for the bets on mouse over
                     potentialWin.setText("On win: " + (betValues[betButtons.indexOf(e.getSource())] + currentPlayer.getScore()));
                     potentialLoss.setText("On loss: " + (currentPlayer.getScore() - betValues[betButtons.indexOf(e.getSource())]));
 
@@ -136,7 +141,7 @@ public class BetSelectionWindow implements ActionListener, MouseListener {
                 }
 
                 @Override
-                public void mouseExited(MouseEvent e) {
+                public void mouseExited(MouseEvent e) { // then hides it when the mouse has exited the button element
                     footerTitle.setVisible(false);
                     potentialWin.setVisible(false);
                     potentialLoss.setVisible(false);
@@ -163,32 +168,4 @@ public class BetSelectionWindow implements ActionListener, MouseListener {
         dialog.dispose();
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        footerTitle.setVisible(true);
-        potentialWin.setVisible(true);
-        potentialLoss.setVisible(true);
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        footerTitle.setVisible(false);
-        potentialWin.setVisible(false);
-        potentialLoss.setVisible(false);
-    }
 }
