@@ -1,4 +1,5 @@
 package GUI;
+
 import com.Player;
 import com.Question;
 import com.QuestionManager;
@@ -17,7 +18,9 @@ public class GameWindow implements ActionListener {
     Question currentQuestion;
     TimerComponent timer;
     JFrame gameFrame = new JFrame();
+    JLabel questionType = new JLabel();
     JLabel questionText = new JLabel();
+    RoundedJPanel questionTypePanel = new RoundedJPanel();
     JPanel questionPanel = new JPanel();
     JPanel answersPanel = new JPanel();
     JPanel footerPanel = new JPanel();
@@ -37,12 +40,28 @@ public class GameWindow implements ActionListener {
         gameFrame.setLocationRelativeTo(null);
         gameFrame.setVisible(true);
 
-        answersPanel.setLayout(new GridLayout(2,2));
+        JPanel helperPanel1 = new JPanel();
+        JPanel helperPanel2 = new JPanel();
 
-        questionText.setText("This is a test question");
-        questionText.setFont(new Font("Arial Black", Font.BOLD, 26));
-        questionText.setHorizontalAlignment(JLabel.CENTER);
-        questionPanel.add(questionText);
+        questionTypePanel.setLayout(new BoxLayout(questionTypePanel, BoxLayout.Y_AXIS));
+        questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
+        answersPanel.setLayout(new GridLayout(2, 2));
+
+        questionType.setFont(new Font("Papyrus", Font.BOLD, 16));
+
+        questionPanel.add(Box.createVerticalStrut(6));
+//        questionTypePanel.add(Box.createRigidArea(new Dimension(6, 6)));
+        questionTypePanel.add(questionType);
+        questionTypePanel.add(Box.createRigidArea(new Dimension(6, 6)));
+
+        helperPanel1.add(questionTypePanel);
+        questionPanel.add(helperPanel1);
+
+        questionText.setFont(new Font("Papyrus", Font.BOLD, 26));
+
+        helperPanel2.add(questionText);
+        questionPanel.add(helperPanel2);
+
         gameFrame.add(questionPanel, BorderLayout.NORTH);
 
 
@@ -53,7 +72,7 @@ public class GameWindow implements ActionListener {
         gameFrame.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println(!timer.isOver()? "The timer is still going!" : "The timer has finished!");
+                System.out.println(!timer.isOver() ? "The timer is still going!" : "The timer has finished!");
             }
         });
 
@@ -62,7 +81,7 @@ public class GameWindow implements ActionListener {
     }
 
     private void clearButtons() {
-        for(JButton button: answerBtns)
+        for (JButton button : answerBtns)
             answersPanel.remove(button);
         answerBtns.clear();
     }
@@ -70,15 +89,18 @@ public class GameWindow implements ActionListener {
     private void prepareNextQuestion() {
         currentQuestion = questionManager.getNextQuestion();
         questionText.setText(currentQuestion.getQuestionText());
+        questionType.setText("   " + currentQuestion.getQuestionType().toString() + "    ");
 
         Collection<String> questionAnswers = currentQuestion.getAnswers().values();
 
         clearButtons();
 
         int index = 0;
-        for(String i: questionAnswers) {
+        for (String i : questionAnswers) {
             JButton button = new JButton(i);
-            button.setFont(new Font("Arial Black", Font.PLAIN, 18));
+            button.setPreferredSize(new Dimension(10, 10));
+            button.setMaximumSize(new Dimension(10, 10));
+            button.setFont(new Font("Papyrus", Font.BOLD, 18));
             button.addActionListener(this::actionPerformed);
             answerBtns.add(button);
             answersPanel.add(answerBtns.get(index++));
