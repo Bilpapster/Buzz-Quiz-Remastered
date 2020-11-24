@@ -99,11 +99,6 @@ public class QuestionManager {
 
     }
 
-//    public HashSet<Question> getListOfQuestions() {
-//        HashSet<Question> finalListOfQuestions = listOfQuestions;
-//        return finalListOfQuestions;
-//    }
-
     /**
      * Method that returns a hashMap containing the answers provided in the arguments, after they have been shuffled
      *

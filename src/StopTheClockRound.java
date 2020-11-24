@@ -1,14 +1,15 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A class representing a specific type of round.
  */
 public class StopTheClockRound extends StandardRound {
 
-    private long milliSecondsElapsedOnAnswer;
+    protected HashMap<Player, Long> milliSecondsElapsedOnAnswer;
 
     /**
-     * Constructs a StopTheClockRound object with given attributes.
+     * Constructs a com.StopTheClockRound object with given attributes.
      *
      * @param numberOfQuestions the number of questions in the round.
      * @param players           the players involved in the round.
@@ -17,23 +18,25 @@ public class StopTheClockRound extends StandardRound {
      */
     public StopTheClockRound(int numberOfQuestions, ArrayList<Player> players, QuestionManager questionManager, Parser parser) {
         super(numberOfQuestions, players, questionManager, parser);
-        this.milliSecondsElapsedOnAnswer = 0;
+        this.milliSecondsElapsedOnAnswer = new HashMap<>();
     }
 
+    /**
+     * Getter for the round description.
+     *
+     * @return the round description
+     */
     @Override
-    public void printDescription() {
-        System.out.printf("In this round you are going to be asked " + this.getNumberOfQuestions() + " questions. You will have 5 seconds to answer!%n"
-                + "At first you are let to know the category and the question itself. Press enter to show available options and make the clock running!%n" +
-                "Answering the question correctly will add to your score as many points as the remaining  miliseconds times 0.2!%n" +
-                "Press enter to start round ");
-        parser.getEnter();
+    public String getDescription() {
+        return ("In this round you are going to be asked " + this.getNumberOfQuestionsRemaining() + " questions. You will have 5 seconds to answer!\n"
+                + "At first you are let to know the category and the question itself. Press enter to show available options and make the clock running!\n" +
+                "Answering the question correctly will add to your score as many points as the remaining  miliseconds times 0.2!\n");
     }
 
-    @Override
-    protected void setPointsEarnedOnCorrectAnswer(int pointsEarnedOnCorrectAnswer) {
-        this.pointsEarnedOnCorrectAnswer = (int) ((5000 - milliSecondsElapsedOnAnswer) * 0.2);
-    }
-
+    /**
+     * Displays the current question to players. The category and the question body are displayed at first.
+     * The players are asked to press enter, in order for the available options to show up.
+     */
     @Override
     public void askQuestion() {
         System.out.println();
@@ -43,25 +46,36 @@ public class StopTheClockRound extends StandardRound {
         questionManager.getNextQuestion().displayOptions();
     }
 
+    /**
+     * Reads the answers given by players, executing data validation.
+     * Stores their answers to the answers' HashMap, by over-writing the new answers on the already stored answers from the previous question.
+     */
     @Override
-    public String readAnswer() {
-        long start = System.currentTimeMillis();
-        String answerToReturn = super.readAnswer();
-        this.milliSecondsElapsedOnAnswer = System.currentTimeMillis() - start;
-        this.setPointsEarnedOnCorrectAnswer(0);
-        return answerToReturn;
+    public void readAnswers() {
+        for (Player player : players) {
+            System.out.print(player.getName() + ", it is your turn. ");
+            long startTimeInMillis = System.currentTimeMillis();
+            answersGivenByPlayers.put(player, parser.askForAnswer(questionManager.getNextQuestion().getAnswerKeySet()));
+            this.milliSecondsElapsedOnAnswer.put(player, System.currentTimeMillis() - startTimeInMillis);
+        }
     }
 
+    /**
+     * Executes all necessary actions on a player that has answer correctly a question of the round.
+     * Prints a success message and updates the player's score, by adding credit points, according to how fast the player had answered.
+     * Only for inside-class and inside-subclasses use.
+     *
+     * @param player the player that has answered a question correctly
+     */
     @Override
-    public void giveCredits(String givenAnswer) {
-        if (questionManager.getNextQuestion().isCorrectAnswer(givenAnswer)) {
-            for (Player player : players) {
-                System.out.println("Correct! +" + getPointsEarnedOnCorrectAnswer() + " points!");
-                player.updateScore(getPointsEarnedOnCorrectAnswer());
-            }
-        } else {
-            System.out.println("Wrong...");
+    protected void executeActionsOnCorrectAnswer(Player player) {
+        creditPoints = (int) ((5000 - (this.milliSecondsElapsedOnAnswer.get(player))) * 0.2);
+        if (creditPoints < 0) {
+            creditPoints = 0;
         }
-        questionManager.removeAnsweredQuestion();
+        System.out.print(player.getName() + ": Correct! +" + creditPoints + ".");
+        System.out.printf(" Answering time: %.3f seconds", (float)milliSecondsElapsedOnAnswer.get(player)/1000);
+        player.updateScore(creditPoints);
+        System.out.println();
     }
 }

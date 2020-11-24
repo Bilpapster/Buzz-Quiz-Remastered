@@ -1,30 +1,55 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Game {
-    private ArrayList<Player> players;
-    private ArrayList<RoundI> rounds;
-    private QuestionManager questionManager;
-    private Parser parser;
+    private final int numberOfRounds;
+    private final int numberOfQuestionsPerRound;
+    private final ArrayList<Player> players;
+    private final ArrayList<RoundI> rounds;
+    private final QuestionManager questionManager;
+    private final Parser parser;
 
     public Game() {
+        numberOfRounds = 3;
+        numberOfQuestionsPerRound = 5;
         players = new ArrayList<>();
+        rounds = new ArrayList<>();
+        questionManager = new QuestionManager();
+        questionManager.createQuestions();
+        parser = new Parser();
+        players.add(new Player());
+
+        /* uncomment the following line for 2-player game */
+//        players.add(new Player());
+    }
+
+    public Game(int numberOfRounds, int numberOfQuestionsPerRound, ArrayList<Player> players) {
+        this.numberOfRounds = numberOfRounds;
+        this.numberOfQuestionsPerRound = numberOfQuestionsPerRound;
+        this.players = players;
         rounds = new ArrayList<>();
         questionManager = new QuestionManager();
         questionManager.createQuestions();
         parser = new Parser();
     }
 
-    public Game(ArrayList<Player> players, ArrayList<RoundI> rounds, Parser parser) {
-        this.players = players;
-        this.rounds = rounds;
-        this.parser = parser;
-    }
-
     public void initializeGamePlay() {
-        players.add(new Player());
-        rounds.add(new StandardRound(5, players, questionManager, parser));
-        rounds.add(new BettingRound(5, players, questionManager, parser));
-        rounds.add(new StopTheClockRound(5, players, questionManager, parser));
+
+        Random randomNumbersGenerator = new Random(System.currentTimeMillis());
+
+        for (int round = 0; round < numberOfRounds; round++) {
+            int randomNumber = (Math.abs(randomNumbersGenerator.nextInt()) % 3) + 1;
+            switch (randomNumber) {
+                case 2:
+                    rounds.add(new BettingRound(numberOfQuestionsPerRound, players, questionManager, parser));
+                    break;
+                case 3:
+                    rounds.add(new StopTheClockRound(numberOfQuestionsPerRound, players, questionManager, parser));
+                    break;
+                default:
+                    rounds.add(new StandardRound(numberOfQuestionsPerRound, players, questionManager, parser));
+            }
+        }
     }
 
     public void play() {
@@ -32,11 +57,13 @@ public class Game {
         for (RoundI round : rounds) {
             System.out.println();
             System.out.println("**********" + " Round " + roundsCounter + " **********");
-            round.printDescription();
-            for (int question = 0; question < round.getNumberOfQuestions(); question++) {
+            System.out.print(round.getDescription());
+            System.out.print("Press enter to start round ");
+            parser.getEnter();
+            while (!round.isOver()) {
                 round.askQuestion();
-                String givenAnswer = round.readAnswer();
-                round.giveCredits(givenAnswer);
+                round.readAnswers();
+                round.giveCredits();
             }
             System.out.println();
             System.out.println("End of Round " + (roundsCounter++) + ".");
