@@ -2,6 +2,7 @@ package GUI;
 
 import com.Player;
 import com.Question;
+import com.QuestionType;
 import com.QuestionManager;
 
 import javax.swing.*;
@@ -28,10 +29,49 @@ public class GameWindow implements ActionListener {
     QuestionManager questionManager = new QuestionManager();
     ArrayList<JButton> answerBtns = new ArrayList<>();
 
-    // TODO: really need to break down this constructor to smaller functions
     public GameWindow(ArrayList<Player> listOfPlayers) {
+
         this.listOfPlayers = listOfPlayers;
         questionManager.createQuestions();
+
+
+        setUpQuestionTypePanel();
+        setUpQuestionPanel();
+        setUpAnswersPanel();
+        setUpFrame();
+
+        prepareNextQuestion();
+    }
+
+    private void setUpQuestionTypePanel() {
+        questionType.setFont(new Font("Papyrus", Font.BOLD, 16));
+        questionType.setHorizontalAlignment(JLabel.CENTER);
+        questionType.setAlignmentX(JLabel.CENTER);
+        questionType.setForeground(Color.WHITE);
+
+        questionTypePanel.setForeground(Color.WHITE);
+        questionTypePanel.setLayout(new BoxLayout(questionTypePanel, BoxLayout.Y_AXIS));
+        questionTypePanel.add(Box.createRigidArea(new Dimension(6, 6)));
+        questionTypePanel.add(questionType, JPanel.CENTER_ALIGNMENT);
+        questionTypePanel.add(Box.createRigidArea(new Dimension(6, 6)));
+    }
+
+    private void setUpQuestionPanel() {
+        questionText.setFont(new Font("Papyrus", Font.BOLD, 26));
+        questionText.setAlignmentX(JLabel.CENTER);
+
+        questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
+        questionPanel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
+        questionPanel.add(Box.createVerticalStrut(6));
+        questionPanel.add(questionTypePanel, Component.CENTER_ALIGNMENT);
+        questionPanel.add(questionText, Component.CENTER_ALIGNMENT);
+    }
+
+    private void setUpAnswersPanel() {
+        answersPanel.setLayout(new GridLayout(2, 2));
+    }
+
+    private void setUpFrame() {
         gameFrame.setTitle("Buzz! Quiz World!");
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameFrame.setSize(1280, 720);
@@ -40,34 +80,9 @@ public class GameWindow implements ActionListener {
         gameFrame.setLocationRelativeTo(null);
         gameFrame.setVisible(true);
 
-        JPanel helperPanel1 = new JPanel();
-        JPanel helperPanel2 = new JPanel();
-
-        questionTypePanel.setLayout(new BoxLayout(questionTypePanel, BoxLayout.Y_AXIS));
-        questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
-        answersPanel.setLayout(new GridLayout(2, 2));
-
-        questionType.setFont(new Font("Papyrus", Font.BOLD, 16));
-
-        questionPanel.add(Box.createVerticalStrut(6));
-//        questionTypePanel.add(Box.createRigidArea(new Dimension(6, 6)));
-        questionTypePanel.add(questionType);
-        questionTypePanel.add(Box.createRigidArea(new Dimension(6, 6)));
-
-        helperPanel1.add(questionTypePanel);
-        questionPanel.add(helperPanel1);
-
-        questionText.setFont(new Font("Papyrus", Font.BOLD, 26));
-
-        helperPanel2.add(questionText);
-        questionPanel.add(helperPanel2);
-
         gameFrame.add(questionPanel, BorderLayout.NORTH);
-
-
         gameFrame.add(answersPanel, BorderLayout.CENTER);
         setUpFooter();
-
 
         gameFrame.addMouseListener(new MouseAdapter() {
             @Override
@@ -75,9 +90,6 @@ public class GameWindow implements ActionListener {
                 System.out.println(!timer.isOver() ? "The timer is still going!" : "The timer has finished!");
             }
         });
-
-        prepareNextQuestion();
-
     }
 
     private void clearButtons() {
@@ -90,6 +102,7 @@ public class GameWindow implements ActionListener {
         currentQuestion = questionManager.getNextQuestion();
         questionText.setText(currentQuestion.getQuestionText());
         questionType.setText("   " + currentQuestion.getQuestionType().toString() + "    ");
+        questionTypePanel.setBackground(QuestionType.getColorOf(currentQuestion.getQuestionType()));
 
         Collection<String> questionAnswers = currentQuestion.getAnswers().values();
 
