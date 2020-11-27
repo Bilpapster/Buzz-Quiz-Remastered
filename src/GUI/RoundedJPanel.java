@@ -44,6 +44,18 @@ public class RoundedJPanel extends JPanel {
         setOpaque(false);
     }
 
+    public RoundedJPanel(int strokeSize, Color shadowColor, boolean shady, boolean highQuality, Dimension arcs, int shadowGap, int shadowOffset, int shadowAlpha) {
+        this();
+        this.strokeSize = strokeSize;
+        this.shadowColor = shadowColor;
+        this.shady = shady;
+        this.highQuality = highQuality;
+        this.arcs = arcs;
+        this.shadowGap = shadowGap;
+        this.shadowOffset = shadowOffset;
+        this.shadowAlpha = shadowAlpha;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
