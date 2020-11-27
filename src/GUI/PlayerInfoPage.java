@@ -54,7 +54,7 @@ public class PlayerInfoPage implements ActionListener {
                 for(JTextField i: playerNameFields)
                     listofPlayers.add(new Player(i.getText()));
                 playerInfoFrame.dispose();
-                GameWindow gameWindow = new GameWindow(listofPlayers);
+                StandardRoundFrame standardRoundFrame = new StandardRoundFrame();
             } else {
                 JOptionPane.showMessageDialog(null, "All players must enter their names!", "Oops", JOptionPane.ERROR_MESSAGE);
             }
