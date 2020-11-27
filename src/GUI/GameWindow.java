@@ -34,9 +34,8 @@ public class GameWindow implements ActionListener {
         this.listOfPlayers = listOfPlayers;
         questionManager.createQuestions();
 
-
         setUpQuestionTypePanel();
-        setUpQuestionPanel();
+        setUpQuestionPanel(); 
         setUpAnswersPanel();
         setUpFrame();
 
@@ -44,27 +43,31 @@ public class GameWindow implements ActionListener {
     }
 
     private void setUpQuestionTypePanel() {
-        questionType.setFont(new Font("Papyrus", Font.BOLD, 16));
+        questionType.setFont(new Font("Segoe Print", Font.BOLD + Font.ITALIC, 14));
         questionType.setHorizontalAlignment(JLabel.CENTER);
         questionType.setAlignmentX(JLabel.CENTER);
         questionType.setForeground(Color.WHITE);
 
         questionTypePanel.setForeground(Color.WHITE);
         questionTypePanel.setLayout(new BoxLayout(questionTypePanel, BoxLayout.Y_AXIS));
-        questionTypePanel.add(Box.createRigidArea(new Dimension(6, 6)));
+        questionTypePanel.add(Box.createRigidArea(new Dimension(1, 4)));
         questionTypePanel.add(questionType, JPanel.CENTER_ALIGNMENT);
-        questionTypePanel.add(Box.createRigidArea(new Dimension(6, 6)));
+        questionTypePanel.setAlignmentX(JPanel.RIGHT_ALIGNMENT);
+        questionTypePanel.add(Box.createRigidArea(new Dimension(1, 6)));
     }
 
     private void setUpQuestionPanel() {
-        questionText.setFont(new Font("Papyrus", Font.BOLD, 26));
+        questionText.setFont(new Font("Segoe Print", Font.PLAIN, 22));
         questionText.setAlignmentX(JLabel.CENTER);
+        questionText.setHorizontalAlignment(JLabel.CENTER);
 
         questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
         questionPanel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-        questionPanel.add(Box.createVerticalStrut(6));
+        questionPanel.add(Box.createRigidArea(new Dimension(1, 6)));
         questionPanel.add(questionTypePanel, Component.CENTER_ALIGNMENT);
+        questionPanel.add(Box.createRigidArea(new Dimension(1, 6)));
         questionPanel.add(questionText, Component.CENTER_ALIGNMENT);
+        questionPanel.add(Box.createRigidArea(new Dimension(1, 6)));
     }
 
     private void setUpAnswersPanel() {
@@ -101,7 +104,7 @@ public class GameWindow implements ActionListener {
     private void prepareNextQuestion() {
         currentQuestion = questionManager.getNextQuestion();
         questionText.setText(currentQuestion.getQuestionText());
-        questionType.setText("   " + currentQuestion.getQuestionType().toString() + "    ");
+        questionType.setText("  " + currentQuestion.getQuestionType().toString() + "   ");
         questionTypePanel.setBackground(QuestionType.getColorOf(currentQuestion.getQuestionType()));
 
         Collection<String> questionAnswers = currentQuestion.getAnswers().values();
@@ -113,7 +116,7 @@ public class GameWindow implements ActionListener {
             JButton button = new JButton(i);
             button.setPreferredSize(new Dimension(10, 10));
             button.setMaximumSize(new Dimension(10, 10));
-            button.setFont(new Font("Papyrus", Font.BOLD, 18));
+            button.setFont(new Font("Segoe Print", Font.PLAIN, 20));
             button.addActionListener(this::actionPerformed);
             answerBtns.add(button);
             answersPanel.add(answerBtns.get(index++));
