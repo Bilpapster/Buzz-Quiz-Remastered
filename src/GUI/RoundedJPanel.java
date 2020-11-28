@@ -9,7 +9,7 @@ public class RoundedJPanel extends JPanel {
     /**
      * Stroke size. it is recommended to set it to 1 for better view
      */
-    protected int strokeSize = 1;
+    protected int strokeSize = 2;
     /**
      * Color of shadow
      */

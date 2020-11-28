@@ -26,6 +26,14 @@ public class StandardRoundFrame extends JFrame {
     protected RoundedJPanel questionTypePanel;
     protected JPanel questionTextPanel;
     protected JPanel questionPanel;
+
+    protected JPanel answerButtonsPanel;
+
+    protected JPanel paddingLeft = new JPanel();
+    protected JPanel paddingRight = new JPanel();
+
+
+
     protected JPanel answersPanel = new JPanel();
     protected JPanel footerPanel = new JPanel();
 
@@ -33,6 +41,7 @@ public class StandardRoundFrame extends JFrame {
     protected QuestionManager questionManager;
     protected ArrayList<JButton> answerBtns = new ArrayList<>();
 
+    // TODO: create separate methods for padding left and padding right panels
     public StandardRoundFrame(){
         questionManager = new QuestionManager();
         questionManager.createQuestions();
@@ -42,6 +51,18 @@ public class StandardRoundFrame extends JFrame {
         setUpQuestionTypePanel();
         setUpQuestionTextPanel();
         setUpQuestionPanel();
+
+        answerButtonsPanel = new JPanel();
+        answerButtonsPanel.setLayout(new BoxLayout(answerButtonsPanel, BoxLayout.Y_AXIS));
+        answerButtonsPanel.add(Box.createVerticalStrut(25));
+        answerButtonsPanel.add(answersPanel);
+        answerButtonsPanel.add(Box.createVerticalStrut(25));
+
+        paddingLeft.setPreferredSize(new Dimension(150, 100));
+        paddingLeft.setBackground(Color.darkGray);
+        paddingRight.setBackground(Color.darkGray);
+        paddingRight.setPreferredSize(new Dimension(150, 100));
+
         setUpAnswersPanel();
         setUpRootPanel();
         setUpFrame();
@@ -65,10 +86,13 @@ public class StandardRoundFrame extends JFrame {
         questionTextLabel = new JLabel();
         questionTextLabel.setFont(new Font("Segoe Print", Font.PLAIN, 22));
         questionTextLabel.setAlignmentX(JLabel.CENTER);
+        questionTextLabel.setForeground(Color.WHITE);
+
     }
 
     private void setUpQuestionTypePanel() {
         questionTypePanel = new RoundedJPanel();
+        questionTypePanel.setOpaque(false);
         questionTypePanel.setLayout(new BoxLayout(questionTypePanel, BoxLayout.Y_AXIS));
         questionTypePanel.add(Box.createRigidArea(new Dimension(1, 5)), CENTER_ALIGNMENT);
         questionTypePanel.add(questionTypeLabel, JPanel.CENTER_ALIGNMENT);
@@ -79,6 +103,7 @@ public class StandardRoundFrame extends JFrame {
 
     private void setUpQuestionTextPanel() {
         questionTextPanel = new JPanel();
+        questionTextPanel.setOpaque(false);
         questionTextPanel.add(questionTextLabel);
     }
 
@@ -90,17 +115,22 @@ public class StandardRoundFrame extends JFrame {
         questionPanel.add(Box.createVerticalStrut(6));
         questionPanel.add(questionTextPanel);
         questionPanel.add(Box.createVerticalStrut(10));
+
+        questionPanel.setBackground(Color.DARK_GRAY); //
     }
 
     private void setUpRootPanel() {
         rootPanel = new JPanel();
         rootPanel.setLayout(new BorderLayout());
         rootPanel.add(questionPanel, BorderLayout.NORTH);
-        rootPanel.add(answersPanel, BorderLayout.CENTER);
+        rootPanel.add(answerButtonsPanel, BorderLayout.CENTER);
+        rootPanel.add(paddingLeft, BorderLayout.WEST);
+        rootPanel.add(paddingRight, BorderLayout.EAST);
+//        rootPanel.add(answersPanel, BorderLayout.CENTER);
     }
 
     private void setUpAnswersPanel() {
-        answersPanel.setLayout(new GridLayout(2, 2));
+        answersPanel.setLayout(new GridLayout(2, 2, 50, 25));
     }
 
     private void setUpFrame() {
@@ -131,8 +161,14 @@ public class StandardRoundFrame extends JFrame {
     private void prepareNextQuestion() {
         currentQuestion = questionManager.getNextQuestion();
         questionTextLabel.setText(currentQuestion.getQuestionText());
-        questionTypeLabel.setText("  " + currentQuestion.getQuestionType().toString() + "   ");
+        questionTypeLabel.setText("   " + currentQuestion.getQuestionType().toString() + "    ");
+//        System.out.println(questionTextLabel.getSize());
+
         questionTypePanel.setBackground(QuestionType.getColorOf(currentQuestion.getQuestionType()));
+        answerButtonsPanel.setBackground(QuestionType.getColorOf(currentQuestion.getQuestionType()));
+        answersPanel.setBackground(QuestionType.getColorOf(currentQuestion.getQuestionType()));
+        paddingLeft.setBackground(QuestionType.getColorOf(currentQuestion.getQuestionType()));
+        paddingRight.setBackground(QuestionType.getColorOf(currentQuestion.getQuestionType()));
 
         Collection<String> questionAnswers = currentQuestion.getAnswers().values();
 
@@ -141,7 +177,7 @@ public class StandardRoundFrame extends JFrame {
 
         int index = 0;
         for (String i : questionAnswers){
-            JButton button = new JButton(i);
+            RoundedJButton button = new RoundedJButton(i);
             button.setFont(new Font("Segoe Print", Font.PLAIN, 20));
             button.addActionListener(this::actionPerformed);
             answerBtns.add(button);
