@@ -4,14 +4,17 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RoundedJButton extends JButton {
-    protected int strokeSize = 1;
+    protected int strokeSize = 2;
     protected Color shadowColor = Color.BLACK;
     protected boolean shady = true;
     protected boolean highQuality = true;
-    protected Dimension arcs = new Dimension(20, 20);
+    protected Dimension arcs = new Dimension(100, 100);
     protected int shadowGap = 5;
     protected int shadowOffset = 4;
     protected int shadowAlpha = 150;
+
+    protected JLabel auxiliaryLabel = new JLabel();
+
 
     public RoundedJButton(String text) {
         super(text);
@@ -32,7 +35,7 @@ public class RoundedJButton extends JButton {
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+//        super.paintComponent(g);
         int width = getWidth();
         int height = getHeight();
         int shadowGap = this.shadowGap;
@@ -59,6 +62,18 @@ public class RoundedJButton extends JButton {
 
         //Sets strokes to default, is better.
         graphics.setStroke(new BasicStroke());
-        this.setForeground(Color.MAGENTA);
+
+        auxiliaryLabel.setFont(new Font("Segoe Print", Font.PLAIN, 20));
+        auxiliaryLabel.setText(this.getText());
+        auxiliaryLabel.setAlignmentX(JLabel.CENTER);
+
+        System.out.println(auxiliaryLabel.getSize());
+        graphics.drawString(getText(), (float) ((this.getWidth() - auxiliaryLabel.getWidth())/2 - getText().length()*7), (float) getHeight()/2 + 2);
+
+//        setOpaque(false);
+//        setFocusPainted(false);
+        setBorderPainted(false);
+//        setContentAreaFilled(false);
+//        setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0)); // Especially important
     }
 }
