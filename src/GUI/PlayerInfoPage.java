@@ -35,6 +35,7 @@ public class PlayerInfoPage implements ActionListener {
             JTextField textField = new JTextField();
             textField.setPreferredSize(new Dimension(250, 40));
             textField.setFont(new Font("Arial Black", Font.BOLD, 18));
+            textField.addActionListener(this::actionPerformed);
             playerNameFields.add(textField);
         }
         for (int i = 0; i < numberOfPlayers; i ++) {
@@ -48,16 +49,10 @@ public class PlayerInfoPage implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == submitNamesBtn) {
-            if (nameInputsAreValid()) {
-                ArrayList<Player> listofPlayers = new ArrayList<>();
-                for(JTextField i: playerNameFields)
-                    listofPlayers.add(new Player(i.getText()));
-                playerInfoFrame.dispose();
-                StandardRoundFrame standardRoundFrame = new StandardRoundFrame();
-            } else {
-                JOptionPane.showMessageDialog(null, "All players must enter their names!", "Oops", JOptionPane.ERROR_MESSAGE);
-            }
+        if (nameInputsAreValid()) {
+            submitPlayerInfo();
+        } else {
+            JOptionPane.showMessageDialog(null, "All players must enter their names!", "Oops", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -66,6 +61,14 @@ public class PlayerInfoPage implements ActionListener {
             if (i.getText().equals(""))
                 return false;
         return true;
+    }
+
+    private void submitPlayerInfo() {
+        ArrayList<Player> listofPlayers = new ArrayList<>();
+        for(JTextField i: playerNameFields)
+            listofPlayers.add(new Player(i.getText()));
+        playerInfoFrame.dispose();
+        StandardRoundFrame standardRoundFrame = new StandardRoundFrame();
     }
 
 }
