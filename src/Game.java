@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * A class representing the game itself. Acts like an overall-controller class.
+ */
 public class Game {
     private final int numberOfRounds;
     private final int numberOfQuestionsPerRound;
@@ -9,6 +12,11 @@ public class Game {
     private final QuestionManager questionManager;
     private final Parser parser;
 
+    /**
+     * Default constructor that creates a game object. By default, the number
+     * of rounds are set to 3 and the number of questions in each one of them
+     * is set to 5. The game mode is set to 1-player game.
+     */
     public Game() {
         numberOfRounds = 3;
         numberOfQuestionsPerRound = 5;
@@ -23,6 +31,15 @@ public class Game {
 //        players.add(new Player());
     }
 
+    /**
+     * Identical with the default constructor. The only difference is that
+     * the number ofrounds as well as the number of questions in each can
+     * be defined at object construction time.
+     *
+     * @param numberOfRounds            the number of rounds of a game
+     * @param numberOfQuestionsPerRound the number of questions in each round
+     * @param players                   the players involved in the game
+     */
     public Game(int numberOfRounds, int numberOfQuestionsPerRound, ArrayList<Player> players) {
         this.numberOfRounds = numberOfRounds;
         this.numberOfQuestionsPerRound = numberOfQuestionsPerRound;
@@ -33,6 +50,10 @@ public class Game {
         parser = new Parser();
     }
 
+    /**
+     * A method that serves as initializer for the game itself. Selects in α random
+     * way the type of each round and initializes them.
+     */
     public void initializeGamePlay() {
 
         Random randomNumbersGenerator = new Random(System.currentTimeMillis());
@@ -52,6 +73,10 @@ public class Game {
         }
     }
 
+    /**
+     * A method that serves as driving code for the whole game. Manages the flow of actions invoked inside rounds
+     * as well as the succession between rounds.
+     */
     public void play() {
         int roundsCounter = 1;
         for (RoundI round : rounds) {
