@@ -20,6 +20,16 @@ public class Player {
     }
 
     /**
+     * Constructor for debugging purposes
+     * @param name
+     * @param score
+     */
+    public Player(String name, int score) {
+        this.score = score;
+        this.name = name;
+    }
+
+    /**
      * Creates a com.PlayerTest object with a name given by user and initializes the score to 0.
      * Utilizes the com.Parser class
      */
