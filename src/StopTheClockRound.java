@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * A class representing a specific type of round.
+ * A class representing the "Stop the Clock" type of round.
  */
 public class StopTheClockRound extends StandardRound {
 

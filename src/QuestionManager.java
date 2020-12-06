@@ -1,17 +1,26 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 
+/**
+ * A class representing a collection of questions with all the necessary methods
+ * for the game's smooth operation
+ */
 public class QuestionManager {
     private ArrayList<Question> listOfQuestions;
 
+    /**
+     * Default constructor which initializes the Question ArrayList
+     */
     public QuestionManager() {
         listOfQuestions = new ArrayList<>();
     }
 
-    public void addNewQuestion(Question newQuestion) {
+    /**
+     * Adds a new question to the listOfQuestions
+     * @param newQuestion a Question object which is going to be added to the listOfQuestions
+     */
+    private void addNewQuestion(Question newQuestion) {
         listOfQuestions.add(newQuestion);
     }
 
@@ -119,6 +128,9 @@ public class QuestionManager {
 
     }
 
+    /**
+     * Pretty prints all questions inside the listOfQuestions ArrayList
+     */
     public void printAllQuestions() {
         for (Question i : listOfQuestions) {
             i.displayCategory();

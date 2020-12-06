@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -81,13 +80,6 @@ public class Question {
         for(String i : answers.keySet())
             System.out.println(i + ") " + answers.get(i));
     }
-
-//    public void displayQuestion() {
-//        System.out.printf("--------Category: %s-------\n", questionType.toString());
-//        System.out.println("--------" + questionText + "--------");
-//        for(String i : answers.keySet())
-//            System.out.println(i + ") " + answers.get(i));
-//    }
 
     /**
      * A method that checks if the answer provided to it matches the question's correct answer

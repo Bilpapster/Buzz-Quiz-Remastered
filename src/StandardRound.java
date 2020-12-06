@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Class representing a standard game round
+ */
 public class StandardRound implements RoundI {
 
     protected int numberOfQuestionsInRound;                     // the number of questions in round in total
