@@ -1,10 +1,13 @@
 package GUI;
 
+import com.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainMenuFrame extends JFrame implements ActionListener {
     JButton player1btn;
@@ -94,11 +97,12 @@ public class MainMenuFrame extends JFrame implements ActionListener {
             this.dispose();
             PlayerInfoPage playerInfoPage = new PlayerInfoPage(2);
         } else if (e.getSource() == highscoreBtn) {
-            try {
-                HighscoreMenu highscoreMenu = new HighscoreMenu();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
+            this.dispose();
+            //                HighscoreMenu highscoreMenu = new HighscoreMenu();
+            ArrayList<Player> players = new ArrayList<>();
+            players.add(new Player("Fotis", 3500));
+            players.add(new Player("Giannhs", 5800));
+            GameEndingWindow gameEndingWindow = new GameEndingWindow(players);
         }
 
 
