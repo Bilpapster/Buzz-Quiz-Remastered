@@ -36,7 +36,7 @@ public class QuestionManager {
     }
 
     /**
-     * Method for acessing the size of the list of questios [TEMPORARY]
+     * Method for accessing the size of the list of questions [TEMPORARY]
      * @return the number of remaining questions in the list
      */
     public int questionsRemaining() {
