@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import com.Player;
+import com.Referee;
 
 
 public class PlayerInfoPage implements ActionListener {
@@ -65,10 +66,11 @@ public class PlayerInfoPage implements ActionListener {
 
     private void submitPlayerInfo() {
         ArrayList<Player> listofPlayers = new ArrayList<>();
-        for(JTextField i: playerNameFields)
+        for (JTextField i : playerNameFields) {
             listofPlayers.add(new Player(i.getText()));
+        }
         playerInfoFrame.dispose();
-        StandardRoundFrame standardRoundFrame = new StandardRoundFrame();
+        StandardRoundFrame standardRoundFrame = new StandardRoundFrame(new Referee(listofPlayers));
     }
 
 }
