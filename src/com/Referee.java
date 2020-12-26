@@ -57,11 +57,6 @@ public class Referee {
 
     public ArrayList<Player> getAlivePlayersInRound() {
         return alivePlayersInRound;
-        /*
-        ArrayList<Player> defensiveCopy = new ArrayList<>();
-        defensiveCopy.addAll(alivePlayersInRound);
-        return defensiveCopy;
-         */
     }
 
     public Boolean hasPlayerAnsweredCorrectly(Player player) {
@@ -89,5 +84,9 @@ public class Referee {
     public void executeActionsBeforeNextRound() {
         resetAllRoundData();
         prepareNextQuestion();
+    }
+
+    public boolean haveAllPlayersAnswered() {
+        return this.alivePlayersInRound.size() == this.answersGivenByPlayers.keySet().size();
     }
 }
