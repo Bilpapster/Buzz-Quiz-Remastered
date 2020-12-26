@@ -67,7 +67,6 @@ public class RoundedJButton extends JButton {
         auxiliaryLabel.setText(this.getText());
         auxiliaryLabel.setAlignmentX(JLabel.CENTER);
 
-        System.out.println(auxiliaryLabel.getSize());
         graphics.drawString(getText(), (float) ((this.getWidth() - auxiliaryLabel.getWidth())/2 - getText().length()*7), (float) getHeight()/2 + 2);
 
 //        setOpaque(false);
