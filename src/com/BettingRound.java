@@ -1,11 +1,5 @@
 package com;
 
-import com.Parser;
-import com.Player;
-import com.QuestionManager;
-import com.StandardRound;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 
@@ -14,26 +8,19 @@ import java.util.TreeMap;
  * The class is implemented as sub-class of the com.StandardRound class.
  */
 public class BettingRound extends StandardRound {
-    private TreeMap<String, Integer> acceptableBets; // stores the acceptable bets that players can place. Remains intact during round.
-    private HashMap<Player, Integer> betsPlacedByPlayers; // stores the bets placed by players at the current question. Values change during round.
+    private TreeMap<String, Integer> acceptableBets;        // stores the acceptable bets that players can place. Remains intact during round.
+    private HashMap<Player, Integer> betsPlacedByPlayers;   // stores the bets placed by players at the current question. Values change during round.
 
     /**
      * Constructs a com.BettingRound object with given attributes.
      *
-     * @param numberOfQuestions the number of questions in the round
-     * @param players           the players involved in the round
-     * @param questionManager   a question-managing object, responsible for the questions of the round
-     * @param parser            a parsing object, responsible for communicating with players via console
+     * @param numberOfQuestions the number of questions in round
+     * @param referee           the referee of the round
      */
-    public BettingRound(int numberOfQuestions, ArrayList<Player> players, QuestionManager questionManager, Parser parser) {
-        super(numberOfQuestions, players, questionManager, parser);
+    public BettingRound(int numberOfQuestions, Referee referee) {
+        super(numberOfQuestions, referee);
         initializeAcceptableBetsSet();
-
-        // initializes all players current bet to 0
         betsPlacedByPlayers = new HashMap<>();
-        for (Player player : players) {
-            betsPlacedByPlayers.put(player, 0);
-        }
     }
 
     /**
@@ -67,27 +54,6 @@ public class BettingRound extends StandardRound {
     }
 
     /**
-     * Displays the current question to players. At first, the question category is displayed and the players are asked to place a bet.
-     * After the bet placement, the question itself and the available answers are displayed simultaneously.
-     */
-    @Override
-    public void askQuestion() {
-        System.out.println();
-        questionManager.getNextQuestion().displayCategory();
-
-        /* for every player involved in the round, stores their bet for the current question.
-        The bets given by players are parsed as Strings, so they need to be converted to Integer, before stored in HashMap. */
-
-        for (Player player : players) {
-            System.out.print(player.getName() + ", it is your turn. ");
-            betsPlacedByPlayers.put(player, Integer.parseInt(parser.askForBet(acceptableBets.keySet())));
-        }
-
-        questionManager.getNextQuestion().displayQuestionBody();
-        questionManager.getNextQuestion().displayOptions();
-    }
-
-    /**
      * Executes all necessary actions on a player that has answered the current question correctly.
      * Prints success message and updates the player's score, by adding the bet amount.
      * Only for inside-class and sub-classes use.
@@ -96,9 +62,7 @@ public class BettingRound extends StandardRound {
      */
     @Override
     protected void executeActionsOnCorrectAnswer(Player player) {
-        System.out.print(player.getName() + ": Correct! +" + this.betsPlacedByPlayers.get(player));
         player.updateScore(this.betsPlacedByPlayers.get(player));
-        System.out.println();
     }
 
     /**
@@ -110,8 +74,10 @@ public class BettingRound extends StandardRound {
      */
     @Override
     protected void executeActionsOnWrongAnswer(Player player) {
-        System.out.print(player.getName() + ": Wrong... -" + this.betsPlacedByPlayers.get(player));
-        player.updateScore(this.betsPlacedByPlayers.get(player) * (-1));
-        System.out.println();
+        player.updateScore(-this.betsPlacedByPlayers.get(player));
+    }
+
+    public void setBetForPlayer(Player player, Integer betPlaced) {
+        this.betsPlacedByPlayers.put(player, betPlaced);
     }
 }

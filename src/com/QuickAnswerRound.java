@@ -18,12 +18,10 @@ public class QuickAnswerRound extends StopTheClockRound {
      * Constructs a com.StopTheClockRound object with given attributes.
      *
      * @param numberOfQuestions the number of questions in round
-     * @param players           the players involved in the round
-     * @param questionManager   a question-managing object, responsible for the questions of the round
-     * @param parser            a parsing object, responsible for communicating with players via console
+     * @param referee           the referee of the round
      */
-    public QuickAnswerRound(int numberOfQuestions, ArrayList<Player> players, QuestionManager questionManager, Parser parser) {
-        super(numberOfQuestions, players, questionManager, parser);
+    public QuickAnswerRound(int numberOfQuestions, Referee referee) {
+        super(numberOfQuestions, referee);
         playersAnsweredCorrectly = new HashSet<>();
         orderOfAnsweringCorrectly = new HashMap<>();
         this.creditPoints = 1000;
@@ -46,8 +44,8 @@ public class QuickAnswerRound extends StopTheClockRound {
     public void giveCredits() {
 
         this.playersAnsweredCorrectly.clear();
-        for (Player player : players) {
-            if (questionManager.getNextQuestion().isCorrectAnswer(answersGivenByPlayers.get(player))) {
+        for (Player player : referee.getAlivePlayersInRound()) {
+            if (referee.hasPlayerAnsweredCorrectly(player)) {
                 playersAnsweredCorrectly.add(player);
             }
         }
@@ -60,7 +58,7 @@ public class QuickAnswerRound extends StopTheClockRound {
         for (Player player : playersAnsweredCorrectly) {
             int answeringOrder = 1;
             for (Player otherPlayer : playersAnsweredCorrectly) {
-                if (milliSecondsElapsedOnAnswer.get(otherPlayer) < milliSecondsElapsedOnAnswer.get(player)) {
+                if (referee.getTimeElapsedOnAnswerForPlayer(otherPlayer) < referee.getTimeElapsedOnAnswerForPlayer(player)) {
                     answeringOrder++;
                 }
             }
@@ -79,14 +77,9 @@ public class QuickAnswerRound extends StopTheClockRound {
     @Override
     protected void executeActionsOnCorrectAnswer(Player player) {
         if (orderOfAnsweringCorrectly.get(player) == 1) {
-            System.out.print(player.getName() + ": Correct! +" + creditPoints + ". ");
             player.updateScore(creditPoints);
         } else if (orderOfAnsweringCorrectly.get(player) == 2) {
-            System.out.print(player.getName() + ": Correct! +" + (creditPoints / 2) + ". ");
             player.updateScore(creditPoints / 2);
-        } else {
-            System.out.print(player.getName() + ": Correct! No points because you answered in order " + orderOfAnsweringCorrectly.get(player) + ", looser!");
         }
-        System.out.println(" Answering time: " + ((long) (milliSecondsElapsedOnAnswer.get(player)/1000)) + " seconds.");
     }
 }

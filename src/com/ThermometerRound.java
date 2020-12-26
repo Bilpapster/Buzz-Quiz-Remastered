@@ -5,33 +5,24 @@ import java.util.HashMap;
 
 public class ThermometerRound extends StandardRound {
 
-    private ArrayList<Player> stillAlivePlayers;
     private HashMap<Player, Integer> correctAnswersInRound;
     private Boolean winnerFound;
     private int winningScore;
-
+    
     /**
-     * Constructs a com.StandardRound object with given attributes
+     * Constructs a com.StandardRound object with given attributes.
      *
-     * @param players         array list of the players involved in the round
-     * @param questionManager a question-managing object, responsible for the questions of the round
-     * @param parser          a parsing object responsible for communicating with players via console
+     * @param referee the referee of the round.
      */
-    public ThermometerRound(ArrayList<Player> players, QuestionManager questionManager, Parser parser) {
-        super(0, players, questionManager, parser);
-
-        stillAlivePlayers = new ArrayList<>();
-        stillAlivePlayers.addAll(players);
-
+    public ThermometerRound(Referee referee) {
+        super(0, referee);
         correctAnswersInRound = new HashMap<>();
-        for (Player player : players) {
+        for (Player player : referee.getAlivePlayersInRound()) {
             correctAnswersInRound.put(player, 0);
         }
-
         this.winnerFound = false;
         this.winningScore = 5;
         this.creditPoints = 5000;
-
     }
 
     /**
@@ -57,19 +48,6 @@ public class ThermometerRound extends StandardRound {
     }
 
     /**
-     * Reads the answers given by players, executing data validation.
-     * Stores their answers to the answers' HashMap, by over-writing the new answers on the already stored answers from the previous question.
-     */
-    @Override
-    public void readAnswers() {
-        answersGivenByPlayers.clear();
-        for (Player player : stillAlivePlayers) {
-            System.out.print(player.getName() + ", it is your turn. ");
-            answersGivenByPlayers.put(player, parser.askForAnswer(questionManager.getNextQuestion().getAnswerKeySet()));
-        }
-    }
-
-    /**
      * For every player checks whether they have answered the current question correctly or not.
      * Invokes necessary actions on both cases (correct or wrong answer).
      */
@@ -79,8 +57,8 @@ public class ThermometerRound extends StandardRound {
         /* The method's code is deliberately written abstract for inheritance and code re-use purposes.
             Utilizes 3 simpler protected methods that build up to the total giveCredits task and can be overridden by sub-classes. */
 
-        for (Player player : stillAlivePlayers) {
-            if (questionManager.getNextQuestion().isCorrectAnswer(answersGivenByPlayers.get(player))) {
+        for (Player player : referee.getAlivePlayersInRound()) {
+            if (referee.hasPlayerAnsweredCorrectly(player)) {
                 executeActionsOnCorrectAnswer(player);
             } else {
                 executeActionsOnWrongAnswer(player);
@@ -98,9 +76,7 @@ public class ThermometerRound extends StandardRound {
      */
     @Override
     protected void executeActionsOnCorrectAnswer(Player player) {
-        System.out.print(player.getName() + ": Correct!");
         addOneCorrectAnswerTo(player);
-        System.out.println();
     }
 
     /**
@@ -110,28 +86,27 @@ public class ThermometerRound extends StandardRound {
     @Override
     protected void executeActionsOnEndOfQuestion() {
         ArrayList<Player> playersReachedWinningZone = new ArrayList<>();
-        for (Player player : players) {
+        for (Player player : referee.getAlivePlayersInRound()) {
             if (correctAnswersInRound.get(player) == winningScore) {
                 playersReachedWinningZone.add(player);
             }
         }
 
-        if (playersReachedWinningZone.size() == 1) {
-            for (Player player : playersReachedWinningZone) {
-                System.out.println(player.getName() + " is the winner of the round! +" + creditPoints);
-                player.updateScore(creditPoints);
-                winnerFound = true;
+        if (playersReachedWinningZone.size() > 0) {
+            if (playersReachedWinningZone.size() == 1) {
+                for (Player player : playersReachedWinningZone) {
+                    player.updateScore(creditPoints);
+                    winnerFound = true;
+                }
+            } else {
+                for (Player player : referee.getAlivePlayersInRound()) {
+                    if (!playersReachedWinningZone.contains(player)) {
+                        referee.removeFromAlivePlayers(player);
+                    }
+                }
+                winningScore++;
             }
-        } else if (playersReachedWinningZone.size() > 1) {
-            stillAlivePlayers.clear();
-            stillAlivePlayers.addAll(playersReachedWinningZone);
-            winningScore++;
         }
-
-        for (Player player : stillAlivePlayers) {
-            System.out.println(player.getName() + ": " + correctAnswersInRound.get((player)) + " correct answers in this round.");
-        }
-        questionManager.removeAnsweredQuestion();
     }
 
     /**
