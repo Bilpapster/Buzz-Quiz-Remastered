@@ -8,7 +8,7 @@ public class ThermometerRound extends StandardRound {
     private HashMap<Player, Integer> correctAnswersInRound;
     private Boolean winnerFound;
     private int winningScore;
-    
+
     /**
      * Constructs a com.StandardRound object with given attributes.
      *

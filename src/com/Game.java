@@ -39,24 +39,25 @@ public class Game {
     public void initializeGamePlay() {
 
         Random randomNumbersGenerator = new Random(System.currentTimeMillis());
+        Referee referee = new Referee(players);
 
         for (int round = 0; round < numberOfRounds; round++) {
             int randomNumber = (Math.abs(randomNumbersGenerator.nextInt()) % 5) + 1;
             switch (randomNumber) {
                 case 2:
-                    rounds.add(new BettingRound(numberOfQuestionsPerRound, players, questionManager, parser));
+                    rounds.add(new BettingRound(numberOfQuestionsPerRound, referee));
                     break;
                 case 3:
-                    rounds.add(new StopTheClockRound(numberOfQuestionsPerRound, players, questionManager, parser));
+                    rounds.add(new StopTheClockRound(numberOfQuestionsPerRound,referee));
                     break;
                 case 4:
-                    rounds.add(new QuickAnswerRound(numberOfQuestionsPerRound, players, questionManager, parser));
+                    rounds.add(new QuickAnswerRound(numberOfQuestionsPerRound, referee));
                     break;
                 case 5:
-                    rounds.add(new ThermometerRound(players, questionManager, parser));
+                    rounds.add(new ThermometerRound(referee));
                     break;
                 default:
-                    rounds.add(new StandardRound(numberOfQuestionsPerRound, players, questionManager, parser));
+                    rounds.add(new StandardRound(numberOfQuestionsPerRound, referee));
             }
         }
     }
@@ -69,11 +70,11 @@ public class Game {
             System.out.print(round.getDescription());
             System.out.print("Press enter to start round ");
             parser.getEnter();
-            while (!round.isOver()) {
-                round.askQuestion();
-                round.readAnswers();
-                round.giveCredits();
-            }
+//            while (!round.isOver()) {
+//                round.askQuestion();
+//                round.readAnswers();
+//                round.giveCredits();
+//            }
             System.out.println();
             System.out.println("End of Round " + (roundsCounter++) + ".");
             for (Player player : players) {
