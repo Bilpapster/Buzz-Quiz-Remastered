@@ -1,24 +1,20 @@
 package GUI;
 
-import com.Question;
-import com.QuestionManager;
-import com.QuestionType;
-import com.StandardRound;
+import com.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 public class StandardRoundFrame extends JFrame {
-    protected StandardRound round;
+    protected StandardRound roundLogic;
+    protected Referee referee;
 
-    TimerComponent timer;
-    Question currentQuestion;
-    protected JPanel rootPanel;
+    protected TimerComponent timer;
+    protected Question currentQuestion;
 
     protected JLabel questionTypeLabel;
     protected JLabel questionTextLabel;
@@ -26,47 +22,32 @@ public class StandardRoundFrame extends JFrame {
     protected RoundedJPanel questionTypePanel;
     protected JPanel questionTextPanel;
     protected JPanel questionPanel;
-
     protected JPanel answerButtonsPanel;
-
-    protected JPanel paddingLeft = new JPanel();
-    protected JPanel paddingRight = new JPanel();
-
-
-
-    protected JPanel answersPanel = new JPanel();
+    protected JPanel answersPanel;
+    protected JPanel paddingLeft;
+    protected JPanel paddingRight;
     protected JPanel footerPanel = new JPanel();
+    protected JPanel rootPanel;
 
     int indexLOL = 0;
-    protected QuestionManager questionManager;
-    protected ArrayList<JButton> answerBtns = new ArrayList<>();
+    protected ArrayList<JButton> answerButtons = new ArrayList<>();
 
-    // TODO: create separate methods for padding left and padding right panels
-    public StandardRoundFrame(){
-        questionManager = new QuestionManager();
-        questionManager.createQuestions();
+    public StandardRoundFrame(Referee referee){
+
+        this.referee = referee;
+        currentQuestion = referee.getQuestion();
+        this.roundLogic = new StandardRound(5, referee);
 
         setUpComponents();
-
         setUpQuestionTypePanel();
         setUpQuestionTextPanel();
         setUpQuestionPanel();
-
-        answerButtonsPanel = new JPanel();
-        answerButtonsPanel.setLayout(new BoxLayout(answerButtonsPanel, BoxLayout.Y_AXIS));
-        answerButtonsPanel.add(Box.createVerticalStrut(25));
-        answerButtonsPanel.add(answersPanel);
-        answerButtonsPanel.add(Box.createVerticalStrut(25));
-
-        paddingLeft.setPreferredSize(new Dimension(150, 100));
-        paddingLeft.setBackground(Color.darkGray);
-        paddingRight.setBackground(Color.darkGray);
-        paddingRight.setPreferredSize(new Dimension(150, 100));
-
         setUpAnswersPanel();
+        setUpAnswerButtonsPanel();
+        setUpPaddings();
         setUpRootPanel();
         setUpFrame();
-
+        setUpFooter();
         prepareNextQuestion();
     }
 
@@ -92,7 +73,6 @@ public class StandardRoundFrame extends JFrame {
 
     private void setUpQuestionTypePanel() {
         questionTypePanel = new RoundedJPanel();
-        questionTypePanel.setOpaque(false);
         questionTypePanel.setLayout(new BoxLayout(questionTypePanel, BoxLayout.Y_AXIS));
         questionTypePanel.add(Box.createRigidArea(new Dimension(1, 5)), CENTER_ALIGNMENT);
         questionTypePanel.add(questionTypeLabel, JPanel.CENTER_ALIGNMENT);
@@ -116,7 +96,44 @@ public class StandardRoundFrame extends JFrame {
         questionPanel.add(questionTextPanel);
         questionPanel.add(Box.createVerticalStrut(10));
 
-        questionPanel.setBackground(Color.DARK_GRAY); //
+        questionPanel.setBackground(Color.DARK_GRAY);
+    }
+
+    private void setUpAnswersPanel() {
+        answersPanel = new JPanel();
+        answersPanel.setLayout(new GridLayout(2, 2, 50, 25));
+
+        for (int answerButton = 0; answerButton < 4; answerButton++) {
+            RoundedJButton button = new RoundedJButton("");
+            button.setFont(new Font("Segoe Print", Font.PLAIN, 20));
+            button.addMouseListener(new CustomizedButtonListener());
+            answerButtons.add(button);
+            answersPanel.add(answerButtons.get(answerButton));
+        }
+
+    }
+
+    private void setUpAnswerButtonsPanel() {
+        answerButtonsPanel = new JPanel();
+        answerButtonsPanel.setLayout(new BoxLayout(answerButtonsPanel, BoxLayout.Y_AXIS));
+        answerButtonsPanel.add(Box.createVerticalStrut(25));
+        answerButtonsPanel.add(answersPanel);
+        answerButtonsPanel.add(Box.createVerticalStrut(25));
+    }
+
+    private void setUpPaddings() {
+        setUpPaddingLeft();
+        setUpPaddingRight();
+    }
+
+    private void setUpPaddingLeft() {
+        paddingLeft = new JPanel();
+        paddingLeft.setPreferredSize(new Dimension(150, 100));
+    }
+
+    private void setUpPaddingRight() {
+        paddingRight = new JPanel();
+        paddingRight.setPreferredSize(new Dimension(150, 100));
     }
 
     private void setUpRootPanel() {
@@ -126,11 +143,26 @@ public class StandardRoundFrame extends JFrame {
         rootPanel.add(answerButtonsPanel, BorderLayout.CENTER);
         rootPanel.add(paddingLeft, BorderLayout.WEST);
         rootPanel.add(paddingRight, BorderLayout.EAST);
-//        rootPanel.add(answersPanel, BorderLayout.CENTER);
+        addRootPanelListeners();
     }
 
-    private void setUpAnswersPanel() {
-        answersPanel.setLayout(new GridLayout(2, 2, 50, 25));
+    private void addRootPanelListeners() {
+        addRootPanelMouseListener();
+        addRootPanelKeyListener();
+    }
+
+    private void addRootPanelMouseListener() {
+        rootPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println(!timer.isOver() ? "The timer is still going!" : "The timer has finished!");
+            }
+        });
+    }
+
+    private void addRootPanelKeyListener() {
+        this.setFocusable(true);
+        this.addKeyListener(new CustomizedKeyboardListener(KeyboardSet._Q_W_A_S, referee.getAlivePlayersInRound().get(0)));
     }
 
     private void setUpFrame() {
@@ -140,61 +172,42 @@ public class StandardRoundFrame extends JFrame {
         this.setLocationRelativeTo(null);
         this.setContentPane(rootPanel);
         this.setVisible(true);
-
-
-        setUpFooter();
-
-        rootPanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println(!timer.isOver() ? "The timer is still going!" : "The timer has finished!");
-            }
-        });
-    }
-
-    private void clearButtons() {
-        for (JButton button : answerBtns)
-            answersPanel.remove(button);
-        answerBtns.clear();
     }
 
     private void prepareNextQuestion() {
-        currentQuestion = questionManager.getNextQuestion();
-        questionTextLabel.setText(currentQuestion.getQuestionText());
-        questionTypeLabel.setText("   " + currentQuestion.getQuestionType().toString() + "    ");
-//        System.out.println(questionTextLabel.getSize());
+        referee.executeActionsBeforeNextQuestion();
+        currentQuestion = referee.getQuestion();
+        updateTexts();
+        updateBackgroundColors();
 
-        questionTypePanel.setBackground(QuestionType.getColorOf(currentQuestion.getQuestionType()));
-        answerButtonsPanel.setBackground(QuestionType.getColorOf(currentQuestion.getQuestionType()));
-        answersPanel.setBackground(QuestionType.getColorOf(currentQuestion.getQuestionType()));
-        paddingLeft.setBackground(QuestionType.getColorOf(currentQuestion.getQuestionType()));
-        paddingRight.setBackground(QuestionType.getColorOf(currentQuestion.getQuestionType()));
-
-        Collection<String> questionAnswers = currentQuestion.getAnswers().values();
-
-        clearButtons();
-
-
-        int index = 0;
-        for (String i : questionAnswers){
-            RoundedJButton button = new RoundedJButton(i);
-            button.setFont(new Font("Segoe Print", Font.PLAIN, 20));
-            button.addActionListener(this::actionPerformed);
-            answerBtns.add(button);
-            answersPanel.add(answerBtns.get(index++));
-        }
-
-        questionManager.removeAnsweredQuestion();
-
-        // this is for testing puproses, remove for actual production version
+        // this is for testing purposes, remove for actual production version
         if (indexLOL % 2 == 0) {
             addTimerComponent();
             showTimerComponent();
             showGetReadyMessage();
+            timer.startTimer();
         }
-
         indexLOL++;
-        // ------------------------------------------------------------------
+    }
+
+    private void updateTexts() {
+        questionTextLabel.setText(currentQuestion.getQuestionText());
+        questionTypeLabel.setText( "  " + currentQuestion.getQuestionType().toString() + "    ");
+
+        Collection<String> questionAnswers = currentQuestion.getAnswers().values();
+        int index = 0;
+        for (String answer : questionAnswers) {
+            answerButtons.get(index++).setText(answer);
+        }
+    }
+
+    private void updateBackgroundColors() {
+        Color backgroundColor = QuestionType.getColorOf(currentQuestion.getQuestionType());
+        questionTypePanel.setBackground(backgroundColor);
+        answerButtonsPanel.setBackground(backgroundColor);
+        answersPanel.setBackground(backgroundColor);
+        paddingLeft.setBackground(backgroundColor);
+        paddingRight.setBackground(backgroundColor);
     }
 
     /**
@@ -242,19 +255,61 @@ public class StandardRoundFrame extends JFrame {
         timer.startTimer();
     }
 
-    private void checkIfCorrectAnswer(int index) {
-        if (currentQuestion.isCorrectAnswer(Character.toString("abcdefg".charAt(index))))
-            JOptionPane.showMessageDialog(null, "The answer is correct!", "Hurray!", JOptionPane.INFORMATION_MESSAGE);
-        else
-            JOptionPane.showMessageDialog(null, "The answer is wrong...", "Oops", JOptionPane.ERROR_MESSAGE);
+    public void actionPerformed() {
+        if (referee.haveAllPlayersAnswered()) {
+            timer.stopTimer();
+            hideTimerComponent();
+            roundLogic.giveCredits();
+            prepareNextQuestion();
+        }
     }
 
+    protected class CustomizedButtonListener extends MouseAdapter {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            JButton buttonSource = (JButton) e.getSource();
+            referee.setAnswerData(referee.getAlivePlayersInRound().get(0), buttonSource.getText());
+            actionPerformed();
+        }
 
-    //@Override
-    public void actionPerformed(ActionEvent e) {
-        timer.stopTimer();
-        checkIfCorrectAnswer(answerBtns.indexOf(e.getSource()));
-        hideTimerComponent();
-        prepareNextQuestion();
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            JButton buttonSource = (JButton) e.getSource();
+            buttonSource.setForeground(questionTypePanel.getBackground());
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            JButton buttonSource = (JButton) e.getSource();
+            buttonSource.setForeground(Color.BLACK);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            this.mouseReleased(e);
+        }
+    }
+
+    protected class CustomizedKeyboardListener extends KeyAdapter {
+        private HashMap<Character, Integer> keyButtonAssociation;
+        private final Player playerAssociated;
+
+        public CustomizedKeyboardListener(KeyboardSet keyboardSet, Player playerAssociated) {
+            this.keyButtonAssociation = new HashMap<>();
+            this.playerAssociated = playerAssociated;
+            String pureSeriesOfCharacters = keyboardSet.getPureSeriesOfCharacters();
+
+            for (int i = 0; i < pureSeriesOfCharacters.length(); i++) {
+                keyButtonAssociation.put(pureSeriesOfCharacters.charAt(i), i);
+            }
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (keyButtonAssociation.containsKey(e.getKeyChar())) {
+                referee.setAnswerData(playerAssociated, answerButtons.get(keyButtonAssociation.get(e.getKeyChar())).getText());
+                actionPerformed();
+            }
+        }
     }
 }
