@@ -24,7 +24,7 @@ public class StandardRoundFrame extends JFrame {
     protected RoundedJPanel questionTypePanel;
     protected JPanel questionTextPanel;
     protected JPanel questionPanel;
-    protected JPanel answerButtonsPanel;
+    protected BackgroundImagedPanel answerButtonsPanel;
     protected JPanel answersPanel;
     protected JPanel paddingLeft;
     protected JPanel paddingRight;
@@ -45,8 +45,8 @@ public class StandardRoundFrame extends JFrame {
         setUpQuestionTextPanel();
         setUpQuestionPanel();
         setUpAnswersPanel();
-        setUpAnswerButtonsPanel();
         setUpPaddings();
+        setUpAnswerButtonsPanel();
         setUpRootPanel();
         setUpFrame();
         setUpFooter();
@@ -67,7 +67,7 @@ public class StandardRoundFrame extends JFrame {
 
     private void setUpQuestionTextLabel() {
         questionTextLabel = new JLabel();
-        questionTextLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 22f));
+        questionTextLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.MEDIUM, 22f));
         questionTextLabel.setAlignmentX(JLabel.CENTER);
         questionTextLabel.setForeground(Color.WHITE);
 
@@ -108,7 +108,7 @@ public class StandardRoundFrame extends JFrame {
 
         for (int answerButton = 0; answerButton < 4; answerButton++) {
             RoundedJButton button = new RoundedJButton("");
-            button.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.BOLD, 22f));
+            button.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.REGULAR, 22f));
             button.addMouseListener(new CustomizedButtonListener());
             answerButtons.add(button);
             answersPanel.add(answerButtons.get(answerButton));
@@ -116,12 +116,14 @@ public class StandardRoundFrame extends JFrame {
     }
 
     private void setUpAnswerButtonsPanel() {
-        answerButtonsPanel = new JPanel();
-//        answerButtonsPanel = new testPanel("resources/testScience.png");
-        answerButtonsPanel.setLayout(new BoxLayout(answerButtonsPanel, BoxLayout.Y_AXIS));
-        answerButtonsPanel.add(Box.createVerticalStrut(25));
-        answerButtonsPanel.add(answersPanel);
-        answerButtonsPanel.add(Box.createVerticalStrut(25));
+        answerButtonsPanel = new BackgroundImagedPanel("resources/testScience.png");
+
+        answerButtonsPanel.setLayout(new BorderLayout());
+        answerButtonsPanel.add(Box.createVerticalStrut(25), BorderLayout.NORTH);
+        answerButtonsPanel.add(answersPanel, BorderLayout.CENTER);
+        answerButtonsPanel.add(Box.createVerticalStrut(25), BorderLayout.SOUTH);
+        answerButtonsPanel.add(paddingLeft, BorderLayout.WEST);
+        answerButtonsPanel.add(paddingRight, BorderLayout.EAST);
     }
 
     private void setUpPaddings() {
@@ -131,14 +133,14 @@ public class StandardRoundFrame extends JFrame {
 
     private void setUpPaddingLeft() {
         paddingLeft = new JPanel();
-//        paddingLeft.setOpaque(false);
-        paddingLeft.setPreferredSize(new Dimension(150, 100));
+        paddingLeft.setOpaque(false);
+        paddingLeft.setPreferredSize(new Dimension(180, 100));
     }
 
     private void setUpPaddingRight() {
         paddingRight = new JPanel();
-//        paddingRight.setOpaque(false);
-        paddingRight.setPreferredSize(new Dimension(150, 100));
+        paddingRight.setOpaque(false);
+        paddingRight.setPreferredSize(new Dimension(180, 100));
     }
 
     private void setUpRootPanel() {
@@ -146,8 +148,6 @@ public class StandardRoundFrame extends JFrame {
         rootPanel.setLayout(new BorderLayout());
         rootPanel.add(questionPanel, BorderLayout.NORTH);
         rootPanel.add(answerButtonsPanel, BorderLayout.CENTER);
-        rootPanel.add(paddingLeft, BorderLayout.WEST);
-        rootPanel.add(paddingRight, BorderLayout.EAST);
         addRootPanelListeners();
     }
 
@@ -204,7 +204,6 @@ public class StandardRoundFrame extends JFrame {
         questionTextLabel.setText(currentQuestion.getQuestionText());
         questionTypeLabel.setText( "   " + currentQuestion.getQuestionType().toString() + "     ");
 
-//        Collection<String> questionAnswers = ;
         int index = 0;
         for (String answer : currentQuestion.getAnswers().values()) {
             answerButtons.get(index++).setText(answer);
@@ -214,16 +213,18 @@ public class StandardRoundFrame extends JFrame {
     private void updateBackgroundColors() {
         Color backgroundColor = QuestionType.getColorOf(currentQuestion.getQuestionType());
         questionTypePanel.setBackground(backgroundColor);
-        answerButtonsPanel.setBackground(backgroundColor);
-        answersPanel.setBackground(backgroundColor);
-        paddingLeft.setBackground(backgroundColor);
-        paddingRight.setBackground(backgroundColor);
+        answerButtonsPanel.setBackgroundImage(QuestionType.getBackgroundImageOf(currentQuestion.getQuestionType()));
     }
 
-    private void restoreForegroundColorsForAnswerButtons() {
+    private void restoreForegroundDataForAllAnswerButtons() {
         for (JButton button : answerButtons) {
-            button.setForeground(Color.BLACK);
+            restoreForegroundDataForAnswerButton(button);
         }
+    }
+
+    private void restoreForegroundDataForAnswerButton(JButton button) {
+        button.setForeground(Color.BLACK);
+        button.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.REGULAR, 22f));
     }
 
     /**
@@ -264,7 +265,7 @@ public class StandardRoundFrame extends JFrame {
 
     /**
      * This method displays an information message before a timed round begins, after which,
-     * uppon being dismissed, starts the timer for the question.
+     * upon being dismissed, starts the timer for the question.
      */
     private void showGetReadyMessage() {
         JOptionPane.showMessageDialog(null, "Timed Round! Get ready to race for points!");
@@ -276,7 +277,7 @@ public class StandardRoundFrame extends JFrame {
             timer.stopTimer();
             roundLogic.giveCredits();
             hideTimerComponent();
-            restoreForegroundColorsForAnswerButtons();
+            restoreForegroundDataForAllAnswerButtons();
             prepareNextQuestion();
         }
         rootPanel.requestFocus();
@@ -294,12 +295,13 @@ public class StandardRoundFrame extends JFrame {
         public void mouseEntered(MouseEvent e) {
             JButton buttonSource = (JButton) e.getSource();
             buttonSource.setForeground(questionTypePanel.getBackground());
+            buttonSource.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.BOLD, 24f));
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
             JButton buttonSource = (JButton) e.getSource();
-            buttonSource.setForeground(Color.BLACK);
+            restoreForegroundDataForAnswerButton(buttonSource);
         }
 
         @Override
@@ -309,7 +311,7 @@ public class StandardRoundFrame extends JFrame {
     }
 
     protected class CustomizedKeyboardListener extends KeyAdapter {
-        private HashMap<Character, Integer> keyButtonAssociation;
+        private final HashMap<Character, Integer> keyButtonAssociation;
         private final Player playerAssociated;
 
         public CustomizedKeyboardListener(KeyboardSet keyboardSet, Player playerAssociated) {
