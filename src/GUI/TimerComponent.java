@@ -10,7 +10,7 @@ public class TimerComponent {
     JLabel title;
     JLabel timerLabel;
     JLabel timeOverLabel;
-    SimpleDateFormat df = new SimpleDateFormat("mm:ss:SSS");
+    SimpleDateFormat df = new SimpleDateFormat("s:SSS");
     private boolean isOver = false;
     private Timer timer;
     private long startTime = -1;
@@ -31,9 +31,8 @@ public class TimerComponent {
         panel = new JPanel();
 
         panel.setLayout(new BorderLayout());
-        panel.setBounds(180,180,500,250);
+        panel.setBounds(180, 180, 500, 250);
         panel.setBackground(Color.darkGray);
-
 
         setUpHeader();
         setUpTimerLabel();
@@ -51,7 +50,7 @@ public class TimerComponent {
         title.setText("Timed Round!");
         title.setForeground(Color.WHITE);
         title.setHorizontalAlignment(JLabel.CENTER);
-        title.setFont(new Font("Arial Black", Font.BOLD, 24));
+        title.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 24f));
         panel.add(title, BorderLayout.NORTH);
     }
 
@@ -62,7 +61,7 @@ public class TimerComponent {
     public void setUpTimerLabel() {
         timerLabel = new JLabel();
         timerLabel.setText(df.format(duration));
-        timerLabel.setFont(new Font("Arial Black", Font.ITALIC, 28));
+        timerLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.BOLD, 28).deriveFont(Font.ITALIC));
         timerLabel.setForeground(Color.ORANGE);
         timerLabel.setHorizontalAlignment(JLabel.CENTER);
         panel.add(timerLabel, BorderLayout.CENTER);
@@ -70,11 +69,13 @@ public class TimerComponent {
 
     /**
      * Sets up a new Timer object with a duration of 5000 milliseconds,
-     * and awaits for the start of it, uppon which it constantly ticks down
+     * and awaits for the start of it, upon which it constantly ticks down
      * until it reaches zero.
      */
     private void setUpTimer() {
-        timer = new Timer(10, e -> {
+        timer = new Timer(100, e -> {
+            timeOverLabel.setVisible(false);
+            timer.setInitialDelay(0);
             if (startTime < 0) {
                 startTime = System.currentTimeMillis();
             }
@@ -88,7 +89,6 @@ public class TimerComponent {
             }
             timerLabel.setText(df.format(duration - clockTime));
         });
-        timer.setInitialDelay(0);
     }
 
     /**
@@ -103,6 +103,7 @@ public class TimerComponent {
 
     /**
      * Returns the main panel of the component
+     *
      * @return a <code>JPanel</code> which contains all elements of TimeComponent
      */
     public JPanel getMainPanel() {
@@ -111,6 +112,7 @@ public class TimerComponent {
 
     /**
      * Method which returns wether the timer has reached 0 or not
+     *
      * @return returns <code>true</code> if the timer has reached 0, otherwise
      * returns <code>false</code>
      */
@@ -127,6 +129,7 @@ public class TimerComponent {
 
     /**
      * Hides the TimerComponent panel
+     *
      * @return <code>true</code> if the panel was previously shown and it has been hidden, or <code>false</code>
      * if the panel was already hidden.
      */
@@ -140,6 +143,7 @@ public class TimerComponent {
 
     /**
      * Shows the TimerComponent panel
+     *
      * @return <code>true</code> if the panel was previously hidden and it has been shown, or <code>false</code>
      * if the panel was already shown.
      */
@@ -155,15 +159,18 @@ public class TimerComponent {
      * Sets up the footer of the panel which gets displayed as soon as the
      * timer reaches 0
      */
-    private void setUpFooter() {
+    private void setUpFooter()  {
         timeOverLabel = new JLabel();
         timeOverLabel.setForeground(Color.white);
         timeOverLabel.setText("<html>Time has <font color=red><b>run out</b></font>! No bonus will be handed out for this round!</html>");
         timeOverLabel.setVisible(false);
-        timeOverLabel.setFont(new Font("Arial Black", Font.PLAIN, 18));
+        timeOverLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 22f));
         timeOverLabel.setHorizontalAlignment(JLabel.CENTER);
         panel.add(timeOverLabel, BorderLayout.SOUTH);
     }
 
 
+    public long getMillisAfterLaunch() {
+        return System.currentTimeMillis() - startTime;
+    }
 }
