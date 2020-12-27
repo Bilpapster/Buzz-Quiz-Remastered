@@ -29,7 +29,7 @@ public class Referee {
 
     public void setAnswerData(Player player, String answer, long timeElapsedOnAnswer) {
         answersGivenByPlayers.put(player, answer);
-        milliSecondsElapsedOnAnswer.put(player, timeElapsedOnAnswer);
+        milliSecondsElapsedOnAnswer.putIfAbsent(player, timeElapsedOnAnswer);
     }
 
     public void setAnswerData(Player player, String answer) {
