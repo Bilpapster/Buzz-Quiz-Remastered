@@ -4,9 +4,11 @@ import com.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 public class StandardRoundFrame extends JFrame {
@@ -58,14 +60,14 @@ public class StandardRoundFrame extends JFrame {
 
     private void setUpQuestionTypeLabel() {
         questionTypeLabel = new JLabel();
-        questionTypeLabel.setFont(new Font("Segoe Print", Font.BOLD + Font.ITALIC, 14));
+        questionTypeLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 16f).deriveFont(Font.ITALIC));
         questionTypeLabel.setAlignmentX(JLabel.CENTER);
         questionTypeLabel.setForeground(Color.WHITE);
     }
 
     private void setUpQuestionTextLabel() {
         questionTextLabel = new JLabel();
-        questionTextLabel.setFont(new Font("Segoe Print", Font.PLAIN, 22));
+        questionTextLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 22f));
         questionTextLabel.setAlignmentX(JLabel.CENTER);
         questionTextLabel.setForeground(Color.WHITE);
 
@@ -101,20 +103,21 @@ public class StandardRoundFrame extends JFrame {
 
     private void setUpAnswersPanel() {
         answersPanel = new JPanel();
+        answersPanel.setOpaque(false);
         answersPanel.setLayout(new GridLayout(2, 2, 50, 25));
 
         for (int answerButton = 0; answerButton < 4; answerButton++) {
             RoundedJButton button = new RoundedJButton("");
-            button.setFont(new Font("Segoe Print", Font.PLAIN, 20));
+            button.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.BOLD, 22f));
             button.addMouseListener(new CustomizedButtonListener());
             answerButtons.add(button);
             answersPanel.add(answerButtons.get(answerButton));
         }
-
     }
 
     private void setUpAnswerButtonsPanel() {
         answerButtonsPanel = new JPanel();
+//        answerButtonsPanel = new testPanel("resources/testScience.png");
         answerButtonsPanel.setLayout(new BoxLayout(answerButtonsPanel, BoxLayout.Y_AXIS));
         answerButtonsPanel.add(Box.createVerticalStrut(25));
         answerButtonsPanel.add(answersPanel);
@@ -128,11 +131,13 @@ public class StandardRoundFrame extends JFrame {
 
     private void setUpPaddingLeft() {
         paddingLeft = new JPanel();
+//        paddingLeft.setOpaque(false);
         paddingLeft.setPreferredSize(new Dimension(150, 100));
     }
 
     private void setUpPaddingRight() {
         paddingRight = new JPanel();
+//        paddingRight.setOpaque(false);
         paddingRight.setPreferredSize(new Dimension(150, 100));
     }
 
@@ -161,12 +166,17 @@ public class StandardRoundFrame extends JFrame {
     }
 
     private void addRootPanelKeyListener() {
-        this.setFocusable(true);
-        this.addKeyListener(new CustomizedKeyboardListener(KeyboardSet._Q_W_A_S, referee.getAlivePlayersInRound().get(0)));
+        rootPanel.setFocusable(true);
+        if (referee.getAlivePlayersInRound().size() > 1) {
+            rootPanel.addKeyListener(new CustomizedKeyboardListener(KeyboardSet._O_P_K_L, referee.getAlivePlayersInRound().get(1)));
+        }
+        rootPanel.addKeyListener(new CustomizedKeyboardListener(KeyboardSet._Q_W_A_S, referee.getAlivePlayersInRound().get(0)));
     }
 
     private void setUpFrame() {
         this.setTitle("Buzz! Quiz World!");
+        ImageIcon iconImage = new ImageIcon("resources/Buzz-Quiz-World_LOGO.jpg");
+        this.setIconImage(iconImage.getImage());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1280, 720);
         this.setLocationRelativeTo(null);
@@ -192,11 +202,11 @@ public class StandardRoundFrame extends JFrame {
 
     private void updateTexts() {
         questionTextLabel.setText(currentQuestion.getQuestionText());
-        questionTypeLabel.setText( "  " + currentQuestion.getQuestionType().toString() + "    ");
+        questionTypeLabel.setText( "   " + currentQuestion.getQuestionType().toString() + "     ");
 
-        Collection<String> questionAnswers = currentQuestion.getAnswers().values();
+//        Collection<String> questionAnswers = ;
         int index = 0;
-        for (String answer : questionAnswers) {
+        for (String answer : currentQuestion.getAnswers().values()) {
             answerButtons.get(index++).setText(answer);
         }
     }
@@ -208,6 +218,12 @@ public class StandardRoundFrame extends JFrame {
         answersPanel.setBackground(backgroundColor);
         paddingLeft.setBackground(backgroundColor);
         paddingRight.setBackground(backgroundColor);
+    }
+
+    private void restoreForegroundColorsForAnswerButtons() {
+        for (JButton button : answerButtons) {
+            button.setForeground(Color.BLACK);
+        }
     }
 
     /**
@@ -258,10 +274,12 @@ public class StandardRoundFrame extends JFrame {
     public void actionPerformed() {
         if (referee.haveAllPlayersAnswered()) {
             timer.stopTimer();
-            hideTimerComponent();
             roundLogic.giveCredits();
+            hideTimerComponent();
+            restoreForegroundColorsForAnswerButtons();
             prepareNextQuestion();
         }
+        rootPanel.requestFocus();
     }
 
     protected class CustomizedButtonListener extends MouseAdapter {
