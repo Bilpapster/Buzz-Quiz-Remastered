@@ -194,7 +194,6 @@ public class StandardRoundFrame extends JFrame {
     }
 
     private void updateTexts() {
-        timer.hideTimer();
         questionTextLabel.setText(currentQuestion.getQuestionText());
         questionTypeLabel.setText( "   " + currentQuestion.getQuestionType().toString() + "     ");
         Player player0 = referee.getAlivePlayersInRound().get(0);
