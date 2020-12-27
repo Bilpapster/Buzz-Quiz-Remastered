@@ -12,6 +12,9 @@ public class BackgroundImagedPanel extends JPanel {
         this(new ImageIcon(backgroundImage).getImage());
     }
 
+    public BackgroundImagedPanel() {
+    }
+
     public BackgroundImagedPanel(Image backgroundImage) {
         this.backgroundImage = backgroundImage;
     }
