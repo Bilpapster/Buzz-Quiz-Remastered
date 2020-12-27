@@ -20,6 +20,8 @@ public class StandardRoundFrame extends JFrame {
 
     protected JLabel questionTypeLabel;
     protected JLabel questionTextLabel;
+    protected JLabel playerNameLabel;
+    JLabel playerNameLabel2 = new JLabel();
 
     protected RoundedJPanel questionTypePanel;
     protected JPanel questionTextPanel;
@@ -31,7 +33,6 @@ public class StandardRoundFrame extends JFrame {
     protected JPanel footerPanel = new JPanel();
     protected JPanel rootPanel;
 
-    int indexLOL = 0;
     protected ArrayList<JButton> answerButtons = new ArrayList<>();
 
     public StandardRoundFrame(Referee referee){
@@ -47,9 +48,9 @@ public class StandardRoundFrame extends JFrame {
         setUpAnswersPanel();
         setUpPaddings();
         setUpAnswerButtonsPanel();
+        setUpFooter();
         setUpRootPanel();
         setUpFrame();
-        setUpFooter();
         prepareNextQuestion();
     }
 
@@ -116,8 +117,7 @@ public class StandardRoundFrame extends JFrame {
     }
 
     private void setUpAnswerButtonsPanel() {
-        answerButtonsPanel = new BackgroundImagedPanel("resources/testScience.png");
-
+        answerButtonsPanel = new BackgroundImagedPanel();
         answerButtonsPanel.setLayout(new BorderLayout());
         answerButtonsPanel.add(Box.createVerticalStrut(25), BorderLayout.NORTH);
         answerButtonsPanel.add(answersPanel, BorderLayout.CENTER);
@@ -148,6 +148,7 @@ public class StandardRoundFrame extends JFrame {
         rootPanel.setLayout(new BorderLayout());
         rootPanel.add(questionPanel, BorderLayout.NORTH);
         rootPanel.add(answerButtonsPanel, BorderLayout.CENTER);
+        rootPanel.add(footerPanel, BorderLayout.SOUTH);
         addRootPanelListeners();
     }
 
@@ -187,22 +188,21 @@ public class StandardRoundFrame extends JFrame {
     private void prepareNextQuestion() {
         referee.executeActionsBeforeNextQuestion();
         currentQuestion = referee.getQuestion();
+        timer.startTimer();
         updateTexts();
         updateBackgroundColors();
-
-        // this is for testing purposes, remove for actual production version
-        if (indexLOL % 2 == 0) {
-            addTimerComponent();
-            showTimerComponent();
-            showGetReadyMessage();
-            timer.startTimer();
-        }
-        indexLOL++;
     }
 
     private void updateTexts() {
+        timer.hideTimer();
         questionTextLabel.setText(currentQuestion.getQuestionText());
         questionTypeLabel.setText( "   " + currentQuestion.getQuestionType().toString() + "     ");
+        Player player0 = referee.getAlivePlayersInRound().get(0);
+        playerNameLabel.setText(player0.getName() + ": " + player0.getScore());
+        if (referee.getAlivePlayersInRound().size() > 1) {
+            Player player1 = referee.getAlivePlayersInRound().get(1);
+            playerNameLabel2.setText(player1.getName() + ": " + player1.getScore());
+        }
 
         int index = 0;
         for (String answer : currentQuestion.getAnswers().values()) {
@@ -211,9 +211,9 @@ public class StandardRoundFrame extends JFrame {
     }
 
     private void updateBackgroundColors() {
-        Color backgroundColor = QuestionType.getColorOf(currentQuestion.getQuestionType());
-        questionTypePanel.setBackground(backgroundColor);
+        questionTypePanel.setBackground(QuestionType.getColorOf(currentQuestion.getQuestionType()));
         answerButtonsPanel.setBackgroundImage(QuestionType.getBackgroundImageOf(currentQuestion.getQuestionType()));
+        answerButtonsPanel.repaint();
     }
 
     private void restoreForegroundDataForAllAnswerButtons() {
@@ -228,23 +228,52 @@ public class StandardRoundFrame extends JFrame {
     }
 
     /**
-     * This method generates a new timer component and adds it to the
-     * footer panel
-     */
-    private void addTimerComponent() {
-        timer = new TimerComponent();
-        footerPanel.add(timer.getMainPanel());
-    }
-
-    /**
      * Sets up the footer of the page which is going to house
      * the timer component, then hides it (can also house more components
      * in the future as needed)
      */
     private void setUpFooter() {
+        setUpPlayerNameLabel();
+        setUpTimerComponent();
         footerPanel.setBackground(Color.DARK_GRAY);
-        footerPanel.setVisible(false);
-        rootPanel.add(footerPanel, BorderLayout.SOUTH);
+        footerPanel.setLayout(new GridLayout(1, 3, 20, 0));
+
+        JPanel auxiliaryPanel1 = new JPanel();
+        auxiliaryPanel1.setOpaque(false);
+        auxiliaryPanel1.add(playerNameLabel);
+
+        JPanel auxiliaryPanel2 = new JPanel();
+        auxiliaryPanel2.setOpaque(false);
+        auxiliaryPanel2.add(timer.getMainPanel());
+
+        JPanel auxiliaryPanel3 = new JPanel();
+        auxiliaryPanel3.setOpaque(false);
+
+        footerPanel.add(auxiliaryPanel1);
+        footerPanel.add(auxiliaryPanel2);
+
+        if (referee.getAlivePlayersInRound().size() > 1) {
+            playerNameLabel2.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 20f));
+            playerNameLabel2.setForeground(Color.WHITE);
+            playerNameLabel2.setAlignmentX(Component.CENTER_ALIGNMENT);
+            playerNameLabel2.setAlignmentY(Component.CENTER_ALIGNMENT);
+            auxiliaryPanel3.add(playerNameLabel2);
+        } else {
+            auxiliaryPanel3.add(new JLabel(""));
+        }
+        footerPanel.add(auxiliaryPanel3);
+    }
+
+    private void setUpPlayerNameLabel() {
+        playerNameLabel = new JLabel();
+        playerNameLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 20f));
+        playerNameLabel.setForeground(Color.WHITE);
+        playerNameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        playerNameLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
+    }
+
+    private void setUpTimerComponent() {
+        timer = new TimerComponent();
     }
 
     /**
@@ -259,8 +288,7 @@ public class StandardRoundFrame extends JFrame {
      * clears it from the current timer object
      */
     private void hideTimerComponent() {
-        footerPanel.setVisible(false);
-        footerPanel.removeAll();
+        timer.hideTimer();
     }
 
     /**
@@ -276,8 +304,8 @@ public class StandardRoundFrame extends JFrame {
         if (referee.haveAllPlayersAnswered()) {
             timer.stopTimer();
             roundLogic.giveCredits();
-            hideTimerComponent();
             restoreForegroundDataForAllAnswerButtons();
+            timer.stopTimer();
             prepareNextQuestion();
         }
         rootPanel.requestFocus();
@@ -287,7 +315,7 @@ public class StandardRoundFrame extends JFrame {
         @Override
         public void mouseClicked(MouseEvent e) {
             JButton buttonSource = (JButton) e.getSource();
-            referee.setAnswerData(referee.getAlivePlayersInRound().get(0), buttonSource.getText());
+            referee.setAnswerData(referee.getAlivePlayersInRound().get(0), buttonSource.getText(), timer.getMillisAfterLaunch());
             actionPerformed();
         }
 
@@ -327,7 +355,7 @@ public class StandardRoundFrame extends JFrame {
         @Override
         public void keyPressed(KeyEvent e) {
             if (keyButtonAssociation.containsKey(e.getKeyChar())) {
-                referee.setAnswerData(playerAssociated, answerButtons.get(keyButtonAssociation.get(e.getKeyChar())).getText());
+                referee.setAnswerData(playerAssociated, answerButtons.get(keyButtonAssociation.get(e.getKeyChar())).getText(), timer.getMillisAfterLaunch());
                 actionPerformed();
             }
         }
