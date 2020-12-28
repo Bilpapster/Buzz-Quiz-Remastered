@@ -23,7 +23,7 @@ public class BetSelectionWindow implements ActionListener {
     JPanel footerPanel;
     ArrayList<JButton> betButtons;
     JPanel buttonsPanel;
-    final int[] betValues = {500, 750, 1000};
+    final int[] betValues = {250, 500, 750, 1000};
     final Player currentPlayer;
     private int finalBet;
 
