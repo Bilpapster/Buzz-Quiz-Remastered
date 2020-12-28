@@ -19,6 +19,7 @@ public class BettingRoundFrame extends StandardRoundFrame {
         updateTextOnAllPlayersScoreLabels();
         clearTextOnAllAnswerButtons();
         updateBackgroundColors();
+        timer.resetTimerLabel();
 
         for (Player player : referee.getAlivePlayersInRound()) {
             BetSelectionWindow betSelectionWindow = new BetSelectionWindow(this, player);
