@@ -6,9 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import com.Player;
-import com.QuickAnswerRound;
-import com.Referee;
+import com.*;
 
 
 public class PlayerInfoPage implements ActionListener {
@@ -74,20 +72,48 @@ public class PlayerInfoPage implements ActionListener {
 
         Referee referee = new Referee(listofPlayers);
 
+        ArrayList<RoundViewerI> rounds = new ArrayList<>();
+
+        StandardRoundFrame round1 = new StandardRoundFrame(referee);
+        BettingRoundFrame round2 = new BettingRoundFrame(referee);
+        StopTheClockRoundFrame round3 = new StopTheClockRoundFrame(referee);
+        QuickAnswerRoundFrame round4 = new QuickAnswerRoundFrame(referee);
+        ThermometerRoundFrame round5 = new ThermometerRoundFrame(referee);
+
+
+        rounds.add(round1);
+        rounds.add(round2);
+        rounds.add(round3);
+        rounds.add(round4);
+        rounds.add(round5);
+
+        GameFrame gameFrame = new GameFrame(rounds, referee.getAlivePlayersInRound());
+
+        round1.setParentFrame(gameFrame);
+        round2.setParentFrame(gameFrame);
+        round3.setParentFrame(gameFrame);
+        round4.setParentFrame(gameFrame);
+        round5.setParentFrame(gameFrame);
+
+        gameFrame.start();
+
 //        StandardRoundFrame standardRoundFrame = new StandardRoundFrame(referee);
+//        GameFrame gameFrame = new GameFrame(standardRoundFrame.getRootPanel());
 //        standardRoundFrame.play();
 
 //        BettingRoundFrame bettingRoundFrame = new BettingRoundFrame(referee);
+//        new GameFrame(bettingRoundFrame.getRootPanel());
 //        bettingRoundFrame.play();
 
 //        StopTheClockRoundFrame stopTheClockRoundFrame = new StopTheClockRoundFrame(referee);
+//        GameFrame gameFrame = new GameFrame(stopTheClockRoundFrame.getRootPanel());
 //        stopTheClockRoundFrame.play();
 
 //        QuickAnswerRoundFrame quickAnswerRoundFrame = new QuickAnswerRoundFrame(referee);
 //        quickAnswerRoundFrame.play();
 
-        ThermometerRoundFrame thermometerRoundFrame = new ThermometerRoundFrame(referee);
-        thermometerRoundFrame.play();
+//        ThermometerRoundFrame thermometerRoundFrame = new ThermometerRoundFrame(referee);
+//        thermometerRoundFrame.play();
     }
 
 }

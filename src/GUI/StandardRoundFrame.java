@@ -11,9 +11,11 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class StandardRoundFrame extends JFrame {
+public class StandardRoundFrame implements RoundViewerI {
     protected RoundI roundLogic;
     protected Referee referee;
+
+    protected GameFrame parentFrame;
 
     protected TimerComponent timer;
     protected Question currentQuestion;
@@ -21,7 +23,6 @@ public class StandardRoundFrame extends JFrame {
     protected JLabel questionTypeLabel;
     protected JLabel questionTextLabel;
     protected JLabel playerNameLabel;
-    protected JLabel playerNameLabel2 = new JLabel();
 
     protected RoundedJPanel questionTypePanel;
     protected JPanel questionTextPanel;
@@ -51,7 +52,15 @@ public class StandardRoundFrame extends JFrame {
         setUpAnswerButtonsPanel();
         setUpFooter();
         setUpRootPanel();
-        setUpFrame();
+//        setUpFrame();
+    }
+
+    public void setParentFrame(GameFrame parentFrame) {
+        this.parentFrame = parentFrame;
+    }
+
+    public JPanel getRootPanel() {
+        return this.rootPanel;
     }
 
     protected void initializeRoundLogic() {
@@ -73,7 +82,7 @@ public class StandardRoundFrame extends JFrame {
     protected void setUpQuestionTextLabel() {
         questionTextLabel = new JLabel();
         questionTextLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.MEDIUM, 22f));
-        questionTextLabel.setAlignmentX(JLabel.CENTER);
+        questionTextLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         questionTextLabel.setForeground(Color.WHITE);
 
     }
@@ -81,10 +90,10 @@ public class StandardRoundFrame extends JFrame {
     protected void setUpQuestionTypePanel() {
         questionTypePanel = new RoundedJPanel();
         questionTypePanel.setLayout(new BoxLayout(questionTypePanel, BoxLayout.Y_AXIS));
-        questionTypePanel.add(Box.createRigidArea(new Dimension(1, 5)), CENTER_ALIGNMENT);
+        questionTypePanel.add(Box.createRigidArea(new Dimension(1, 5)), Component.CENTER_ALIGNMENT);
         questionTypePanel.add(questionTypeLabel, JPanel.CENTER_ALIGNMENT);
-        questionTypePanel.add(Box.createRigidArea(new Dimension(1, 8)), CENTER_ALIGNMENT);
-        questionTypePanel.setAlignmentX(CENTER_ALIGNMENT);
+        questionTypePanel.add(Box.createRigidArea(new Dimension(1, 8)), Component.CENTER_ALIGNMENT);
+        questionTypePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         questionTypePanel.setForeground(Color.WHITE);
     }
 
@@ -178,16 +187,16 @@ public class StandardRoundFrame extends JFrame {
         rootPanel.addKeyListener(new CustomizedKeyboardListener(KeyboardSet._Q_W_A_S, referee.getAlivePlayersInRound().get(0)));
     }
 
-    protected void setUpFrame() {
-        this.setTitle("Buzz! Quiz World!");
-        ImageIcon iconImage = new ImageIcon("resources/Buzz-Quiz-World_LOGO.jpg");
-        this.setIconImage(iconImage.getImage());
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(1280, 720);
-        this.setLocationRelativeTo(null);
-        this.setContentPane(rootPanel);
-        this.setVisible(false);
-    }
+//    protected void setUpFrame() {
+//        this.setTitle("Buzz! Quiz World!");
+//        ImageIcon iconImage = new ImageIcon("resources/Buzz-Quiz-World_LOGO.jpg");
+//        this.setIconImage(iconImage.getImage());
+//        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        this.setSize(1280, 720);
+//        this.setLocationRelativeTo(null);
+//        this.setContentPane(rootPanel);
+//        this.setVisible(false);
+//    }
 
     protected void displayNextQuestion() {
         referee.executeActionsBeforeNextQuestion();
@@ -198,7 +207,7 @@ public class StandardRoundFrame extends JFrame {
     }
 
     public void play() {
-        this.setVisible(true);
+        rootPanel.setVisible(true);
         playRound();
     }
 
@@ -212,7 +221,7 @@ public class StandardRoundFrame extends JFrame {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            dispose();
+            parentFrame.playNextRound();
         }
     }
 
@@ -316,10 +325,6 @@ public class StandardRoundFrame extends JFrame {
             footerPanel.add(dummyPanel); // dummy panel for alignment
         }
 
-    }
-
-    protected String getTypeCastedOfficialName() {
-        return ((StandardRound) roundLogic).getOfficialName();
     }
 
     protected void setUpPlayerNameLabel() {
@@ -464,6 +469,11 @@ public class StandardRoundFrame extends JFrame {
         public void updateScore(int score) {
             this.score = score;
             scoreLabel.setText(String.format("%,d", score));
+        }
+
+        public void updateName(String name) {
+            this.name = name;
+            nameLabel.setText(name);
         }
     }
 

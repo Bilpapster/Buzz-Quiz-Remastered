@@ -1,6 +1,5 @@
 package GUI;
 
-import com.QuickAnswerRound;
 import com.Referee;
 import com.StopTheClockRound;
 
@@ -11,6 +10,6 @@ public class StopTheClockRoundFrame extends StandardRoundFrame {
 
     @Override
     protected void initializeRoundLogic() {
-        this.roundLogic = new StopTheClockRound(10, referee);
+        this.roundLogic = new StopTheClockRound(5, referee);
     }
 }

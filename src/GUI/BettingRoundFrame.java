@@ -26,7 +26,7 @@ public class BettingRoundFrame extends StandardRoundFrame {
         timer.resetTimerLabel();
 
         for (Player player : referee.getAlivePlayersInRound()) {
-            BetSelectionWindow betSelectionWindow = new BetSelectionWindow(this, player);
+            BetSelectionWindow betSelectionWindow = new BetSelectionWindow(this.parentFrame, player);
             ((BettingRound) roundLogic).setBetForPlayer(player, betSelectionWindow.getFinalBet());
         }
         updateTextOnQuestionTextLabel();

@@ -1,6 +1,5 @@
 package GUI;
 
-import com.BettingRound;
 import com.QuickAnswerRound;
 import com.Referee;
 

@@ -29,7 +29,7 @@ public class GameEndingWindow extends JFrame implements ActionListener {
 
     private void setUpFrame() {
         this.setTitle("Buzz! Quiz World!");
-        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1280, 720);
         this.setLocationRelativeTo(null);
 
