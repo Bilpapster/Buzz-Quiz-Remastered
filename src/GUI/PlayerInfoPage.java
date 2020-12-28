@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import com.Player;
+import com.QuickAnswerRound;
 import com.Referee;
 
 
@@ -76,8 +77,17 @@ public class PlayerInfoPage implements ActionListener {
 //        StandardRoundFrame standardRoundFrame = new StandardRoundFrame(referee);
 //        standardRoundFrame.play();
 
-        BettingRoundFrame bettingRoundFrame = new BettingRoundFrame(referee);
-        bettingRoundFrame.play();
+//        BettingRoundFrame bettingRoundFrame = new BettingRoundFrame(referee);
+//        bettingRoundFrame.play();
+
+//        StopTheClockRoundFrame stopTheClockRoundFrame = new StopTheClockRoundFrame(referee);
+//        stopTheClockRoundFrame.play();
+
+//        QuickAnswerRoundFrame quickAnswerRoundFrame = new QuickAnswerRoundFrame(referee);
+//        quickAnswerRoundFrame.play();
+
+        ThermometerRoundFrame thermometerRoundFrame = new ThermometerRoundFrame(referee);
+        thermometerRoundFrame.play();
     }
 
 }
