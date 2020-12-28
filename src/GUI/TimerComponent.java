@@ -34,7 +34,7 @@ public class TimerComponent {
         panel.setBounds(180, 180, 500, 250);
         panel.setBackground(Color.darkGray);
 
-        setUpHeader();
+//        setUpHeader();
         setUpTimerLabel();
         setUpTimer();
         setUpFooter();
@@ -61,7 +61,7 @@ public class TimerComponent {
     public void setUpTimerLabel() {
         timerLabel = new JLabel();
         timerLabel.setText(df.format(duration));
-        timerLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.BOLD, 28).deriveFont(Font.ITALIC));
+        timerLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.BOLD, 26f).deriveFont(Font.ITALIC));
         timerLabel.setForeground(Color.ORANGE);
         timerLabel.setHorizontalAlignment(JLabel.CENTER);
         panel.add(timerLabel, BorderLayout.CENTER);
@@ -162,9 +162,9 @@ public class TimerComponent {
     private void setUpFooter()  {
         timeOverLabel = new JLabel();
         timeOverLabel.setForeground(Color.white);
-        timeOverLabel.setText("<html>Time has <font color=red><b>run out</b></font>! No bonus will be handed out for this round!</html>");
+        timeOverLabel.setText("<html>Time has <font color=red><b>run out</b></font>!</html>");
         timeOverLabel.setVisible(false);
-        timeOverLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 22f));
+        timeOverLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 16f));
         timeOverLabel.setHorizontalAlignment(JLabel.CENTER);
         panel.add(timeOverLabel, BorderLayout.SOUTH);
     }
