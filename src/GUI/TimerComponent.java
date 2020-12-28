@@ -169,6 +169,9 @@ public class TimerComponent {
         panel.add(timeOverLabel, BorderLayout.SOUTH);
     }
 
+    public void resetTimerLabel() {
+        timerLabel.setText(df.format(5000));
+    }
 
     public long getMillisAfterLaunch() {
         return System.currentTimeMillis() - startTime;
