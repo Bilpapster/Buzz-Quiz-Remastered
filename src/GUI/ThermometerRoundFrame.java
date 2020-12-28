@@ -1,12 +1,14 @@
 package GUI;
 
-import com.Player;
-import com.Referee;
-import com.ThermometerRound;
+import com.*;
 
 public class ThermometerRoundFrame extends StandardRoundFrame {
     public ThermometerRoundFrame(Referee referee) {
         super(referee);
+    }
+
+    @Override
+    protected void initializeRoundLogic() {
         roundLogic = new ThermometerRound(referee);
     }
 

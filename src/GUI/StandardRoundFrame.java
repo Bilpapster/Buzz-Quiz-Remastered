@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class StandardRoundFrame extends JFrame {
-    protected StandardRound roundLogic;
+    protected RoundI roundLogic;
     protected Referee referee;
 
     protected TimerComponent timer;
@@ -22,8 +22,6 @@ public class StandardRoundFrame extends JFrame {
     protected JLabel questionTextLabel;
     protected JLabel playerNameLabel;
     protected JLabel playerNameLabel2 = new JLabel();
-    protected JLabel playerStatusLabel = new JLabel();
-    protected JLabel playerStatusLabel2 = new JLabel();
 
     protected RoundedJPanel questionTypePanel;
     protected JPanel questionTextPanel;
@@ -35,13 +33,14 @@ public class StandardRoundFrame extends JFrame {
     protected JPanel footerPanel = new JPanel();
     protected JPanel rootPanel;
 
+    protected HashMap<Player, PlayerInfoPanel> playerInfoPanels = new HashMap<>();
+
     protected ArrayList<JButton> answerButtons = new ArrayList<>();
 
     public StandardRoundFrame(Referee referee) {
-
         this.referee = referee;
         currentQuestion = referee.getQuestion();
-        this.roundLogic = new StandardRound(5, referee);
+        initializeRoundLogic();
 
         setUpComponents();
         setUpQuestionTypePanel();
@@ -53,6 +52,10 @@ public class StandardRoundFrame extends JFrame {
         setUpFooter();
         setUpRootPanel();
         setUpFrame();
+    }
+
+    protected void initializeRoundLogic() {
+        this.roundLogic = new StandardRound(5, referee);
     }
 
     protected void setUpComponents() {
@@ -186,7 +189,7 @@ public class StandardRoundFrame extends JFrame {
         this.setVisible(false);
     }
 
-    protected void playNextQuestion() {
+    protected void displayNextQuestion() {
         referee.executeActionsBeforeNextQuestion();
         currentQuestion = referee.getQuestion();
         updateTexts();
@@ -201,8 +204,14 @@ public class StandardRoundFrame extends JFrame {
 
     protected void playRound() {
         if (!roundLogic.isOver()) {
-            playNextQuestion();
+            displayNextQuestion();
         } else {
+            updateTextOnAllPlayersScoreLabels();
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             dispose();
         }
     }
@@ -232,14 +241,8 @@ public class StandardRoundFrame extends JFrame {
 
     protected void updateTextOnAllPlayersScoreLabels() {
 
-        Player player0 = referee.getAlivePlayersInRound().get(0);
-        playerNameLabel.setText(player0.getName() + ": " + String.format("%,d", player0.getScore()));
-
-        if (referee.getAlivePlayersInRound().size() > 1) {
-            Player player1 = referee.getAlivePlayersInRound().get(1);
-            playerNameLabel2.setText(player1.getName() + ": " + String.format("%,d", player1.getScore()));
-//            playerStatusLabel2.setIcon(new ImageIcon("resources/Correct Answer.png"));
-//            playerStatusLabel2.setVisible(true);
+        for (Player player : referee.getAlivePlayersInRound()) {
+            playerInfoPanels.get(player).updateScore(player.getScore());
         }
     }
 
@@ -252,7 +255,6 @@ public class StandardRoundFrame extends JFrame {
     protected void clearTextOnAnswerButton(JButton button) {
         button.setText("");
     }
-
 
     protected void updateBackgroundColors() {
         questionTypePanel.setBackground(QuestionType.getColorOf(currentQuestion.getQuestionType()));
@@ -280,36 +282,44 @@ public class StandardRoundFrame extends JFrame {
         setUpPlayerNameLabel();
         setUpTimerComponent();
         footerPanel.setBackground(Color.DARK_GRAY);
-        footerPanel.setLayout(new GridLayout(1, 3, 1, 0));
+        footerPanel.setLayout(new GridLayout(1, 3));
 
-        JPanel auxiliaryPanel1 = new JPanel();
-        auxiliaryPanel1.setOpaque(false);
-        auxiliaryPanel1.setLayout(new BoxLayout(auxiliaryPanel1, BoxLayout.Y_AXIS));
-        auxiliaryPanel1.add(playerNameLabel);
-//        auxiliaryPanel1.add(playerStatusLabel);
-
-
-        JPanel auxiliaryPanel2 = new JPanel();
-        auxiliaryPanel2.setOpaque(false);
-        auxiliaryPanel2.add(timer.getMainPanel());
-
-        JPanel auxiliaryPanel3 = new JPanel();
-        auxiliaryPanel3.setOpaque(false);
-
-        footerPanel.add(auxiliaryPanel1);
-        footerPanel.add(auxiliaryPanel2);
-
-        if (referee.getAlivePlayersInRound().size() > 1) {
-            playerNameLabel2.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 20f));
-            playerNameLabel2.setForeground(Color.WHITE);
-            playerNameLabel2.setAlignmentX(Component.CENTER_ALIGNMENT);
-            playerNameLabel2.setAlignmentY(Component.CENTER_ALIGNMENT);
-            auxiliaryPanel3.add(playerNameLabel2);
-//            auxiliaryPanel3.add(playerStatusLabel2);
-        } else {
-            auxiliaryPanel3.add(new JLabel(""));
+        for (Player player : referee.getAlivePlayersInRound()) {
+            PlayerInfoPanel playerInfoPanel = new PlayerInfoPanel(player.getName());
+            playerInfoPanels.put(player, playerInfoPanel);
         }
-        footerPanel.add(auxiliaryPanel3);
+
+        footerPanel.add(playerInfoPanels.get(referee.getAlivePlayersInRound().get(0)).getRootPanel());
+
+        JLabel roundLabel = new JLabel(/*getTypeCastedOfficialName()*/ roundLogic.getOfficialName());
+        roundLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 22f));
+        roundLabel.setForeground(Color.WHITE);
+        JPanel roundPanel = new JPanel();
+        roundPanel.setOpaque(false);
+        roundPanel.add(roundLabel);
+
+        JPanel auxiliaryMiddlePanel = new JPanel();
+        auxiliaryMiddlePanel.setOpaque(false);
+        auxiliaryMiddlePanel.setLayout(new BoxLayout(auxiliaryMiddlePanel, BoxLayout.Y_AXIS));
+        auxiliaryMiddlePanel.add(Box.createVerticalStrut(6));
+        auxiliaryMiddlePanel.add(roundPanel);
+        auxiliaryMiddlePanel.add(timer.getMainPanel());
+
+        footerPanel.add(auxiliaryMiddlePanel);
+
+//        footerPanel.add(timer.getMainPanel());
+        if (referee.getAlivePlayersInRound().size() > 1) {
+            footerPanel.add(playerInfoPanels.get(referee.getAlivePlayersInRound().get(1)).getRootPanel());
+        } else {
+            JPanel dummyPanel = new JPanel();
+            dummyPanel.setOpaque(false);
+            footerPanel.add(dummyPanel); // dummy panel for alignment
+        }
+
+    }
+
+    protected String getTypeCastedOfficialName() {
+        return ((StandardRound) roundLogic).getOfficialName();
     }
 
     protected void setUpPlayerNameLabel() {
@@ -407,4 +417,54 @@ public class StandardRoundFrame extends JFrame {
             }
         }
     }
+
+    protected class PlayerInfoPanel {
+
+        private JPanel rootPanel;
+        private JLabel nameLabel;
+        private JLabel scoreLabel;
+        private String name;
+        private int score;
+
+        public PlayerInfoPanel(String name) {
+            this.name = name;
+            this.score = 0;
+            setUpLabels();
+        }
+
+        private void setUpLabels() {
+            nameLabel = new JLabel(name);
+            nameLabel.setForeground(Color.WHITE);
+            nameLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 22f));
+            JPanel namePanel = new JPanel();
+            namePanel.setOpaque(false);
+            namePanel.add(nameLabel);
+
+            scoreLabel = new JLabel(String.format("%,d", score));
+            scoreLabel.setForeground(Color.ORANGE);
+            scoreLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 22f));
+            JPanel scorePanel = new JPanel();
+            scorePanel.setOpaque(false);
+            scorePanel.add(scoreLabel);
+
+            rootPanel = new JPanel();
+            rootPanel.setOpaque(false);
+            rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.Y_AXIS));
+            rootPanel.add(Box.createVerticalStrut(6));
+            rootPanel.add(namePanel);
+            rootPanel.add(Box.createVerticalStrut(6));
+            rootPanel.add(scorePanel);
+            rootPanel.add(Box.createVerticalStrut(6));
+        }
+
+        public JPanel getRootPanel() {
+            return this.rootPanel;
+        }
+
+        public void updateScore(int score) {
+            this.score = score;
+            scoreLabel.setText(String.format("%,d", score));
+        }
+    }
+
 }
