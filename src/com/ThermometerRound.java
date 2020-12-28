@@ -118,4 +118,11 @@ public class ThermometerRound extends StandardRound {
     private void addOneCorrectAnswerTo(Player player) {
         correctAnswersInRound.put(player, correctAnswersInRound.get(player) + 1);
     }
+
+    public int getCorrectAnswersOfPlayer(Player player) {
+        if (correctAnswersInRound.containsKey(player)) {
+            return correctAnswersInRound.get(player);
+        }
+        return -1;
+    }
 }
