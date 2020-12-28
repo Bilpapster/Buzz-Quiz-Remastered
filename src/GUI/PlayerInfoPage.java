@@ -70,7 +70,14 @@ public class PlayerInfoPage implements ActionListener {
             listofPlayers.add(new Player(i.getText()));
         }
         playerInfoFrame.dispose();
-        StandardRoundFrame standardRoundFrame = new StandardRoundFrame(new Referee(listofPlayers));
+
+        Referee referee = new Referee(listofPlayers);
+
+//        StandardRoundFrame standardRoundFrame = new StandardRoundFrame(referee);
+//        standardRoundFrame.play();
+
+        BettingRoundFrame bettingRoundFrame = new BettingRoundFrame(referee);
+        bettingRoundFrame.play();
     }
 
 }
