@@ -37,6 +37,11 @@ public class ThermometerRound extends StandardRound {
                 + "The winner gets 5000 points!\n");
     }
 
+    @Override
+    public String getOfficialName() {
+        return "Boiling Point";
+    }
+
     /**
      * Decides whether the round is finished or not.
      *

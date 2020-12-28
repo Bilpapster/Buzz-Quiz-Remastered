@@ -41,6 +41,11 @@ public class QuickAnswerRound extends StopTheClockRound {
     }
 
     @Override
+    public String getOfficialName() {
+        return "Fastest Finger";
+    }
+
+    @Override
     public void giveCredits() {
 
         this.playersAnsweredCorrectly.clear();

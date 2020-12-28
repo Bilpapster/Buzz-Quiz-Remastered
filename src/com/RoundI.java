@@ -13,6 +13,13 @@ public interface RoundI {
     String getDescription();
 
     /**
+     * Getter for the official name of the round
+     *
+     * @return the official name of the round
+     */
+    String getOfficialName();
+
+    /**
      * Checks whether the round is over or not.
      *
      * @return true if the round is over, else false.

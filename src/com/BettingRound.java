@@ -53,6 +53,11 @@ public class BettingRound extends StandardRound {
                 " But, be careful! Answering the question wrong will cost you your bet!\n");
     }
 
+    @Override
+    public String getOfficialName() {
+        return "High Stakes";
+    }
+
     /**
      * Executes all necessary actions on a player that has answered the current question correctly.
      * Prints success message and updates the player's score, by adding the bet amount.

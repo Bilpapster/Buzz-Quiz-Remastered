@@ -26,6 +26,11 @@ public class StopTheClockRound extends StandardRound {
                 "Answering the question correctly will add to your score as many points as the remaining  miliseconds times 0.2!\n");
     }
 
+    @Override
+    public String getOfficialName() {
+        return "Stop the Clock";
+    }
+
     /**
      * Executes all necessary actions on a player that has answer correctly a question of the round.
      * Prints a success message and updates the player's score, by adding credit points, according to how fast the player had answered.

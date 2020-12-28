@@ -31,6 +31,11 @@ public class StandardRound implements RoundI {
                 + "For every correct answer, you earn " + this.creditPoints + " points!\n");
     }
 
+    @Override
+    public String getOfficialName() {
+        return "Point Builder";
+    }
+
     /**
      * Decides whether the round is finished or not.
      *
