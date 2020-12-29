@@ -18,6 +18,7 @@ public class BettingRoundFrame extends StandardRoundFrame {
     protected void displayNextQuestion() {
         referee.executeActionsBeforeNextQuestion();
         currentQuestion = referee.getQuestion();
+        clearTextOnAllSelectionLabels();
         updateTextOnQuestionTypeLabel();
         updateTextOnAllPlayersScoreLabels();
         questionTextLabel.setText("???");

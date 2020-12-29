@@ -4,10 +4,7 @@ import com.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -35,14 +32,18 @@ public class StandardRoundFrame implements RoundViewerI {
     protected JPanel rootPanel;
 
     protected HashMap<Player, PlayerInfoPanel> playerInfoPanels = new HashMap<>();
+    protected HashMap<JButton, JLabel> playersSelectionLabels = new HashMap<>();
 
     protected ArrayList<JButton> answerButtons = new ArrayList<>();
+    protected ArrayList<JLabel> selectionLabels = new ArrayList<>();
+
+    //TODO: Really need to clean up the code to more methods and classes
+    //TODO: Add JavaDoc
 
     public StandardRoundFrame(Referee referee) {
         this.referee = referee;
         currentQuestion = referee.getQuestion();
         initializeRoundLogic();
-
         setUpComponents();
         setUpQuestionTypePanel();
         setUpQuestionTextPanel();
@@ -52,7 +53,6 @@ public class StandardRoundFrame implements RoundViewerI {
         setUpAnswerButtonsPanel();
         setUpFooter();
         setUpRootPanel();
-//        setUpFrame();
     }
 
     public void setParentFrame(GameFrame parentFrame) {
@@ -118,7 +118,7 @@ public class StandardRoundFrame implements RoundViewerI {
     protected void setUpAnswersPanel() {
         answersPanel = new JPanel();
         answersPanel.setOpaque(false);
-        answersPanel.setLayout(new GridLayout(2, 2, 50, 25));
+        answersPanel.setLayout(new GridLayout(2, 2, 15, 15));
 
         for (int answerButton = 0; answerButton < 4; answerButton++) {
             RoundedJButton button = new RoundedJButton("");
@@ -126,15 +126,21 @@ public class StandardRoundFrame implements RoundViewerI {
             button.addMouseListener(new CustomizedButtonListener());
             answerButtons.add(button);
             answersPanel.add(answerButtons.get(answerButton));
+
+//            JLabel selectionLabel = new JLabel();
+//            selectionLabel.setForeground(Color.WHITE);
+//            selectionLabel.setHorizontalAlignment(JLabel.CENTER);
+//            selectionLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.REGULAR, 24f));
+            selectionLabels.add(new PlayerSelectionLabel());
         }
     }
 
     protected void setUpAnswerButtonsPanel() {
         answerButtonsPanel = new BackgroundImagedPanel();
         answerButtonsPanel.setLayout(new BorderLayout());
-        answerButtonsPanel.add(Box.createVerticalStrut(25), BorderLayout.NORTH);
+        answerButtonsPanel.add(Box.createVerticalStrut(60), BorderLayout.NORTH);
         answerButtonsPanel.add(answersPanel, BorderLayout.CENTER);
-        answerButtonsPanel.add(Box.createVerticalStrut(25), BorderLayout.SOUTH);
+        answerButtonsPanel.add(Box.createVerticalStrut(60), BorderLayout.SOUTH);
         answerButtonsPanel.add(paddingLeft, BorderLayout.WEST);
         answerButtonsPanel.add(paddingRight, BorderLayout.EAST);
     }
@@ -147,13 +153,25 @@ public class StandardRoundFrame implements RoundViewerI {
     protected void setUpPaddingLeft() {
         paddingLeft = new JPanel();
         paddingLeft.setOpaque(false);
-        paddingLeft.setPreferredSize(new Dimension(180, 100));
+        paddingLeft.setPreferredSize(new Dimension(240, 100));
+        paddingLeft.setLayout(new GridLayout(2, 1));
+
+        for (int i = 0; i < 4; i+=2) {
+            paddingLeft.add(selectionLabels.get(i));
+            this.playersSelectionLabels.put(answerButtons.get(i), selectionLabels.get(i));
+        }
     }
 
     protected void setUpPaddingRight() {
         paddingRight = new JPanel();
         paddingRight.setOpaque(false);
-        paddingRight.setPreferredSize(new Dimension(180, 100));
+        paddingRight.setPreferredSize(new Dimension(240, 100));
+        paddingRight.setLayout(new GridLayout(2, 1));
+
+        for (int i = 1; i < 4; i+=2) {
+            paddingRight.add(selectionLabels.get(i));
+            this.playersSelectionLabels.put(answerButtons.get(i), selectionLabels.get(i));
+        }
     }
 
     protected void setUpRootPanel() {
@@ -187,26 +205,17 @@ public class StandardRoundFrame implements RoundViewerI {
         rootPanel.addKeyListener(new CustomizedKeyboardListener(KeyboardSet._Q_W_A_S, referee.getAlivePlayersInRound().get(0)));
     }
 
-//    protected void setUpFrame() {
-//        this.setTitle("Buzz! Quiz World!");
-//        ImageIcon iconImage = new ImageIcon("resources/Buzz-Quiz-World_LOGO.jpg");
-//        this.setIconImage(iconImage.getImage());
-//        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        this.setSize(1280, 720);
-//        this.setLocationRelativeTo(null);
-//        this.setContentPane(rootPanel);
-//        this.setVisible(false);
-//    }
-
     protected void displayNextQuestion() {
         referee.executeActionsBeforeNextQuestion();
         currentQuestion = referee.getQuestion();
-        updateTexts();
+        clearTextOnAllSelectionLabels();
         updateBackgroundColors();
+        updateTexts();
         timer.startTimer();
     }
 
     public void play() {
+        referee.executeActionsBeforeNextRound();
         rootPanel.setVisible(true);
         playRound();
     }
@@ -215,12 +224,6 @@ public class StandardRoundFrame implements RoundViewerI {
         if (!roundLogic.isOver()) {
             displayNextQuestion();
         } else {
-            updateTextOnAllPlayersScoreLabels();
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             parentFrame.playNextRound();
         }
     }
@@ -261,8 +264,28 @@ public class StandardRoundFrame implements RoundViewerI {
         }
     }
 
+    protected void clearTextOnAllSelectionLabels() {
+        for (JLabel selectionLabel : selectionLabels) {
+            clearTextOnSelectionLabel(selectionLabel);
+        }
+    }
+
+    protected void clearTextOnSelectionLabel(JLabel selectionLabel) {
+        selectionLabel.setText("");
+    }
+
     protected void clearTextOnAnswerButton(JButton button) {
         button.setText("");
+    }
+
+    protected void showTextOnAllSelectionLabels() {
+        for (JLabel selectionLabel : selectionLabels) {
+            showTextOnSelectionLabel(selectionLabel);
+        }
+    }
+
+    protected void showTextOnSelectionLabel(JLabel selectionLabel) {
+        selectionLabel.setVisible(true);
     }
 
     protected void updateBackgroundColors() {
@@ -300,7 +323,7 @@ public class StandardRoundFrame implements RoundViewerI {
 
         footerPanel.add(playerInfoPanels.get(referee.getAlivePlayersInRound().get(0)).getRootPanel());
 
-        JLabel roundLabel = new JLabel(/*getTypeCastedOfficialName()*/ roundLogic.getOfficialName());
+        JLabel roundLabel = new JLabel(roundLogic.getOfficialName());
         roundLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 22f));
         roundLabel.setForeground(Color.WHITE);
         JPanel roundPanel = new JPanel();
@@ -316,7 +339,6 @@ public class StandardRoundFrame implements RoundViewerI {
 
         footerPanel.add(auxiliaryMiddlePanel);
 
-//        footerPanel.add(timer.getMainPanel());
         if (referee.getAlivePlayersInRound().size() > 1) {
             footerPanel.add(playerInfoPanels.get(referee.getAlivePlayersInRound().get(1)).getRootPanel());
         } else {
@@ -324,7 +346,7 @@ public class StandardRoundFrame implements RoundViewerI {
             dummyPanel.setOpaque(false);
             footerPanel.add(dummyPanel); // dummy panel for alignment
         }
-
+        hideTimerComponent();
     }
 
     protected void setUpPlayerNameLabel() {
@@ -343,7 +365,7 @@ public class StandardRoundFrame implements RoundViewerI {
      * Shows the footer of the page containing the timer
      */
     protected void showTimerComponent() {
-        footerPanel.setVisible(true);
+        timer.getMainPanel().setVisible(true);
     }
 
     /**
@@ -366,18 +388,48 @@ public class StandardRoundFrame implements RoundViewerI {
     public void actionPerformed() {
         if (referee.haveAllPlayersAnswered()) {
             timer.stopTimer();
-            roundLogic.giveCredits();
-            restoreForegroundDataForAllAnswerButtons();
-            playRound();
+            showTextOnAllSelectionLabels();
+            revealCorrectAnswer();
         }
         rootPanel.requestFocus();
     }
+
+    protected void revealCorrectAnswer() {
+        new DelayTimer(3000) {
+            private JButton correctAnswerButton = new JButton();
+
+            @Override
+            protected void executeActionsBeforeDelay() {
+                for (JButton button : answerButtons) {
+                    if (button.getText().equals(referee.getCorrectAnswerOfCurrentQuestion())) {
+                        correctAnswerButton = button;
+                        button.setBackground(Color.GREEN.brighter().brighter());
+                        break;
+                    }
+                }
+                roundLogic.giveCredits();
+                updateTextOnAllPlayersScoreLabels();
+            }
+
+            @Override
+            protected void executeActionsAfterDelay() {
+                for (JButton button : answerButtons) {
+                    button.setBackground(new JButton().getBackground());
+                    restoreForegroundDataForAllAnswerButtons();
+                }
+                playRound();
+            }
+        };
+    }
+
 
     protected class CustomizedButtonListener extends MouseAdapter {
         @Override
         public void mouseClicked(MouseEvent e) {
             JButton buttonSource = (JButton) e.getSource();
             referee.setAnswerData(referee.getAlivePlayersInRound().get(0), buttonSource.getText(), timer.getMillisAfterLaunch());
+            playersSelectionLabels.get(e.getSource()).setText(referee.getAlivePlayersInRound().get(0).getName());
+            playersSelectionLabels.get(e.getSource()).setVisible(false);
             actionPerformed();
         }
 
@@ -418,6 +470,10 @@ public class StandardRoundFrame implements RoundViewerI {
         public void keyPressed(KeyEvent e) {
             if (keyButtonAssociation.containsKey(e.getKeyChar())) {
                 referee.setAnswerData(playerAssociated, answerButtons.get(keyButtonAssociation.get(e.getKeyChar())).getText(), timer.getMillisAfterLaunch());
+
+                playersSelectionLabels.get(answerButtons.get(keyButtonAssociation.get(e.getKeyChar()))).setText(playerAssociated.getName());
+                playersSelectionLabels.get(answerButtons.get(keyButtonAssociation.get(e.getKeyChar()))).setVisible(false);
+
                 actionPerformed();
             }
         }
@@ -459,7 +515,7 @@ public class StandardRoundFrame implements RoundViewerI {
             rootPanel.add(namePanel);
             rootPanel.add(Box.createVerticalStrut(6));
             rootPanel.add(scorePanel);
-            rootPanel.add(Box.createVerticalStrut(6));
+            rootPanel.add(Box.createVerticalStrut(10));
         }
 
         public JPanel getRootPanel() {
@@ -476,5 +532,4 @@ public class StandardRoundFrame implements RoundViewerI {
             nameLabel.setText(name);
         }
     }
-
 }
