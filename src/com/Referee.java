@@ -89,4 +89,8 @@ public class Referee {
     public boolean haveAllPlayersAnswered() {
         return this.alivePlayersInRound.size() == this.answersGivenByPlayers.keySet().size();
     }
+
+    public String getCorrectAnswerOfCurrentQuestion() {
+        return currentQuestion.getCorrectAnswer();
+    }
 }
