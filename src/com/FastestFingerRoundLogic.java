@@ -1,6 +1,5 @@
 package com;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -9,18 +8,18 @@ import java.util.HashSet;
  * the order of players according to their answering time does matter and defines their reward.
  * The class is implemented as sub-class of the StopTheClock class.
  */
-public class QuickAnswerRound extends StopTheClockRound {
+public class FastestFingerRoundLogic extends StopTheClockRoundLogic {
 
     private HashSet<Player> playersAnsweredCorrectly;
     private HashMap<Player, Integer> orderOfAnsweringCorrectly;
 
     /**
-     * Constructs a com.StopTheClockRound object with given attributes.
+     * Constructs a com.StopTheClockRoundLogic object with given attributes.
      *
      * @param numberOfQuestions the number of questions in round
      * @param referee           the referee of the round
      */
-    public QuickAnswerRound(int numberOfQuestions, Referee referee) {
+    public FastestFingerRoundLogic(int numberOfQuestions, Referee referee) {
         super(numberOfQuestions, referee);
         playersAnsweredCorrectly = new HashSet<>();
         orderOfAnsweringCorrectly = new HashMap<>();

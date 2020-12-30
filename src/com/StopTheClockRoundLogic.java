@@ -3,14 +3,14 @@ package com;
 /**
  * A class representing a specific type of round.
  */
-public class StopTheClockRound extends StandardRound {
+public class StopTheClockRoundLogic extends PointBuilderRoundLogic {
 
     /**
-     * Constructs a com.StopTheClockRound object with given attributes.
+     * Constructs a com.StopTheClockRoundLogic object with given attributes.
      * @param numberOfQuestions the number of questions in the round.
      * @param referee the referee of the round
      */
-    public StopTheClockRound(int numberOfQuestions, Referee referee) {
+    public StopTheClockRoundLogic(int numberOfQuestions, Referee referee) {
         super(numberOfQuestions, referee);
     }
 

@@ -3,7 +3,7 @@ package com;
 /**
  * An interface, representing a round in our game.
  */
-public interface RoundI {
+public interface RoundLogicI {
 
     /**
      * Getter for the round description.

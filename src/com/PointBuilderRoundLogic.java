@@ -1,6 +1,6 @@
 package com;
 
-public class StandardRound implements RoundI {
+public class PointBuilderRoundLogic implements RoundLogicI {
 
     protected int numberOfQuestionsInRound;                     // the number of questions in round in total
     protected int numberOfQuestionsRemaining;                   // the number of questions remaining for the round to end
@@ -13,7 +13,7 @@ public class StandardRound implements RoundI {
      * @param numberOfQuestions the number of questions in the round
      * @param referee           the referee of the round for communication with round view objects
      */
-    public StandardRound(int numberOfQuestions, Referee referee) {
+    public PointBuilderRoundLogic(int numberOfQuestions, Referee referee) {
         this.numberOfQuestionsInRound = numberOfQuestions;
         this.numberOfQuestionsRemaining = numberOfQuestions;
         this.referee = referee;

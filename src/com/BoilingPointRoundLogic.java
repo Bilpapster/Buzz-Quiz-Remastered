@@ -3,18 +3,18 @@ package com;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ThermometerRound extends StandardRound {
+public class BoilingPointRoundLogic extends PointBuilderRoundLogic {
 
     private HashMap<Player, Integer> correctAnswersInRound;
     private Boolean winnerFound;
     private int winningScore;
 
     /**
-     * Constructs a com.StandardRound object with given attributes.
+     * Constructs a com.PointBuilderRoundLogic object with given attributes.
      *
      * @param referee the referee of the round.
      */
-    public ThermometerRound(Referee referee) {
+    public BoilingPointRoundLogic(Referee referee) {
         super(0, referee);
         correctAnswersInRound = new HashMap<>();
         for (Player player : referee.getAlivePlayersInRound()) {

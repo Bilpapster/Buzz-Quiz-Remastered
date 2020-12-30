@@ -5,19 +5,19 @@ import java.util.TreeMap;
 
 /**
  * A class representing a specific type of round, where the players place a bet before each question.
- * The class is implemented as sub-class of the com.StandardRound class.
+ * The class is implemented as sub-class of the com.PointBuilderRoundLogic class.
  */
-public class BettingRound extends StandardRound {
+public class HighStakesRoundLogic extends PointBuilderRoundLogic {
     private TreeMap<String, Integer> acceptableBets;        // stores the acceptable bets that players can place. Remains intact during round.
     private HashMap<Player, Integer> betsPlacedByPlayers;   // stores the bets placed by players at the current question. Values change during round.
 
     /**
-     * Constructs a com.BettingRound object with given attributes.
+     * Constructs a com.HighStakesRoundLogic object with given attributes.
      *
      * @param numberOfQuestions the number of questions in round
      * @param referee           the referee of the round
      */
-    public BettingRound(int numberOfQuestions, Referee referee) {
+    public HighStakesRoundLogic(int numberOfQuestions, Referee referee) {
         super(numberOfQuestions, referee);
         initializeAcceptableBetsSet();
         betsPlacedByPlayers = new HashMap<>();

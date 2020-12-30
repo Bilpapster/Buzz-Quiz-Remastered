@@ -28,13 +28,16 @@ public class PlayerInfoPage implements ActionListener {
         playerInfoFrame.setVisible(true);
         for(int i = 0; i < numberOfPlayers; i++) {
             JLabel label = new JLabel("Player " + (i + 1) + " enter your name:");
-            label.setHorizontalTextPosition(JLabel.CENTER);
-            label.setFont(new Font("Arial Black", Font.PLAIN, 24));
+            label.setHorizontalAlignment(JLabel.CENTER);
+//            label.setFont(new Font("Arial Black", Font.PLAIN, 24));
+            label.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 22f));
             label.setForeground(Color.WHITE);
             playerEnterNameLabels.add(label);
             JTextField textField = new JTextField();
             textField.setPreferredSize(new Dimension(250, 40));
-            textField.setFont(new Font("Arial Black", Font.BOLD, 18));
+            textField.setHorizontalAlignment(SwingConstants.CENTER);
+//            textField.setFont(new Font("Arial Black", Font.BOLD, 18));
+            textField.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.BOLD, 26f));
             textField.addActionListener(this::actionPerformed);
             playerNameFields.add(textField);
         }
@@ -74,12 +77,11 @@ public class PlayerInfoPage implements ActionListener {
 
         ArrayList<RoundViewerI> rounds = new ArrayList<>();
 
-        StandardRoundFrame round1 = new StandardRoundFrame(referee);
-        BettingRoundFrame round2 = new BettingRoundFrame(referee);
-        StopTheClockRoundFrame round3 = new StopTheClockRoundFrame(referee);
-        QuickAnswerRoundFrame round4 = new QuickAnswerRoundFrame(referee);
-        ThermometerRoundFrame round5 = new ThermometerRoundFrame(referee);
-
+        PointBuilderRoundViewer round1 = new PointBuilderRoundViewer(referee);
+        HighStakesRoundViewer round2 = new HighStakesRoundViewer(referee);
+        StopTheClockRoundViewer round3 = new StopTheClockRoundViewer(referee);
+        FastestFingerRoundViewer round4 = new FastestFingerRoundViewer(referee);
+        BoilingPointRoundViewer round5 = new BoilingPointRoundViewer(referee);
 
         rounds.add(round1);
         rounds.add(round2);
@@ -96,24 +98,6 @@ public class PlayerInfoPage implements ActionListener {
         round5.setParentFrame(gameFrame);
 
         gameFrame.start();
-
-//        StandardRoundFrame standardRoundFrame = new StandardRoundFrame(referee);
-//        GameFrame gameFrame = new GameFrame(standardRoundFrame.getRootPanel());
-//        standardRoundFrame.play();
-
-//        BettingRoundFrame bettingRoundFrame = new BettingRoundFrame(referee);
-//        new GameFrame(bettingRoundFrame.getRootPanel());
-//        bettingRoundFrame.play();
-
-//        StopTheClockRoundFrame stopTheClockRoundFrame = new StopTheClockRoundFrame(referee);
-//        GameFrame gameFrame = new GameFrame(stopTheClockRoundFrame.getRootPanel());
-//        stopTheClockRoundFrame.play();
-
-//        QuickAnswerRoundFrame quickAnswerRoundFrame = new QuickAnswerRoundFrame(referee);
-//        quickAnswerRoundFrame.play();
-
-//        ThermometerRoundFrame thermometerRoundFrame = new ThermometerRoundFrame(referee);
-//        thermometerRoundFrame.play();
     }
 
 }

@@ -8,8 +8,8 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class StandardRoundFrame implements RoundViewerI {
-    protected RoundI roundLogic;
+public class PointBuilderRoundViewer implements RoundViewerI {
+    protected RoundLogicI roundLogic;
     protected Referee referee;
 
     protected GameFrame parentFrame;
@@ -40,7 +40,7 @@ public class StandardRoundFrame implements RoundViewerI {
     //TODO: Really need to clean up the code to more methods and classes
     //TODO: Add JavaDoc
 
-    public StandardRoundFrame(Referee referee) {
+    public PointBuilderRoundViewer(Referee referee) {
         this.referee = referee;
         currentQuestion = referee.getQuestion();
         initializeRoundLogic();
@@ -64,7 +64,7 @@ public class StandardRoundFrame implements RoundViewerI {
     }
 
     protected void initializeRoundLogic() {
-        this.roundLogic = new StandardRound(5, referee);
+        this.roundLogic = new PointBuilderRoundLogic(5, referee);
     }
 
     protected void setUpComponents() {
@@ -81,7 +81,7 @@ public class StandardRoundFrame implements RoundViewerI {
 
     protected void setUpQuestionTextLabel() {
         questionTextLabel = new JLabel();
-        questionTextLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.MEDIUM, 22f));
+        questionTextLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.MEDIUM, 24f));
         questionTextLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         questionTextLabel.setForeground(Color.WHITE);
 
@@ -106,11 +106,11 @@ public class StandardRoundFrame implements RoundViewerI {
     protected void setUpQuestionPanel() {
         questionPanel = new JPanel();
         questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
-        questionPanel.add(Box.createVerticalStrut(10));
+        questionPanel.add(Box.createVerticalStrut(20));
         questionPanel.add(questionTypePanel);
-        questionPanel.add(Box.createVerticalStrut(6));
+        questionPanel.add(Box.createVerticalStrut(8));
         questionPanel.add(questionTextPanel);
-        questionPanel.add(Box.createVerticalStrut(10));
+        questionPanel.add(Box.createVerticalStrut(20));
 
         questionPanel.setBackground(Color.DARK_GRAY);
     }
@@ -126,11 +126,6 @@ public class StandardRoundFrame implements RoundViewerI {
             button.addMouseListener(new CustomizedButtonListener());
             answerButtons.add(button);
             answersPanel.add(answerButtons.get(answerButton));
-
-//            JLabel selectionLabel = new JLabel();
-//            selectionLabel.setForeground(Color.WHITE);
-//            selectionLabel.setHorizontalAlignment(JLabel.CENTER);
-//            selectionLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.REGULAR, 24f));
             selectionLabels.add(new PlayerSelectionLabel());
         }
     }

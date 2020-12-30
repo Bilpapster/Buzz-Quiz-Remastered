@@ -7,7 +7,7 @@ public class Game {
     private final int numberOfRounds;
     private final int numberOfQuestionsPerRound;
     private final ArrayList<Player> players;
-    private final ArrayList<RoundI> rounds;
+    private final ArrayList<RoundLogicI> rounds;
     private final QuestionManager questionManager;
     private final Parser parser;
     private final HighscoreManager highscoreManager;
@@ -45,26 +45,26 @@ public class Game {
             int randomNumber = (Math.abs(randomNumbersGenerator.nextInt()) % 5) + 1;
             switch (randomNumber) {
                 case 2:
-                    rounds.add(new BettingRound(numberOfQuestionsPerRound, referee));
+                    rounds.add(new HighStakesRoundLogic(numberOfQuestionsPerRound, referee));
                     break;
                 case 3:
-                    rounds.add(new StopTheClockRound(numberOfQuestionsPerRound,referee));
+                    rounds.add(new StopTheClockRoundLogic(numberOfQuestionsPerRound,referee));
                     break;
                 case 4:
-                    rounds.add(new QuickAnswerRound(numberOfQuestionsPerRound, referee));
+                    rounds.add(new FastestFingerRoundLogic(numberOfQuestionsPerRound, referee));
                     break;
                 case 5:
-                    rounds.add(new ThermometerRound(referee));
+                    rounds.add(new BoilingPointRoundLogic(referee));
                     break;
                 default:
-                    rounds.add(new StandardRound(numberOfQuestionsPerRound, referee));
+                    rounds.add(new PointBuilderRoundLogic(numberOfQuestionsPerRound, referee));
             }
         }
     }
 
     public void play() {
         int roundsCounter = 1;
-        for (RoundI round : rounds) {
+        for (RoundLogicI round : rounds) {
             System.out.println();
             System.out.println("**********" + " Round " + roundsCounter + " **********");
             System.out.print(round.getDescription());

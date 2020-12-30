@@ -1,10 +1,10 @@
 package GUI;
 
 import com.Referee;
-import com.StopTheClockRound;
+import com.StopTheClockRoundLogic;
 
-public class StopTheClockRoundFrame extends StandardRoundFrame {
-    public StopTheClockRoundFrame(Referee referee) {
+public class StopTheClockRoundViewer extends PointBuilderRoundViewer {
+    public StopTheClockRoundViewer(Referee referee) {
         super(referee);
         showTimerComponent();
     }
@@ -36,6 +36,6 @@ public class StopTheClockRoundFrame extends StandardRoundFrame {
 
     @Override
     protected void initializeRoundLogic() {
-        this.roundLogic = new StopTheClockRound(5, referee);
+        this.roundLogic = new StopTheClockRoundLogic(5, referee);
     }
 }
