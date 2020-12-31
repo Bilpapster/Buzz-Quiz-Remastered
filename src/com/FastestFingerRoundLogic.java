@@ -4,17 +4,30 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * A class representing a specific type of round, where, besides answering correctly,
- * the order of players according to their answering time does matter and defines their reward.
- * The class is implemented as sub-class of the StopTheClock class.
+ * <p>A class that represents the logic core of the round type "Fastest Finger" of the original
+ * <a href="https://en.wikipedia.org/wiki/Buzz!:_Quiz_World">Buzz!: Quiz World</a> game.
+ * At least two players are needed for this round. The round is timed.
+ * The class extends the <code>StopTheClockRoundLogic</code> class, extending its functionality, in order to
+ * comply with the following round rules.</p>
+ * <p>The player(s) are asked a number of questions (5) and earn credit points on correct answer. The amount of credit
+ * points is defined by the order of answering. The first player to answer the question correctly gets 1000 credit
+ * points. The second player to answer the question correctly gets 500 points. No points for the remaining players,
+ * even if they have answered correctly</p>
+ * <p>There is no point penalty on wrong answer.</p>
+ *
+ * @author Vasilis Papastergios
+ * @see StopTheClockRoundLogic
  */
 public class FastestFingerRoundLogic extends StopTheClockRoundLogic {
 
+    /* stores the players that have answered correctly the current question. */
     private HashSet<Player> playersAnsweredCorrectly;
+
+    /* stores the order of answering among the players that have answered correctly the current question */
     private HashMap<Player, Integer> orderOfAnsweringCorrectly;
 
     /**
-     * Constructs a com.StopTheClockRoundLogic object with given attributes.
+     * Constructs a <code>FastestFingerRoundLogic</code> object with given attributes.
      *
      * @param numberOfQuestions the number of questions in round
      * @param referee           the referee of the round
@@ -33,17 +46,37 @@ public class FastestFingerRoundLogic extends StopTheClockRoundLogic {
      */
     @Override
     public String getDescription() {
-        return ("In this round you are going to be asked " + this.getNumberOfQuestionsInRound() + " questions.\n"
-                + "At first you are let to know the category and the question itself. Press enter to show available options and make the clock running!\n" +
-                "The quicker to answer the question correctly gets 1000 points, while the second correct player gets the half of them, 500!\n" +
+
+        return ("In this round you are going to be asked " + this.getNumberOfQuestionsRemaining() + " questions. " +
+                "You will have 5 seconds to answer!\n"
+                + "At first you are let to know the category and the question itself. There is a 3-seconds time " +
+                "interval for the players to read the question. At the end of this interval, the available options " +
+                "are revealed and the clock starts running\n " +
+                "The quicker to answer the question correctly gets 1000 points, while the second correct player gets " +
+                "half of them, 500!\n" +
                 "No points available for other players, even if they answer correctly, so be as quick as possible!\n");
     }
 
+    /**
+     * Getter for the official name of the round, as presented in the original .
+     * <a href="https://en.wikipedia.org/wiki/Buzz!:_Quiz_World">Buzz!: Quiz World</a> game.
+     *
+     * @return the official name of the round as String
+     */
     @Override
     public String getOfficialName() {
         return "Fastest Finger";
     }
 
+    /**
+     * <p>Takes care of updating the player(s)' score, based on the data stored in the referee object.
+     * Update is done according to the round rules: The first player to answer the question correctly gets 1000 credit
+     * points. The second player to answer the question correctly gets 500 points. No points for the remaining players,
+     * even if they have answered correctly.</p>
+     * <p>The method should be invoked only when the referee object has stored all the needed data for the current question,
+     * as well as the player(s)' answers. The method should be invoked once for every question in round, just before
+     * displaying the next question.</p>
+     */
     @Override
     public void giveCredits() {
 
@@ -57,6 +90,10 @@ public class FastestFingerRoundLogic extends StopTheClockRoundLogic {
         super.giveCredits();
     }
 
+    /**
+     * Private utility method that decides the order of answering among the players that answered correctly the current
+     * question.
+     */
     private void refreshOrder() {
         this.orderOfAnsweringCorrectly.clear();
         for (Player player : playersAnsweredCorrectly) {
@@ -74,7 +111,7 @@ public class FastestFingerRoundLogic extends StopTheClockRoundLogic {
      * Executes all necessary actions on a player that has answered the current question correctly.
      * If the player was the fastest to answer correctly, they get rewarded by 1000 points.
      * In case the player was the second fastest to answer correctly, they get rewarded by 500 points.
-     * No points reward in any other case, despite answering correctly.
+     * No points reward in any other case, despite possible correct answer.
      *
      * @param player the player that has answered correctly the current question
      */

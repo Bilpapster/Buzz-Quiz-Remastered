@@ -3,22 +3,45 @@ package com;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * <p>A class that represents the logic core of the round type "Boiling point" of the original
+ * <a href="https://en.wikipedia.org/wiki/Buzz!:_Quiz_World">Buzz!: Quiz World</a> game. At least two players are
+ * needed for this round.</p>
+ *
+ * <p>The class extends the <code>PointBuilderRoundLogic</code> class, extending its functionality, in order to
+ * comply with the following round rules.</p>
+ *
+ * <p>The player(s) are asked questions until one of them reaches 5 correct answers. The player is rewarded with 5000
+ * points, while the other players gain no credit points. In case there are more than one players that reach the
+ * winning zone (5 correct answers) simultaneously, those players keep answering question until one of them reaches
+ * higher score than the other ones. Only the players involved in draw keep playing, whilst the others are no longer
+ * alive in the round (they can compete regularly in the next round).</p>
+ *
+ * @author Vasilis Papastergios
+ * @see PointBuilderRoundLogic
+ */
 public class BoilingPointRoundLogic extends PointBuilderRoundLogic {
 
-    private HashMap<Player, Integer> correctAnswersInRound;
+    /* stores the number of correct answers that every player involved in the round has accomplished up to that point */
+    private HashMap<Player, Integer> numberOfCorrectAnswersInRound;
+
+    /* stores whether the winner is found or not */
     private Boolean winnerFound;
+
+    /* stores the winning score for the round. At start it is 5, but increases by one in case more than one players
+     * reach 5 correct answers simultaneously */
     private int winningScore;
 
     /**
-     * Constructs a com.PointBuilderRoundLogic object with given attributes.
+     * Constructs a PointBuilderRoundLogic object with given attributes.
      *
      * @param referee the referee of the round.
      */
     public BoilingPointRoundLogic(Referee referee) {
         super(0, referee);
-        correctAnswersInRound = new HashMap<>();
+        numberOfCorrectAnswersInRound = new HashMap<>();
         for (Player player : referee.getAlivePlayersInRound()) {
-            correctAnswersInRound.put(player, 0);
+            numberOfCorrectAnswersInRound.put(player, 0);
         }
         this.winnerFound = false;
         this.winningScore = 5;
@@ -37,6 +60,12 @@ public class BoilingPointRoundLogic extends PointBuilderRoundLogic {
                 + "The winner gets 5000 points!\n");
     }
 
+    /**
+     * Getter for the official name of the round, as presented in the original .
+     * <a href="https://en.wikipedia.org/wiki/Buzz!:_Quiz_World">Buzz!: Quiz World</a> game.
+     *
+     * @return the official name of the round as String
+     */
     @Override
     public String getOfficialName() {
         return "Boiling Point";
@@ -45,7 +74,7 @@ public class BoilingPointRoundLogic extends PointBuilderRoundLogic {
     /**
      * Decides whether the round is finished or not.
      *
-     * @return true if the round is over, else false.
+     * @return <code>true</code> if the round is over, else <code>false</code>.
      */
     @Override
     public Boolean isOver() {
@@ -53,15 +82,12 @@ public class BoilingPointRoundLogic extends PointBuilderRoundLogic {
     }
 
     /**
-     * For every player checks whether they have answered the current question correctly or not.
+     * For every player checks whether they have answered the current question correctly or not. based on the data
+     * stored in the <code>referee</code> object.
      * Invokes necessary actions on both cases (correct or wrong answer).
      */
     @Override
     public void giveCredits() {
-
-        /* The method's code is deliberately written abstract for inheritance and code re-use purposes.
-            Utilizes 3 simpler protected methods that build up to the total giveCredits task and can be overridden by sub-classes. */
-
         for (Player player : referee.getAlivePlayersInRound()) {
             if (referee.hasPlayerAnsweredCorrectly(player)) {
                 executeActionsOnCorrectAnswer(player);
@@ -74,8 +100,8 @@ public class BoilingPointRoundLogic extends PointBuilderRoundLogic {
 
     /**
      * Executes all necessary actions on a player that has answer correctly a question of the round.
-     * Prints a success message and updates the player's number of correct answers in round, by adding credit points.
-     * Only for inside-class and inside-subclasses use.
+     * Updates the player's number of correct answers in round, by adding increasing by one the correct answers of them
+     * in the round.
      *
      * @param player the player that has answered the current question correctly
      */
@@ -86,13 +112,13 @@ public class BoilingPointRoundLogic extends PointBuilderRoundLogic {
 
     /**
      * Executes all necessary actions at the end of a question.
-     * Checks if the winner of the round is can be declared.
+     * Checks if the winner of the round can be declared.
      */
     @Override
     protected void executeActionsOnEndOfQuestion() {
         ArrayList<Player> playersReachedWinningZone = new ArrayList<>();
         for (Player player : referee.getAlivePlayersInRound()) {
-            if (correctAnswersInRound.get(player) == winningScore) {
+            if (numberOfCorrectAnswersInRound.get(player) == winningScore) {
                 playersReachedWinningZone.add(player);
             }
         }
@@ -118,15 +144,21 @@ public class BoilingPointRoundLogic extends PointBuilderRoundLogic {
      * Increases by one the number of correct answers given by the player in the round.
      * Only for inside-class use.
      *
-     * @param player the player who answered the current question correctly.
+     * @param player the player who has answered the current question correctly.
      */
     private void addOneCorrectAnswerTo(Player player) {
-        correctAnswersInRound.put(player, correctAnswersInRound.get(player) + 1);
+        numberOfCorrectAnswersInRound.put(player, numberOfCorrectAnswersInRound.get(player) + 1);
     }
 
-    public int getCorrectAnswersOfPlayer(Player player) {
-        if (correctAnswersInRound.containsKey(player)) {
-            return correctAnswersInRound.get(player);
+    /**
+     * Getter for the number of correct answers of a player in the round.
+     *
+     * @param player the player to get the correct answers of
+     * @return the number of correct answers of the player, if the player in involved in the round, else returns -1.
+     */
+    public int getNumberOfCorrectAnswersOfPlayer(Player player) {
+        if (numberOfCorrectAnswersInRound.containsKey(player)) {
+            return numberOfCorrectAnswersInRound.get(player);
         }
         return -1;
     }

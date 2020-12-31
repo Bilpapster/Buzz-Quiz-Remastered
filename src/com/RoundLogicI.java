@@ -1,7 +1,9 @@
 package com;
 
 /**
- * An interface, representing a round in our game.
+ * An interface that represents the logic core of a round type in our game.
+ *
+ * @author Vasilis Papastergios
  */
 public interface RoundLogicI {
 

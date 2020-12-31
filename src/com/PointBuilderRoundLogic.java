@@ -1,16 +1,33 @@
 package com;
 
+/**
+ * <p>A class that represents the logic core of the round type "Point Builder" of the original
+ * <a href="https://en.wikipedia.org/wiki/Buzz!:_Quiz_World">Buzz!: Quiz World</a> game.
+ * The class implements the <code>RoundLogicI</code> interface, according to the following round rules.</p>
+ * <p>The player(s) are asked a number of questions (5) and earn credit point (1000) on every correct answer.
+ * No timer or order of answering involved in round credits.</p>
+ * <p>There are no negative consequences for a player on wrong answer.</p>
+ *
+ * @author Vasileios Papastergios
+ */
 public class PointBuilderRoundLogic implements RoundLogicI {
 
-    protected int numberOfQuestionsInRound;                     // the number of questions in round in total
-    protected int numberOfQuestionsRemaining;                   // the number of questions remaining for the round to end
-    protected int creditPoints;                                 // the points earned on correct answer
-    protected Referee referee;                                  // the referee of the round
+    /* the number of questions in round, in total */
+    protected int numberOfQuestionsInRound;
+
+    /* the number of questions remaining for the round to end */
+    protected int numberOfQuestionsRemaining;
+
+    /* the points earned on correct answer */
+    protected int creditPoints;
+
+    /* the referee of the round */
+    protected Referee referee;
 
     /**
-     * Constructs a comStandardRound object with given attributes
+     * Constructs a PointBuilderRound object with given attributes
      *
-     * @param numberOfQuestions the number of questions in the round
+     * @param numberOfQuestions the number of questions in round
      * @param referee           the referee of the round for communication with round view objects
      */
     public PointBuilderRoundLogic(int numberOfQuestions, Referee referee) {
@@ -27,10 +44,18 @@ public class PointBuilderRoundLogic implements RoundLogicI {
      */
     @Override
     public String getDescription() {
-        return ("In this round you are going to be asked " + this.numberOfQuestionsInRound + " questions.\n"
-                + "For every correct answer, you earn " + this.creditPoints + " points!\n");
+        return ("Point Builder: In this round you are going to be asked " + this.numberOfQuestionsInRound +
+                " questions.\n"
+                + "For every correct answer, you earn " + this.creditPoints + " points!\n"
+                + "No point penalty on wrong answer.");
     }
 
+    /**
+     * Getter for the official name of the round, as presented in the original .
+     * <a href="https://en.wikipedia.org/wiki/Buzz!:_Quiz_World">Buzz!: Quiz World</a> game.
+     *
+     * @return the official name of the round as String
+     */
     @Override
     public String getOfficialName() {
         return "Point Builder";
@@ -39,7 +64,7 @@ public class PointBuilderRoundLogic implements RoundLogicI {
     /**
      * Decides whether the round is finished or not.
      *
-     * @return true if the round is over, else false.
+     * @return <code>true</code> if the round is over, else <code>false</code>.
      */
     @Override
     public Boolean isOver() {
@@ -47,16 +72,16 @@ public class PointBuilderRoundLogic implements RoundLogicI {
     }
 
     /**
-     * Getter for the number of questions in the round.
+     * Getter for the number of questions in round.
      *
-     * @return the number of questions in the round in total.
+     * @return the number of questions in round in total.
      */
     public int getNumberOfQuestionsInRound() {
         return this.numberOfQuestionsInRound;
     }
 
     /**
-     * Getter fot the number of questions remaining in the round.
+     * Getter fot the number of questions remaining in round.
      *
      * @return the number of questions remaining for the round to end.
      */
@@ -65,14 +90,18 @@ public class PointBuilderRoundLogic implements RoundLogicI {
     }
 
     /**
-     * For every player checks whether they have answered the current question correctly or not.
-     * Invokes necessary actions on both cases (correct or wrong answer).
+     * Takes care of updating the player(s)' score, based on the data stored in the referee object.
+     * Update is done according to the round rules: 1000 points on correct answer, no point on wrong one.
+     * The method should be invoked only when the referee object has stored all the needed data for the current question,
+     * as well as the player(s)' answers. The method should be invoked once for every question in round, just before
+     * displaying the next question.
      */
     @Override
     public void giveCredits() {
 
         /* The method's code is deliberately written abstract for inheritance and code re-use purposes.
-            Utilizes 3 simpler protected methods that build up to the total giveCredits task and can be overridden by sub-classes. */
+            Utilizes 3 simpler protected methods that build up to the total giveCredits task and can be overridden by
+            sub-classes. */
 
         for (Player player : referee.getAlivePlayersInRound()) {
             if (referee.hasPlayerAnsweredCorrectly(player)) {
@@ -85,9 +114,9 @@ public class PointBuilderRoundLogic implements RoundLogicI {
     }
 
     /**
-     * Executes all necessary actions on a player that has answer correctly a question of the round.
-     * Prints a success message and updates the player's score, by adding credit points.
-     * Only for inside-class and inside-subclasses use.
+     * <p>Executes all necessary actions on a player that has answered correctly a question of the round.</p>
+     * <p>Updates the player's score, by adding the number of credit points defined by the round rules (1000).</p>
+     * <p>Only for inside-class and inside-subclasses use.</p>
      *
      * @param player the player that has answered the current question correctly
      */
@@ -96,20 +125,19 @@ public class PointBuilderRoundLogic implements RoundLogicI {
     }
 
     /**
-     * Executes all necessary actions on a player that has answer wrong the current question of the round.
-     * Prints a failure message.
-     * Only for inside-class and inside-subclasses use.
+     * <p>Executes all necessary actions on a player that has answered wrong the current question of the round.</p>
+     * In this type of round the method is idle, since there is no point addition/removal for a player on wrong answer.
+     * However, the method is declared in this class, because it is going to be utilized by sub-classes, through inheritance.
+     * <p>Only for inside-class and inside-subclasses use.</p>
      *
      * @param player the player that has answered the current question wrong
      */
-    protected void executeActionsOnWrongAnswer(Player player) {
-
-    }
+    protected void executeActionsOnWrongAnswer(Player player) {/* Left blank in purpose. No actions needed on wrong answer. */}
 
     /**
-     * Executes all necessary actions at the end of a question.
-     * Decreases remaining questions by one and removes the question from the game, to avoid coming across it again later on game.
-     * Only for inside-class and inside-subclasses use.
+     * <p>Executes all necessary actions at the end of a question.
+     * Decreases remaining questions by one.</p>
+     * <p>Only for inside-class and inside-subclasses use.</p>
      */
     protected void executeActionsOnEndOfQuestion() {
         this.numberOfQuestionsRemaining--;
