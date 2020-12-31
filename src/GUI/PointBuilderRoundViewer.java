@@ -19,6 +19,8 @@ import java.util.HashMap;
  * two successive questions.</p>
  *
  * @author Vasileios Papastergios
+ * @see PointBuilderRoundLogic
+ * @see RoundViewerI
  */
 public class PointBuilderRoundViewer implements RoundViewerI {
 
@@ -420,7 +422,7 @@ public class PointBuilderRoundViewer implements RoundViewerI {
     }
 
     /**
-     * Updates the text on all labels diplaying the players' score.
+     * Updates the text on all labels displaying the players' score.
      */
     protected void updateTextOnAllPlayersScoreLabels() {
         for (Player player : referee.getAlivePlayersInRound()) {
