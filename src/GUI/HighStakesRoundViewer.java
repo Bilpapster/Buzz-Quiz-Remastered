@@ -15,23 +15,18 @@ public class HighStakesRoundViewer extends PointBuilderRoundViewer {
     }
 
     @Override
-    protected void displayNextQuestion() {
-        referee.executeActionsBeforeNextQuestion();
-        currentQuestion = referee.getQuestion();
-        clearTextOnAllSelectionLabels();
+    protected void executeCustomizablePreparationsBeforeNextQuestion() {
         updateTextOnQuestionTypeLabel();
         updateTextOnAllPlayersScoreLabels();
         questionTextLabel.setText("???");
         clearTextOnAllAnswerButtons();
         updateBackgroundColors();
         timer.resetTimerLabel();
-
         for (Player player : referee.getAlivePlayersInRound()) {
             BetSelectionWindow betSelectionWindow = new BetSelectionWindow(this.parentFrame, player);
             ((HighStakesRoundLogic) roundLogic).setBetForPlayer(player, betSelectionWindow.getFinalBet());
         }
         updateTextOnQuestionTextLabel();
         updateTextOnAllAnswerButtons();
-        timer.startTimer();
     }
 }

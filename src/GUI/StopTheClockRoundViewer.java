@@ -6,18 +6,14 @@ import com.StopTheClockRoundLogic;
 public class StopTheClockRoundViewer extends PointBuilderRoundViewer {
     public StopTheClockRoundViewer(Referee referee) {
         super(referee);
-        showTimerComponent();
+        timer.showTimer();
     }
 
     @Override
-    protected void displayNextQuestion() {
-
+    protected void executeCustomizablePreparationsBeforeNextQuestion() {
         new DelayTimer(3000) {
             @Override
             protected void executeActionsBeforeDelay() {
-                referee.executeActionsBeforeNextQuestion();
-                currentQuestion = referee.getQuestion();
-                clearTextOnAllSelectionLabels();
                 updateTextOnAllPlayersScoreLabels();
                 updateBackgroundColors();
                 updateTextOnQuestionTypeLabel();
@@ -29,9 +25,15 @@ public class StopTheClockRoundViewer extends PointBuilderRoundViewer {
             @Override
             protected void executeActionsAfterDelay() {
                 updateTextOnAllAnswerButtons();
+                isUserInteractionEnabled = true;
                 timer.startTimer();
             }
         };
+    }
+
+    @Override
+    protected void enableInteractionAndStartTimer() {
+        /* overridden without body for delayTimer-synchronization purposes */
     }
 
     @Override
