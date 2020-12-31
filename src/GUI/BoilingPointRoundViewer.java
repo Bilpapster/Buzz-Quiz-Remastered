@@ -18,7 +18,7 @@ public class BoilingPointRoundViewer extends PointBuilderRoundViewer {
     protected void updateTextOnAllPlayersScoreLabels() {
         super.updateTextOnAllPlayersScoreLabels();
         for (Player player : referee.getAlivePlayersInRound()) {
-            playerInfoPanels.get(player).updateName(player.getName() + "  (" + ((BoilingPointRoundLogic) roundLogic).getCorrectAnswersOfPlayer(player) + ")");
+            playerInfoPanels.get(player).updateName(player.getName() + "  (" + ((BoilingPointRoundLogic) roundLogic).getNumberOfCorrectAnswersOfPlayer(player) + ")");
         }
     }
 }

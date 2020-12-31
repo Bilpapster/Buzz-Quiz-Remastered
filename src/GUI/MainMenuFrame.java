@@ -22,8 +22,8 @@ public class MainMenuFrame extends JFrame implements ActionListener {
         this.getContentPane().setBackground(Color.darkGray);
         this.setLocationRelativeTo(null);
 
-        ImageIcon gameImage = new ImageIcon("resources/1887880-box_buzzqw.png");
-        ImageIcon iconImage = new ImageIcon("resources/Buzz_Quiz_World.jpg");
+        ImageIcon gameImage = new ImageIcon("src/resources/1887880-box_buzzqw.png");
+        ImageIcon iconImage = new ImageIcon("src/resources/Buzz_Quiz_World.jpg");
         this.setIconImage(iconImage.getImage());
 
         JPanel titlePanel = new JPanel();

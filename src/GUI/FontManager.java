@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public class FontManager {
     private static final HashMap<FontStyle, Font> availableFonts = new HashMap<>();
-    private static final String basicFontDirectoryPath = "resources/Fonts/AkaAcidDosis";
+    private static final String basicFontDirectoryPath = "src/resources/Fonts/AkaAcidDosis";
 
     public enum FontStyle {
         EXTRA_LIGHT, LIGHT, REGULAR, MEDIUM, SEMI_BOLD, BOLD, EXTRA_BOLD

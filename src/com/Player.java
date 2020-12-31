@@ -1,12 +1,14 @@
 package com;
 
+
 /**
  * A simple class representing a player in our game
+ *
+ * @author Fotios-Dimitrios Malakis
  */
 public class Player {
     private int score;
     private String name;
-    private Parser parser = new Parser();
 
 
     /**
@@ -20,22 +22,13 @@ public class Player {
     }
 
     /**
-     * Constructor for debugging purposes
+     * Constructor for debugging purposes. To be removed for final version.
      * @param name
      * @param score
      */
     public Player(String name, int score) {
-        this.score = score;
         this.name = name;
-    }
-
-    /**
-     * Creates a com.PlayerTest object with a name given by user and initializes the score to 0.
-     * Utilizes the com.Parser class
-     */
-    public Player() {
-        this.score = 0;
-        this.name = parser.askForName();
+        this.score = score;
     }
 
     /**
@@ -54,13 +47,6 @@ public class Player {
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * Prints the player's name, followed by their score.
-     */
-    public void printScore() {
-        System.out.printf("%s's score: %d points.%n", name, score);
     }
 
     /**

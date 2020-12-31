@@ -17,7 +17,6 @@ public class GameFrame extends JFrame {
         this.setVisible(false);
         this.rounds = rounds;
         this.players = players;
-        System.out.println(rounds.size());
 
         this.setTitle("Buzz! Quiz World!");
         ImageIcon iconImage = new ImageIcon("resources/Buzz-Quiz-World_LOGO.jpg");

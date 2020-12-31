@@ -18,11 +18,11 @@ public class Question {
     /**
      * The first of two constructors used to create a com.Question object without a picture
      *
-     * @param questionText the question text
+     * @param questionText  the question text
      * @param correctAnswer the correct answer, depicted with a string
-     * @param answers a hashmap containing both the letters for the questions and the questions
-     * @param questionType the type of question (e.g. history, science etc)
-     * @param hasPicture a boolean value indicating if the object has an image associated with it, in this case, it doesn't
+     * @param answers       a hashmap containing both the letters for the questions and the questions
+     * @param questionType  the type of question (e.g. history, science etc)
+     * @param hasPicture    a boolean value indicating if the object has an image associated with it, in this case, it doesn't
      */
     public Question(String questionText, String correctAnswer, HashMap<String, String> answers, QuestionType questionType, boolean hasPicture) {
         this.questionText = questionText;
@@ -48,6 +48,7 @@ public class Question {
 
     /**
      * Return's a com.Question object's question text
+     *
      * @return the com.Question object's question text
      */
     public String getQuestionText() {
@@ -56,6 +57,7 @@ public class Question {
 
     /**
      * Return's a com.Question object's correct answer
+     *
      * @return the com.Question Object's correct answer
      */
     public String getCorrectAnswer() {
@@ -64,6 +66,7 @@ public class Question {
 
     /**
      * Returns the com.Question Object's question type
+     *
      * @return the com.Question Object's question type
      */
     public QuestionType getQuestionType() {
@@ -91,7 +94,6 @@ public class Question {
     }
 
 
-
     /**
      * Pretty prints a com.Question object's question text
      */
@@ -103,7 +105,7 @@ public class Question {
      * Pretty prints all the available answers for a com.Question object
      */
     public void displayOptions() {
-        for(String i : answers.keySet())
+        for (String i : answers.keySet())
             System.out.println(i + ") " + answers.get(i));
     }
 
