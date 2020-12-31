@@ -4,6 +4,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import java.awt.*;
 
+/**
+ * A simple class that represents a panel, painted with a background image. Extends the <code>JPanel</code> class.
+ *
+ * @author Vasileios Papastergios
+ */
 public class BackgroundImagedPanel extends JPanel {
 
     private Image backgroundImage;
