@@ -42,7 +42,7 @@ What country won the very first FIFA World Cup in 1930?/Paraguay/Brazil/Germany/
 What disease is created when cells in the body begin to divide uncontrollably?/Cancer/Influenza/Alzheimer's/Diabetes/Cancer/Science/false/none
 What does "GPS" stand for?/Global Positioning System/Graphic Planetary Schematic/Ground Plan Scenario/General Polar Size/Global Positioning System/Technology/false/none
 What does a spectrometer help measure?/Light/Voltage/Liquid Density/Fermentation/Light/Science/false/none
-What does HTTP stand for?/HyperText Transfer Protocol/Highly Transposed Text Protocol/Helios Transport Transcontinental Productions/Hi-Tao Tsushimi Products/HyperText Transfer Protocol/Technology/false/none
+What does HTTP stand for?/HyperText Transfer Protocol/Highly Transposed Text Protocol/Helios Transport Tradition Program/Hi-Tao Tsushimi Products/HyperText Transfer Protocol/Technology/false/none
 What does the word “onion” mean in Latin?/Large pearl/Small oyster/White sphere/White oyster/Large pearl/Food_and_Culture/false/none
 What does Tom Hanks compare life to in Forest Gump?/A book/A box of chocolates/A sunny day/A bouquet of flowers/A box of chocolates/Movies_and_Series/false/none
 What is a tall chef’s hat called?/Toque/Skull cap/Bucket hat/Trilby/Toque/Food_and_Culture/false/none
