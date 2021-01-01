@@ -4,6 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 
+/**
+ *
+ * @author Fotis Malakis
+ */
 public class TimerComponent {
 
     private JPanel panel;
@@ -102,6 +106,13 @@ public class TimerComponent {
     }
 
     /**
+     * Continues the timer from where it was left off
+     */
+    public void continueTimer() {
+        timer.start();
+    }
+
+    /**
      * Returns the main panel of the component
      *
      * @return a <code>JPanel</code> which contains all elements of TimeComponent
@@ -159,7 +170,7 @@ public class TimerComponent {
      * Sets up the footer of the panel which gets displayed as soon as the
      * timer reaches 0
      */
-    private void setUpFooter()  {
+    private void setUpFooter() {
         timeOverLabel = new JLabel();
         timeOverLabel.setForeground(Color.white);
         timeOverLabel.setText("<html>Time has <font color=red><b>run out</b></font>!</html>");
@@ -169,10 +180,19 @@ public class TimerComponent {
         panel.add(timeOverLabel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Resets the time label of the timer. Removes a (possibly) visible time-over message.
+     */
     public void resetTimerLabel() {
+        timeOverLabel.setVisible(false);
         timerLabel.setText(df.format(5000));
     }
 
+    /**
+     * Simple accessor for the current time stamp on the timer.
+     *
+     * @return the time elapsed after the latest timer launch in milliseconds.
+     */
     public long getMillisAfterLaunch() {
         return System.currentTimeMillis() - startTime;
     }

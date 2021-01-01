@@ -13,6 +13,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
 
+
+/**
+ * Not used or needed anymore, can be deleted (Papster)
+ */
 public class GameWindow implements ActionListener {
 
     ArrayList<Player> listOfPlayers;
