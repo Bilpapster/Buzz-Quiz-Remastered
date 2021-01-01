@@ -33,7 +33,7 @@ public class PlayerSelectionLabel extends JLabel {
     }
 
     /**
-     * Overrides the <code>setText</code> method in order to suppoer multiline display, in case the players that
+     * Overrides the <code>setText</code> method in order to support multiline display, in case the players that
      * have chosen a specific answer are more than one.
      *
      * @param text the text to add on the label
