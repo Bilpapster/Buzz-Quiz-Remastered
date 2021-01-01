@@ -6,7 +6,7 @@ During which century was the telescope created?/16th Century/19th Century/17th C
 Galileo discovered the first four moons around which planet?/Mercury/Mars/Jupiter/Venus/Jupiter/Science/false/none
 How many calories per gram are stored in protein?/4/3/2/5/4/Food_and_Culture/false/none
 How many different blood types can be found in the human body?/4/3/1/2/4/Science/false/none
-How many different teams have won the Premier League since the start of the inaugural season in 1992/93?/7/6/5/8/7/Sports/false/none
+How many different teams have won the Premier League since the start of the inaugural season in 1992-93?/7/6/5/8/7/Sports/false/none
 How many films have Al Pacino and Robert De Niro starred in together?/10/6/2/4/4/Movies_and_Series/false/none
 How many flowers do honeybees need to visit in order to make one pound of honey?/2 million/1 million/1.5 million/900.000/2 million/Food_and_Culture/false/none
 How many goals did England score (excluding penalty shoot-outs) at the Mens' 2018 FIFA World Cup?/12/15/10/11/12/Sports/false/none
@@ -92,7 +92,7 @@ Which planet has the coldest atmosphere in the solar system?/Jupiter/Mercury/Ura
 Which planet has the Great Red Spot?/Jupiter/Mercury/Mars/Venus/Jupiter/Science/false/none
 Which planet is covered in thick poisonous clouds, trapping all the heat it absorbs from the Sun?/Mercury/Earth/Saturn/Venus/Venus/Science/false/none
 Which racer holds the record for the most Grand Prix wins?/Sebastian Vettel/Michael Schumacher/Max Verstappen/Valtteri Bottas/Michael Schumacher/Sports/false/none
-Who developed the smallpox vaccine?/John Adams/Edward Jenner/Louis Pasteur/Alexander Fleming/Edwar Jenner/Science/false/none
+Who developed the smallpox vaccine?/John Adams/Edward Jenner/Louis Pasteur/Alexander Fleming/Edward Jenner/Science/false/none
 Who directed Titanic, Avatar and The Terminator?/Quentin Tarantino/James Cameron/Joss Whedon/Edgar Wright/James Cameron/Movies_and_Series/false/none
 Who discovered Penicillin?/Alexander Fleming/Florence Nightingale/Alexander Papanikolaou/Joseph Bohr/Alexander Fleming/Science/false/none
 Who invented Coca-Cola?/John Pemberton/Asa Griggs Candler/Charles Elmer Hires/John Matthews/John Pemberton/Food_and_Culture/false/none
