@@ -32,7 +32,7 @@ public abstract class DelayTimer {
     /**
      * Executes all actions needed before pausing execution.
      */
-    protected abstract void executeActionsBeforeDelay();
+    protected void executeActionsBeforeDelay() {}
 
     /**
      * Executes all actions needed right after the pause.
