@@ -267,6 +267,26 @@ public class PointBuilderRoundViewer implements RoundViewerI {
         roundPanel.setOpaque(false);
         roundPanel.add(roundLabel);
 
+        JButton helpButton = new JButton("?");
+        helpButton.setBackground(Color.DARK_GRAY);
+        helpButton.setForeground(Color.WHITE);
+        helpButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                timer.stopTimer();
+
+                /* not working with the timer, needs to be changed */
+                JOptionPane.showMessageDialog(parentFrame, roundLogic.getDescription());
+
+                /*
+                something to pop up and pause execution of the rest program
+                text of the popup frame: roundLogic.getDescription()
+                 */
+                timer.continueTimer();
+            }
+        });
+        roundPanel.add(helpButton);
+
         JPanel auxiliaryMiddlePanel = new JPanel();
         auxiliaryMiddlePanel.setOpaque(false);
         auxiliaryMiddlePanel.setLayout(new BoxLayout(auxiliaryMiddlePanel, BoxLayout.Y_AXIS));

@@ -9,7 +9,7 @@ public class RoundedJPanel extends JPanel {
     /**
      * Stroke size. it is recommended to set it to 1 for better view
      */
-    protected int strokeSize = 2;
+    protected int strokeSize = 1;
     /**
      * Color of shadow
      */
@@ -59,6 +59,7 @@ public class RoundedJPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        this.setAlignmentX(CENTER_ALIGNMENT);
         int width = getWidth();
         int height = getHeight();
         int shadowGap = this.shadowGap;

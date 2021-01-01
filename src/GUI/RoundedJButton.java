@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RoundedJButton extends JButton {
-    protected int strokeSize = 2;
+    protected int strokeSize = 1;
     protected Color shadowColor = Color.BLACK;
     protected boolean shady = true;
     protected boolean highQuality = true;
@@ -35,7 +35,6 @@ public class RoundedJButton extends JButton {
 
     @Override
     protected void paintComponent(Graphics g) {
-//        super.paintComponent(g);
         int width = getWidth();
         int height = getHeight();
         int shadowGap = this.shadowGap;
