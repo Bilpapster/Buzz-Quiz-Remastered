@@ -285,6 +285,7 @@ public class PointBuilderRoundViewer implements RoundViewerI {
                 timer.continueTimer();
             }
         });
+        roundPanel.add(Box.createHorizontalStrut(5));
         roundPanel.add(helpButton);
 
         JPanel auxiliaryMiddlePanel = new JPanel();

@@ -69,8 +69,7 @@ public class RoundedJPanel extends JPanel {
 
         //Sets antialiasing if HQ.
         if (highQuality) {
-            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON);
+            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         }
 
         //Draws shadow borders if any.
@@ -98,5 +97,4 @@ public class RoundedJPanel extends JPanel {
         //Sets strokes to default, is better.
         graphics.setStroke(new BasicStroke());
     }
-
 }

@@ -122,7 +122,7 @@ public class TimerComponent {
     }
 
     /**
-     * Method which returns wether the timer has reached 0 or not
+     * Method which returns whether the timer has reached 0 or not
      *
      * @return returns <code>true</code> if the timer has reached 0, otherwise
      * returns <code>false</code>
