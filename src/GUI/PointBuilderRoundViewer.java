@@ -552,11 +552,13 @@ public class PointBuilderRoundViewer implements RoundViewerI {
      * <code>playRound</code> method/
      */
     protected void revealCorrectAnswer() {
-        new DelayTimer(3000) {
+
+        new DelayTimer(800) {
+
             private JButton correctAnswerButton = new JButton();
 
             @Override
-            protected void executeActionsBeforeDelay() {
+            protected void executeActionsAfterDelay() {
                 for (JButton button : answerButtons) {
                     if (button.getText().equals(referee.getCorrectAnswerOfCurrentQuestion())) {
                         correctAnswerButton = button;
@@ -566,15 +568,17 @@ public class PointBuilderRoundViewer implements RoundViewerI {
                 }
                 roundLogic.giveCredits();
                 updateTextOnAllPlayersScoreLabels();
-            }
+                new DelayTimer(3000) {
 
-            @Override
-            protected void executeActionsAfterDelay() {
-                for (JButton button : answerButtons) {
-                    button.setBackground(new JButton().getBackground());
-                    restoreForegroundDataForAnswerButton(button);
-                }
-                playRound();
+                    @Override
+                    protected void executeActionsAfterDelay() {
+                        for (JButton button : answerButtons) {
+                            button.setBackground(new JButton().getBackground());
+                            restoreForegroundDataForAnswerButton(button);
+                        }
+                        playRound();
+                    }
+                };
             }
         };
     }
