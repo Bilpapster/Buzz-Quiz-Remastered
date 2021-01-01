@@ -72,32 +72,7 @@ public class PlayerInfoPage implements ActionListener {
             listofPlayers.add(new Player(i.getText()));
         }
         playerInfoFrame.dispose();
-
-        Referee referee = new Referee(listofPlayers);
-
-        ArrayList<RoundViewerI> rounds = new ArrayList<>();
-
-        PointBuilderRoundViewer round1 = new PointBuilderRoundViewer(referee);
-        HighStakesRoundViewer round2 = new HighStakesRoundViewer(referee);
-        StopTheClockRoundViewer round3 = new StopTheClockRoundViewer(referee);
-        FastestFingerRoundViewer round4 = new FastestFingerRoundViewer(referee);
-        BoilingPointRoundViewer round5 = new BoilingPointRoundViewer(referee);
-
-        rounds.add(round1);
-        rounds.add(round2);
-        rounds.add(round3);
-        rounds.add(round4);
-        rounds.add(round5);
-
-        GameFrame gameFrame = new GameFrame(rounds, referee.getAlivePlayersInRound());
-
-        round1.setParentFrame(gameFrame);
-        round2.setParentFrame(gameFrame);
-        round3.setParentFrame(gameFrame);
-        round4.setParentFrame(gameFrame);
-        round5.setParentFrame(gameFrame);
-
-        gameFrame.start();
+        new GameFrame(listofPlayers);
     }
 
 }

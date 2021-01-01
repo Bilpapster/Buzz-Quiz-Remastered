@@ -553,7 +553,7 @@ public class PointBuilderRoundViewer implements RoundViewerI {
      */
     protected void revealCorrectAnswer() {
 
-        new DelayTimer(800) {
+        new DelayTimer(1000) {
 
             private JButton correctAnswerButton = new JButton();
 

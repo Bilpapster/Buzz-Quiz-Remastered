@@ -30,7 +30,7 @@ public class Referee {
     private Question currentQuestion;
 
     /* the players taking part in game, in total */
-    private ArrayList<Player> playersInGame;
+    private final ArrayList<Player> playersInGame;
 
     /* the players that are alive in the current round up to the moment. May differ from the players in game in total */
     private ArrayList<Player> alivePlayersInRound = new ArrayList<>();
@@ -57,7 +57,7 @@ public class Referee {
     }
 
     /**
-     * Setter for the answer data for a player, concerning the currently playing question.
+     * Setter for the answer data of a player, concerning the currently playing question.
      * The setter should be invoked only by a front-end class.
      *
      * @param player              the player to set data for
