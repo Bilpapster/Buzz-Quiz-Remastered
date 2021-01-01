@@ -25,7 +25,7 @@ public class GameWindow implements ActionListener {
     JFrame gameFrame = new JFrame();
     JLabel questionType = new JLabel();
     JLabel questionText = new JLabel();
-    RoundedJPanel questionTypePanel = new RoundedJPanel();
+    RoundedJPanel questionTypePanel = new RoundedJPanel(new Dimension(20, 20));
     JPanel questionPanel = new JPanel();
     JPanel answersPanel = new JPanel();
     JPanel footerPanel = new JPanel();

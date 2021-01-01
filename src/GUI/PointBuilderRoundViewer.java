@@ -47,7 +47,7 @@ public class PointBuilderRoundViewer implements RoundViewerI {
     protected JLabel questionTextLabel = new JLabel();
 
     /* the panel components that the root panel of the viewer consists of */
-    protected RoundedJPanel questionTypePanel = new RoundedJPanel();
+    protected RoundedJPanel questionTypePanel = new RoundedJPanel(new Dimension(20, 20));
     protected JPanel questionTextPanel = new JPanel();
     protected JPanel questionPanel = new JPanel();
     protected BackgroundImagedPanel answeringAreaPanel = new BackgroundImagedPanel();
@@ -186,7 +186,7 @@ public class PointBuilderRoundViewer implements RoundViewerI {
         answerButtonsPanel.setLayout(new GridLayout(2, 2, 15, 15));
 
         for (int answerButton = 0; answerButton < 4; answerButton++) {
-            RoundedJButton button = new RoundedJButton("");
+            RoundedJButton button = new RoundedJButton(new Dimension(100, 100));
             button.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.REGULAR, 22f));
             button.addMouseListener(new CustomizedButtonListener());
             answerButtons.add(button);
