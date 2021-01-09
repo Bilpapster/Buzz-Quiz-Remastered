@@ -1,10 +1,14 @@
+package com;
+
+
 /**
  * A simple class representing a player in our game
+ *
+ * @author Fotios-Dimitrios Malakis
  */
 public class Player {
     private int score;
     private String name;
-    private Parser parser = new Parser();
 
 
     /**
@@ -18,24 +22,31 @@ public class Player {
     }
 
     /**
-     * Creates a PlayerTest object with a name given by user and initializes the score to 0.
-     * Utilizes the Parser class
+     * Constructor for debugging purposes. To be removed for final version.
+     * @param name
+     * @param score
      */
-    public Player() {
-        this.score = 0;
-        this.name = parser.askForName();
+    public Player(String name, int score) {
+        this.name = name;
+        this.score = score;
     }
 
+    /**
+     * Getter for the score attribute.
+     *
+     * @return the current score of the player.
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * Getter for the name attribute.
+     *
+     * @return the player's name.
+     */
     public String getName() {
         return name;
-    }
-
-    public void printScore() {
-        System.out.printf("%s's score: %d points.%n", name, score);
     }
 
     /**

@@ -1,3 +1,5 @@
+package com;
+
 import java.util.HashMap;
 import java.util.Set;
 
@@ -14,13 +16,13 @@ public class Question {
     private QuestionType questionType;
 
     /**
-     * The first of two constructors used to create a Question object without a picture
+     * The first of two constructors used to create a com.Question object without a picture
      *
-     * @param questionText the question text
+     * @param questionText  the question text
      * @param correctAnswer the correct answer, depicted with a string
-     * @param answers a hashmap containing both the letters for the questions and the questions
-     * @param questionType the type of question (e.g. history, science etc)
-     * @param hasPicture a boolean value indicating if the object has an image associated with it, in this case, it doesn't
+     * @param answers       a hashmap containing both the letters for the questions and the questions
+     * @param questionType  the type of question (e.g. history, science etc)
+     * @param hasPicture    a boolean value indicating if the object has an image associated with it, in this case, it doesn't
      */
     public Question(String questionText, String correctAnswer, HashMap<String, String> answers, QuestionType questionType, boolean hasPicture) {
         this.questionText = questionText;
@@ -44,10 +46,29 @@ public class Question {
         this.picture = picture;
     }
 
+    /**
+     * Return's a com.Question object's question text
+     *
+     * @return the com.Question object's question text
+     */
+    public String getQuestionText() {
+        return questionText;
+    }
+
+    /**
+     * Return's a com.Question object's correct answer
+     *
+     * @return the com.Question Object's correct answer
+     */
     public String getCorrectAnswer() {
         return correctAnswer;
     }
 
+    /**
+     * Returns the com.Question Object's question type
+     *
+     * @return the com.Question Object's question type
+     */
     public QuestionType getQuestionType() {
         return questionType;
     }
@@ -72,14 +93,28 @@ public class Question {
         System.out.printf("--------Category: %s-------\n", questionType.toString());
     }
 
+
+    /**
+     * Pretty prints a com.Question object's question text
+     */
     public void displayQuestionBody() {
         System.out.println("--------" + questionText + "--------");
     }
 
+    /**
+     * Pretty prints all the available answers for a com.Question object
+     */
     public void displayOptions() {
-        for(String i : answers.keySet())
+        for (String i : answers.keySet())
             System.out.println(i + ") " + answers.get(i));
     }
+
+//    public void displayQuestion() {
+//        System.out.printf("--------Category: %s-------\n", questionType.toString());
+//        System.out.println("--------" + questionText + "--------");
+//        for(String i : answers.keySet())
+//            System.out.println(i + ") " + answers.get(i));
+//    }
 
     /**
      * A method that checks if the answer provided to it matches the question's correct answer
@@ -89,7 +124,6 @@ public class Question {
      */
     public boolean isCorrectAnswer(String playerChoice) {
         return answers.get(playerChoice).equals(correctAnswer);
-        // TODO: add a check for invalid answers if we're not gonna address them in the parser class
     }
 
 }
