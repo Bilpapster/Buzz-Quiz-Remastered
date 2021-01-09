@@ -1,5 +1,6 @@
 package GUI;
 
+import com.HighscoreManager;
 import com.Player;
 
 import javax.swing.*;
@@ -19,8 +20,10 @@ public class GameEndingWindow extends JFrame implements ActionListener {
     protected JPanel footerPanel;
     protected JPanel playerCardsPanel;
     protected ArrayList<PlayerEndInfoPanel> playerEndInfoPanels;
+    protected HighscoreManager highscoreManager;
 
     public GameEndingWindow(ArrayList<Player> listOfPlayers) {
+        highscoreManager = new HighscoreManager();
         this.listOfPlayers = listOfPlayers;
         calculatePositions();
 
@@ -117,6 +120,7 @@ public class GameEndingWindow extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         MainMenuFrame mainMenuFrame = new MainMenuFrame();
+        highscoreManager.updateHighscores(listOfPlayers);
         this.dispose();
     }
 }
