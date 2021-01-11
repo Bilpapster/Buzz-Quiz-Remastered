@@ -1,5 +1,5 @@
 "Fe" is the chemical symbol for which common element?/Copper/Iron/Oxygen/Hydrogen/Iron/Science/false/none
-Approcimately how many Earths could fit inside the sun?/356.000/1.3 Million/864.000/2 Million/1.3 Million/Science/false/none
+Approximately how many Earths could fit inside the sun?/356.000/1.3 Million/864.000/2 Million/1.3 Million/Science/false/none
 Ascorbic acid is more commonly referred to as what?/Gluten/Lactose/Vitamin C/Aspirin/Vitamin C/Science/false/none
 At which venue was the first World Championship Grand Prix held?/Silverstone/Monza/Spa/Pescara/Silverstone/Sports/false/none
 During which century was the telescope created?/16th Century/19th Century/17th Century/18th Century/17th Century/Science/false/none
@@ -24,7 +24,6 @@ Linux is a.../Simple Kernel/Microkernel/Hybrid Kernel/Monolithic Kernel/Monolith
 On an email, what does "CC" stand for?/Carbon Copy/Course Corrected/Check Core/Can't Complete/Carbon Copy/Technology/false/none
 Paypal was spun off from which major company in 2015?/eBay/Microsoft/Amazon/Yahoo!/eBay/Technology/false/none
 Released in 1900, the Brownie was a famous early camera from what company?/Kodak/Polaroid/Canon/Fuji/Kodak/Technology/false/none
-Tech giant Foxconn is headquartered in which of these countries?/eBay/Microsoft/Amazon/Yahoo!/eBay/Technology/false/none
 Tech giant Foxconn is headquartered in which of these countries?/Mexico/Brazil/Denmark/Taiwan/Taiwan/Technology/false/none
 The compact disc was originally developed by Philips and which company?/Sony/IBM/Apple/Zenith/Sony/Technology/false/none
 The computer Deep Blue is known for beating a grandmaster in which game?/Checkers/Chess/Monopoly/Snakes and Ladders/Chess/Technology/false/none
@@ -100,10 +99,6 @@ Who is widely considered to be the 'Last Samurai'?/Saigo Takamori/Emperor Hirohi
 Who played Freddy Krueger in the first eight "Night on Elm Street" movies?/Kane Hodder/Robert Englund/Jackie Earle Haley/Johnny Depp/Robert Englund/Movies_and_Series/false/none
 Who was the first American President?/George Bush/George Washington/Barrack Obama/Lyndon B. Johnson/George Washington/History/false/none
 With which country does France NOT share a land border with?/Germany/Netherlands/Austria/Luxembourg/Austria/Geography/false/none
-Ποιο από τα παρακάτω έγχορδα μουσικά όργανα είναι το μεγαλύτερο (σε μέγεθος);/Βιολί/Κοντραμπάσσο/Βιόλα/Τσέλο/Κοντραμπάσσο/Music/false/none
-Ποιος ήταν ο πρώτος άνθρωπος στο διάστημα;/Ο Νηλ Άρμστρογκ/Η Λάικα/Ο Γιούρι Γκαγκάριν/Ο Άλαν Σέπαρντ/Ο Γιούρι Γκαγκάριν/Science/false/none
-Ποιος κατέκτησε το Χρυσό Παπούτσι στο Μουντιάλ;/Ρομελού Λουκάκου/Αντουάν Γριεζμάν/Χάρι Κέιν/Κριστιάνο ρονάλντο/Χάρι Κέιν/Sports/false/none
-Πόσοι προπονητές έκατσαν στον πάγκο του Ολυμπιακού το 2018;/3/5/2/4/3/Sports/false/none
-Πότε έγινε η Αθήνα πρωτεύουσα της Ελλάδας?/1930/1934/1933/1935/1934/History/false/none
-Πότε έγινε ο Β’ Βαλκανικός Πόλεμος?/1912/1913/1914/1911/1913/History/false/none
-Πού είναι το Τιμπουκτού;/Μαυριτανία/Μάλι/Αλγερία/Μεξικό/Μάλι/Geography/false/none
+Who was the first human to journey into outer space?/Neil Armstrong/Laika/Yuri Gagarin/Alan Shepard/Yuri Gagarin/Science/false/none
+When was Athens officially made the capital city of Greece?/1930/1934/1933/1935/1934/History/false/none
+When did the Second Balkan War start?/1912/1913/1914/1911/1913/History/false/none
