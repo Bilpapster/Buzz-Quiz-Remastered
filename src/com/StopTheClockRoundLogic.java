@@ -63,7 +63,7 @@ public class StopTheClockRoundLogic extends PointBuilderRoundLogic {
      */
     @Override
     protected void executeActionsOnCorrectAnswer(Player player) {
-        creditPoints = (int) ((5000 - referee.getTimeElapsedOnAnswerForPlayer(player)) * 0.2);
+        creditPoints = (int) ((referee.getTimeElapsedOnAnswerForPlayer(player)) * 0.2);
         if (creditPoints > 0) {
             player.updateScore(creditPoints);
         }
