@@ -43,8 +43,8 @@ public class PointBuilderRoundViewer implements RoundViewerI {
     protected Question currentQuestion;
 
     /* labels for displaying the type and text of the current question */
-    protected JLabel questionTypeLabel = new JLabel();
-    protected JLabel questionTextLabel = new JLabel();
+    protected JLabel questionTypeLabel = new CustomizedJLabel(FontManager.FontStyle.SEMI_BOLD, 16f);
+    protected JLabel questionTextLabel = new CustomizedJLabel(FontManager.FontStyle.MEDIUM, 24f);
 
     /* the panel components that the root panel of the viewer consists of */
     protected RoundedJPanel questionTypePanel = new RoundedJPanel(new Dimension(20, 20));
@@ -81,7 +81,6 @@ public class PointBuilderRoundViewer implements RoundViewerI {
         this.referee = referee;
         currentQuestion = referee.getQuestion();
         initializeRoundLogic();
-        setUpComponents();
         setUpQuestionTypePanel();
         setUpQuestionTextPanel();
         setUpQuestionPanel();
@@ -117,32 +116,6 @@ public class PointBuilderRoundViewer implements RoundViewerI {
         this.roundLogic = new PointBuilderRoundLogic(5, referee);
     }
 
-    /**
-     * Sets up the individual components (JLabels) that display the type and text of the current question.
-     */
-    protected void setUpComponents() {
-        setUpQuestionTypeLabel();
-        setUpQuestionTextLabel();
-    }
-
-    /**
-     * Sets up the basic specs for the label that displays the current question's type.
-     */
-    protected void setUpQuestionTypeLabel() {
-        questionTypeLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 16f).deriveFont(Font.ITALIC));
-        questionTypeLabel.setAlignmentX(JLabel.CENTER);
-        questionTypeLabel.setForeground(Color.WHITE);
-    }
-
-    /**
-     * Sets up the basic specs for the label that displays the current question's text.
-     */
-    protected void setUpQuestionTextLabel() {
-        questionTextLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.MEDIUM, 24f));
-        questionTextLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        questionTextLabel.setForeground(Color.WHITE);
-
-    }
 
     /**
      * Sets up the panel that displays the type of current question, utilizing the previously set up label.
@@ -555,13 +528,10 @@ public class PointBuilderRoundViewer implements RoundViewerI {
 
         new DelayTimer(1000) {
 
-            private JButton correctAnswerButton = new JButton();
-
             @Override
             protected void executeActionsAfterDelay() {
                 for (JButton button : answerButtons) {
                     if (button.getText().equals(referee.getCorrectAnswerOfCurrentQuestion())) {
-                        correctAnswerButton = button;
                         button.setBackground(Color.GREEN.brighter().brighter());
                         break;
                     }

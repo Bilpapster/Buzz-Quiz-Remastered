@@ -1,8 +1,6 @@
 package GUI;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 
 /**
@@ -12,7 +10,6 @@ import java.awt.event.ActionListener;
  * @author Vasileios Papastergios
  */
 public abstract class DelayTimer {
-    private Timer timer;
 
     /**
      * Constructs a <code>DelayTimer</code> object with given duration.
@@ -20,7 +17,7 @@ public abstract class DelayTimer {
      * @param durationInMillis the duration to pause execution between actions before and after.
      */
     public DelayTimer(int durationInMillis) {
-        timer = new Timer(durationInMillis, e -> {
+        Timer timer = new Timer(durationInMillis, e -> {
 
             ((Timer) e.getSource()).stop();
             executeActionsAfterDelay();

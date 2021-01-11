@@ -11,11 +11,11 @@ import java.awt.*;
  */
 class PlayerInfoPanel {
 
-    private JPanel rootPanel;
-    private JLabel nameLabel;
-    private JLabel scoreLabel;
+    private JPanel rootPanel = new JPanel();
+    private JLabel nameLabel = new CustomizedJLabel(FontManager.FontStyle.SEMI_BOLD, 22f);
+    private JLabel scoreLabel = new CustomizedJLabel(FontManager.FontStyle.SEMI_BOLD, 22f);
     private String name;
-    private int score;
+    private int score = 0;
 
     /**
      * Constructs an info panel with the given player name. The player's score is set to 0.
@@ -24,35 +24,31 @@ class PlayerInfoPanel {
      */
     public PlayerInfoPanel(String name) {
         this.name = name;
-        this.score = 0;
         setUpLabels();
+        setUpRootPanel();
     }
 
     /**
      * Sets up the labels for the name and the score of the player.
      */
     private void setUpLabels() {
-        nameLabel = new JLabel(name);
-        nameLabel.setForeground(Color.WHITE);
-        nameLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 22f));
-        JPanel namePanel = new JPanel();
-        namePanel.setOpaque(false);
-        namePanel.add(nameLabel);
+        nameLabel.setText(name);
 
-        scoreLabel = new JLabel(String.format("%,d", score));
+        scoreLabel.setText(String.format("%,d", score));
         scoreLabel.setForeground(Color.ORANGE);
-        scoreLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 22f));
-        JPanel scorePanel = new JPanel();
-        scorePanel.setOpaque(false);
-        scorePanel.add(scoreLabel);
+    }
 
-        rootPanel = new JPanel();
+    /**
+     * Sets up the root panel of the component by adding the label containing the name
+     * and the score the one under the other, aligned centrally.
+     */
+    private void setUpRootPanel() {
         rootPanel.setOpaque(false);
         rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.Y_AXIS));
         rootPanel.add(Box.createVerticalStrut(6));
-        rootPanel.add(namePanel);
+        rootPanel.add(new AuxiliaryDummyPanel(nameLabel));  // dummy panel for central alignment
         rootPanel.add(Box.createVerticalStrut(6));
-        rootPanel.add(scorePanel);
+        rootPanel.add(new AuxiliaryDummyPanel(scoreLabel)); // dummy panel for central alignment
         rootPanel.add(Box.createVerticalStrut(10));
     }
 
@@ -86,6 +82,19 @@ class PlayerInfoPanel {
         if (!this.name.equals(name)) {
             this.name = name;
             nameLabel.setText(name);
+        }
+    }
+
+    /**
+     * A very simple class representing an auxiliary dummy panel that contains (displays) a JLabel
+     * object. The panel provides central alignment for the contained label, which is its only usage.
+     *
+     * @author Vasileios Papastergios
+     */
+    private class AuxiliaryDummyPanel extends JPanel {
+        public AuxiliaryDummyPanel(JLabel labelToContain) {
+            this.setOpaque(false);
+            this.add(labelToContain);
         }
     }
 }

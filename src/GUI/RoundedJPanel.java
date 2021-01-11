@@ -27,7 +27,6 @@ public class RoundedJPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        this.setAlignmentX(CENTER_ALIGNMENT);
         RoundShapeArtist.drawRoundedShapeAndStroke(this, arcs, g);
     }
 }

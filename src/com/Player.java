@@ -23,8 +23,9 @@ public class Player {
 
     /**
      * Constructor for debugging purposes. To be removed for final version.
-     * @param name
-     * @param score
+     *
+     * @param name  the player's name
+     * @param score the player's score
      */
     public Player(String name, int score) {
         this.name = name;

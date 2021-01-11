@@ -44,7 +44,7 @@ public class PointBuilderRoundLogic implements RoundLogicI {
      */
     @Override
     public String getDescription() {
-        return ("Point Builder: In this round you are going to be asked " + this.numberOfQuestionsInRound +
+        return (" Point Builder: In this round you are going to be asked " + this.numberOfQuestionsInRound +
                 " questions.\n"
                 + "For every correct answer, you earn " + this.creditPoints + " points!\n"
                 + "No point penalty on wrong answer.");
@@ -132,7 +132,9 @@ public class PointBuilderRoundLogic implements RoundLogicI {
      *
      * @param player the player that has answered the current question wrong
      */
-    protected void executeActionsOnWrongAnswer(Player player) {/* Left blank in purpose. No actions needed on wrong answer. */}
+    protected void executeActionsOnWrongAnswer(Player player) {
+        /* Left blank in purpose. No actions needed on wrong answer. */
+    }
 
     /**
      * <p>Executes all necessary actions at the end of a question.
