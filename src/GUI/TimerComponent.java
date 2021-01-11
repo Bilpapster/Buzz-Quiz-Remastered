@@ -5,20 +5,22 @@ import java.awt.*;
 import java.text.SimpleDateFormat;
 
 /**
+ * A class which represents a Timer, for use in rounds like {@code TimedRound} or {@code FastestFingerRound}
  *
  * @author Fotis Malakis
+ * @see com.FastestFingerRoundLogic
+ * @see com.StopTheClockRoundLogic
  */
 public class TimerComponent {
 
     private JPanel panel;
-    JLabel title;
-    JLabel timerLabel;
-    JLabel timeOverLabel;
-    SimpleDateFormat df = new SimpleDateFormat("s:SSS");
+    protected JLabel title;
+    protected JLabel timerLabel;
+    protected JLabel timeOverLabel;
+    private SimpleDateFormat df = new SimpleDateFormat("s:SSS");
     private boolean isOver = false;
     private Timer timer;
-    private long startTime = -1;
-    private long duration = 5000;
+    private long currentTime = 5000;
 
     /**
      * Initializes the timer component, by calling the <code>setUpPanel()</code> function
@@ -64,7 +66,7 @@ public class TimerComponent {
      */
     public void setUpTimerLabel() {
         timerLabel = new JLabel();
-        timerLabel.setText(df.format(duration));
+        timerLabel.setText(df.format(currentTime));
         timerLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.BOLD, 26f).deriveFont(Font.ITALIC));
         timerLabel.setForeground(Color.ORANGE);
         timerLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -77,30 +79,28 @@ public class TimerComponent {
      * until it reaches zero.
      */
     private void setUpTimer() {
-        timer = new Timer(100, e -> {
+        timer = new Timer(10, e -> {
+
             timeOverLabel.setVisible(false);
             timer.setInitialDelay(0);
-            if (startTime < 0) {
-                startTime = System.currentTimeMillis();
-            }
-            long now = System.currentTimeMillis();
-            long clockTime = now - startTime;
-            if (clockTime >= duration) {
-                clockTime = duration;
+
+            currentTime -= 10;
+            if (currentTime <= 0) {
                 timeOverLabel.setVisible(true);
                 isOver = true;
                 timer.stop();
             }
-            timerLabel.setText(df.format(duration - clockTime));
+            timerLabel.setText(df.format(currentTime));
+
         });
     }
 
     /**
-     * Starts the timer
+     * Attempts to start the Timer if the timer hasn't yet been started.
      */
     public void startTimer() {
         if (!timer.isRunning()) {
-            startTime = -1;
+            currentTime = 5000;
             timer.start();
         }
     }
@@ -136,6 +136,7 @@ public class TimerComponent {
      */
     public void stopTimer() {
         timer.stop();
+        System.out.println(currentTime);
     }
 
     /**
@@ -191,9 +192,9 @@ public class TimerComponent {
     /**
      * Simple accessor for the current time stamp on the timer.
      *
-     * @return the time elapsed after the latest timer launch in milliseconds.
+     * @return the time remaining until the timer reaches 0 in milliseconds.
      */
     public long getMillisAfterLaunch() {
-        return System.currentTimeMillis() - startTime;
+        return currentTime;
     }
 }
