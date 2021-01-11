@@ -1,6 +1,7 @@
 package GUI;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 /**
@@ -70,6 +71,7 @@ class PlayerInfoPanel {
         if (this.score != score) {
             this.score = score;
             scoreLabel.setText(String.format("%,d", score));
+
         }
     }
 

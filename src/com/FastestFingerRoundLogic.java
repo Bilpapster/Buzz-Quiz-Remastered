@@ -99,7 +99,7 @@ public class FastestFingerRoundLogic extends StopTheClockRoundLogic {
         for (Player player : playersAnsweredCorrectly) {
             int answeringOrder = 1;
             for (Player otherPlayer : playersAnsweredCorrectly) {
-                if (referee.getTimeElapsedOnAnswerForPlayer(otherPlayer) > referee.getTimeElapsedOnAnswerForPlayer(player)) {
+                if (referee.getTimeElapsedOnAnswerForPlayer(otherPlayer) < referee.getTimeElapsedOnAnswerForPlayer(player)) {
                     answeringOrder++;
                 }
             }

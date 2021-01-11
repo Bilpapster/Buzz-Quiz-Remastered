@@ -20,7 +20,8 @@ public class TimerComponent {
     private SimpleDateFormat df = new SimpleDateFormat("s:SSS");
     private boolean isOver = false;
     private Timer timer;
-    private long currentTime = 5000;
+    private static final int totalAmountOfTime = 5000;
+    private long currentTime = totalAmountOfTime;
 
     /**
      * Initializes the timer component, by calling the <code>setUpPanel()</code> function
@@ -40,7 +41,6 @@ public class TimerComponent {
         panel.setBounds(180, 180, 500, 250);
         panel.setBackground(Color.darkGray);
 
-//        setUpHeader();
         setUpTimerLabel();
         setUpTimer();
         setUpFooter();
@@ -49,27 +49,13 @@ public class TimerComponent {
     }
 
     /**
-     * Sets up the header of the component
-     */
-    public void setUpHeader() {
-        title = new JLabel();
-        title.setText("Timed Round!");
-        title.setForeground(Color.WHITE);
-        title.setHorizontalAlignment(JLabel.CENTER);
-        title.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 24f));
-        panel.add(title, BorderLayout.NORTH);
-    }
-
-    /**
      * Sets up the JLabel that will be displaying how much time is left
      * in real time
      */
     public void setUpTimerLabel() {
-        timerLabel = new JLabel();
+        timerLabel = new CustomizedJLabel(FontManager.FontStyle.BOLD, 26f);
         timerLabel.setText(df.format(currentTime));
-        timerLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.BOLD, 26f).deriveFont(Font.ITALIC));
         timerLabel.setForeground(Color.ORANGE);
-        timerLabel.setHorizontalAlignment(JLabel.CENTER);
         panel.add(timerLabel, BorderLayout.CENTER);
     }
 
@@ -79,19 +65,19 @@ public class TimerComponent {
      * until it reaches zero.
      */
     private void setUpTimer() {
-        timer = new Timer(10, e -> {
+        timer = new Timer(100, e -> {
 
             timeOverLabel.setVisible(false);
             timer.setInitialDelay(0);
 
-            currentTime -= 10;
+            currentTime -= 100;
+            timerLabel.setText(df.format(currentTime));
+
             if (currentTime <= 0) {
                 timeOverLabel.setVisible(true);
                 isOver = true;
-                timer.stop();
+                timerLabel.setText(df.format(0));
             }
-            timerLabel.setText(df.format(currentTime));
-
         });
     }
 
@@ -136,7 +122,6 @@ public class TimerComponent {
      */
     public void stopTimer() {
         timer.stop();
-        System.out.println(currentTime);
     }
 
     /**
@@ -195,6 +180,7 @@ public class TimerComponent {
      * @return the time remaining until the timer reaches 0 in milliseconds.
      */
     public long getMillisAfterLaunch() {
-        return currentTime;
+//            return currentTime;
+            return totalAmountOfTime - currentTime;
     }
 }
