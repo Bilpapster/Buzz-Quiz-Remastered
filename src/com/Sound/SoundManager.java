@@ -26,9 +26,9 @@ public class SoundManager {
             String clipName = tokenResult[tokenResult.length - 1].split("\\.")[0];
             SoundClip soundClip;
             if (clipName.contains("theme")) {
-                soundClip = new SoundClip(filename, clipName, true, SoundType.Theme);
+                soundClip = new SoundClip(filename, clipName, true, SoundType.THEME);
             } else {
-                soundClip = new SoundClip(filename, clipName, false, SoundType.Clip);
+                soundClip = new SoundClip(filename, clipName, false, SoundType.CLIP);
             }
 
             clips.put(clipName, soundClip);
