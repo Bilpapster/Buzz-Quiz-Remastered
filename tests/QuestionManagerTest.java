@@ -63,7 +63,7 @@ public class QuestionManagerTest {
         questionManager.removeAnsweredQuestion();
 
         questionManager.createQuestions();
-        assertEquals(17 ,questionManager.questionsRemaining());
+        assertEquals(109 ,questionManager.questionsRemaining());
 
 
     }
