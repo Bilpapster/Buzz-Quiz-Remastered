@@ -18,7 +18,8 @@ public class SoundClip {
     private BooleanControl booleanControl;
     private boolean muted = false;
     private float soundLevel = 0.0f;
-    private boolean looping = false;
+    private boolean looping;
+    private SoundType soundType;
 
     /**
      * Default SoundClip class constructor which initializes all the necessary objects for
@@ -29,7 +30,8 @@ public class SoundClip {
      * @param clipName arbitrary name given to clip for ease of access from the {@code SoundManager} class
      * @param looping whether the clip will need to be looping everytime it'll be played back or not
      */
-    protected SoundClip(String fileLocation, String clipName, boolean looping) {
+    protected SoundClip(String fileLocation, String clipName, boolean looping, SoundType soundType) {
+        this.soundType = soundType;
         this.looping = looping;
         this.fileLocation = fileLocation;
         this.clipName = clipName;
@@ -56,14 +58,15 @@ public class SoundClip {
      * @return {@code true} if clip has commenced playback, {@code false} if clip is already playing
      */
     protected boolean play() {
-        if (clip.isRunning())
-            return false;
 
+        clip.setFramePosition(0);
         if (!looping) {
             clip.start();
         } else {
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         }
+
+
         return true;
     }
 
@@ -84,6 +87,15 @@ public class SoundClip {
         muted = !muted;
         booleanControl.setValue(muted);
     }
+
+    protected FloatControl getFloatControl() {
+        return floatControl;
+    }
+
+    public SoundType getSoundType() {
+        return soundType;
+    }
+
 
 
 }
