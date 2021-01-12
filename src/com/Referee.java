@@ -116,6 +116,9 @@ public class Referee {
      * @return <code>true</code> if the player has answered correctly the current question, else <code>false</code>.
      */
     public boolean hasPlayerAnsweredCorrectly(Player player) {
+        if (! answersGivenByPlayers.containsKey(player)) {
+            return false;
+        }
         return answersGivenByPlayers.get(player).equals(currentQuestion.getCorrectAnswer());
     }
 

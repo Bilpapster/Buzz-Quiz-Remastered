@@ -99,7 +99,7 @@ public class FastestFingerRoundLogic extends StopTheClockRoundLogic {
         for (Player player : playersAnsweredCorrectly) {
             int answeringOrder = 1;
             for (Player otherPlayer : playersAnsweredCorrectly) {
-                if (referee.getTimeElapsedOnAnswerForPlayer(otherPlayer) > referee.getTimeElapsedOnAnswerForPlayer(player)) {
+                if (referee.getTimeElapsedOnAnswerForPlayer(otherPlayer) < referee.getTimeElapsedOnAnswerForPlayer(player)) {
                     answeringOrder++;
                 }
             }
@@ -117,9 +117,15 @@ public class FastestFingerRoundLogic extends StopTheClockRoundLogic {
      */
     @Override
     protected void executeActionsOnCorrectAnswer(Player player) {
+        if (referee.getTimeElapsedOnAnswerForPlayer(player) >= 5000) {
+            return;
+        }
+
         if (orderOfAnsweringCorrectly.get(player) == 1) {
             player.updateScore(creditPoints);
-        } else if (orderOfAnsweringCorrectly.get(player) == 2) {
+            return;
+        }
+        if (orderOfAnsweringCorrectly.get(player) == 2) {
             player.updateScore(creditPoints / 2);
         }
     }
