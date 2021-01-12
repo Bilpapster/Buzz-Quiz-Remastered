@@ -6,8 +6,6 @@ import com.Sound.SoundType;
 import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
-import java.util.HashMap;
-import java.util.Hashtable;
 
 public class SettingsPanel extends JPanel {
 
@@ -66,7 +64,7 @@ public class SettingsPanel extends JPanel {
         JSlider source = (JSlider) e.getSource();
 
         float soundLevel = (float) source.getValue();
-        SoundType soundType = e.getSource() == musicSlider? SoundType.Theme : SoundType.Clip;
+        SoundType soundType = e.getSource() == musicSlider? SoundType.THEME : SoundType.CLIP;
         soundManager.adjustSound(soundLevel, soundType);
 
 
