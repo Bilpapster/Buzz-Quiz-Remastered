@@ -117,9 +117,15 @@ public class FastestFingerRoundLogic extends StopTheClockRoundLogic {
      */
     @Override
     protected void executeActionsOnCorrectAnswer(Player player) {
+        if (referee.getTimeElapsedOnAnswerForPlayer(player) >= 5000) {
+            return;
+        }
+
         if (orderOfAnsweringCorrectly.get(player) == 1) {
             player.updateScore(creditPoints);
-        } else if (orderOfAnsweringCorrectly.get(player) == 2) {
+            return;
+        }
+        if (orderOfAnsweringCorrectly.get(player) == 2) {
             player.updateScore(creditPoints / 2);
         }
     }
