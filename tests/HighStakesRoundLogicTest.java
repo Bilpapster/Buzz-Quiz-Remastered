@@ -14,6 +14,24 @@ public class HighStakesRoundLogicTest extends PointBuilderRoundLogicTest {
     }
 
     @Test
+    public void getDescriptionTest() {
+        HighStakesRoundLogic testInstance = new HighStakesRoundLogic(numberOfQuestionsInRound, referee);
+        String roundDescription = "HighStakes: In this round you are going to be asked " + this.numberOfQuestionsInRound +
+                " questions.\n" +
+                "At first, you are let to know the category of the question and you are asked to place a bet " +
+                " Answering correctly will add to your score as many points as your bet!\n" +
+                " But, be careful! Answering the question wrong will cost you your bet!\n";
+
+        assertEquals(roundDescription, testInstance.getDescription());
+    }
+
+    @Test
+    public void getOfficialNameTest() {
+        HighStakesRoundLogic testInstance = new HighStakesRoundLogic(numberOfQuestionsInRound, referee);
+        assertEquals("High Stakes", testInstance.getOfficialName());
+    }
+
+    @Test
     public void giveCreditsTest() {
         HighStakesRoundLogic testInstance = new HighStakesRoundLogic(numberOfQuestionsInRound, referee);
         int betPlaced = 750;

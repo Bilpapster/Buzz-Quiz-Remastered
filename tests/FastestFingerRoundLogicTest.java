@@ -1,7 +1,4 @@
-import com.FastestFingerRoundLogic;
-import com.Player;
-import com.Referee;
-import com.StopTheClockRoundLogic;
+import com.*;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -38,6 +35,29 @@ public class FastestFingerRoundLogicTest extends PointBuilderRoundLogicTest {
         FastestFingerRoundLogic testInstance = new FastestFingerRoundLogic(numberOfQuestionsInRound, referee);
         assertEquals(numberOfQuestionsInRound, testInstance.getNumberOfQuestionsInRound());
     }
+
+    @Test
+    public void getDescriptionTest() {
+        FastestFingerRoundLogic testInstance = new FastestFingerRoundLogic(numberOfQuestionsInRound, referee);
+        String roundDescription = "In this round you are going to be asked " + this.numberOfQuestionsInRound +
+                " questions. " +
+                "You will have 5 seconds to answer!\n"
+                + "At first you are let to know the category and the question itself. There is a 3-seconds time " +
+                "interval for the players to read the question. At the end of this interval, the available options " +
+                "are revealed and the clock starts running\n " +
+                "The quicker to answer the question correctly gets 1000 points, while the second correct player gets " +
+                "half of them, 500!\n" +
+                "No points available for other players, even if they answer correctly, so be as quick as possible!\n";
+
+        assertEquals(roundDescription, testInstance.getDescription());
+    }
+
+    @Test
+    public void getOfficialNameTest() {
+        FastestFingerRoundLogic testInstance = new FastestFingerRoundLogic(numberOfQuestionsInRound, referee);
+        assertEquals("Fastest Finger", testInstance.getOfficialName());
+    }
+
 
     @Test
     public void giveCreditsTest() {

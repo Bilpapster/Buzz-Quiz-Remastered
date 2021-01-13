@@ -41,6 +41,28 @@ public class StopTheClockRoundLogicTest extends PointBuilderRoundLogicTest{
     }
 
     @Test
+    public void getDescriptionTest() {
+        StopTheClockRoundLogic testInstance = new StopTheClockRoundLogic(numberOfQuestionsInRound, referee);
+        String roundDescription = "Stop the clock: In this round you are going to be asked " +
+                this.numberOfQuestionsInRound +
+                " questions. You will have 5 seconds to answer!\n"
+                + "At first you are let to know the category and the question itself. There is a 3-seconds time " +
+                "interval for the players to read the question. At the end of this interval, the available options " +
+                "are revealed and the clock starts running\n " +
+                "Answering the question correctly will add to your score as many points as the remaining  " +
+                "milliseconds times 0.2!\n There is no point penalty on wrong answer.";
+
+        assertEquals(roundDescription, testInstance.getDescription());
+    }
+
+    @Test
+    public void getOfficialNameTest() {
+        StopTheClockRoundLogic testInstance = new StopTheClockRoundLogic(numberOfQuestionsInRound, referee);
+        assertEquals("Stop the Clock", testInstance.getOfficialName());
+    }
+
+
+    @Test
     public void giveCreditsTest() {
         StopTheClockRoundLogic testInstance = new StopTheClockRoundLogic(numberOfQuestionsInRound, referee);
         testInstance.giveCredits();
