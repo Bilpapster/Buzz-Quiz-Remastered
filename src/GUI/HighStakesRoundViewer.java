@@ -1,5 +1,6 @@
 package GUI;
 
+import com.Constants;
 import com.HighStakesRoundLogic;
 import com.Player;
 import com.Referee;
@@ -26,13 +27,13 @@ public class HighStakesRoundViewer extends PointBuilderRoundViewer {
      */
     @Override
     protected void initializeRoundLogic() {
-        roundLogic = new HighStakesRoundLogic(5, referee);
+        roundLogic = new HighStakesRoundLogic(Constants.NUMBER_OF_QUESTIONS_IN_A_ROUND, referee);
     }
 
     /**
      * Executes some preparatory actions before moving on to the next question. Reveals only the question type of the
      * coming question and sets the question text to "???". Invokes the selection frames for all alive players in
-     * round. After the bet placement, the rest of the question (text and available asnwers) are displayed.
+     * round. After the bet placement, the rest of the question (text and available answers) are displayed.
      */
     @Override
     protected void executeCustomizablePreparationsBeforeNextQuestion() {

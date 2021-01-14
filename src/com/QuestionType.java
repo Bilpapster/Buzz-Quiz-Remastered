@@ -43,7 +43,7 @@ public enum QuestionType {
      */
     private static void initializeBackgroundImages() {
         for (QuestionType questionType : QuestionType.values()) {
-            backgroundImages.put(questionType, new ImageIcon("src/resources/Background Images/" + questionType.toString() + ".png"));
+            backgroundImages.put(questionType, new ImageIcon(Constants.BACKGROUND_IMAGES_PATH + questionType.toString() + ".png"));
         }
     }
 

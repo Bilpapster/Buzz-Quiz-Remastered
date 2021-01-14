@@ -1,5 +1,6 @@
 package GUI;
 
+import com.Constants;
 import com.Referee;
 import com.StopTheClockRoundLogic;
 
@@ -33,7 +34,7 @@ public class StopTheClockRoundViewer extends PointBuilderRoundViewer {
      */
     @Override
     protected void initializeRoundLogic() {
-        this.roundLogic = new StopTheClockRoundLogic(5, referee);
+        this.roundLogic = new StopTheClockRoundLogic(Constants.NUMBER_OF_QUESTIONS_IN_A_ROUND, referee);
     }
 
     /**

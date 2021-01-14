@@ -63,11 +63,14 @@ public class BetSelectionWindow implements ActionListener {
      * Sets up the header for the betting window
      */
     private void setUpHeader() {
-        title = new JLabel();
+//        title = new JLabel();
+
+        title = new CustomizedJLabel(FontManager.FontStyle.BOLD, 22f);
+
         title.setText("Place your bet, " + currentPlayer.getName() + "!");
-        title.setHorizontalAlignment(JLabel.CENTER);
-        title.setFont(new Font("Arial Black", Font.BOLD, 21));
-        title.setForeground(Color.white);
+//        title.setHorizontalAlignment(JLabel.CENTER);
+//        title.setFont(new Font("Arial Black", Font.BOLD, 21));
+//        title.setForeground(Color.white);
         dialog.add(title, BorderLayout.NORTH);
     }
 

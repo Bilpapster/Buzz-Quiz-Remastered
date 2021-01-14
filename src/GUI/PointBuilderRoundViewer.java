@@ -113,7 +113,7 @@ public class PointBuilderRoundViewer implements RoundViewerI {
      * Initializes the round logic core object. Needs to be overridden for every round type.
      */
     protected void initializeRoundLogic() {
-        this.roundLogic = new PointBuilderRoundLogic(5, referee);
+        this.roundLogic = new PointBuilderRoundLogic(Constants.NUMBER_OF_QUESTIONS_IN_A_ROUND, referee);
     }
 
 
@@ -156,9 +156,9 @@ public class PointBuilderRoundViewer implements RoundViewerI {
      */
     protected void setUpAnswerButtonsPanel() {
         answerButtonsPanel.setOpaque(false);
-        answerButtonsPanel.setLayout(new GridLayout(2, 2, 15, 15));
+        answerButtonsPanel.setLayout(new GridLayout((int) Math.ceil(Constants.NUMBER_OF_AVAILABLE_ANSWERS_IN_GUI/2), 2, 15, 15));
 
-        for (int answerButton = 0; answerButton < 4; answerButton++) {
+        for (int answerButton = 0; answerButton < Constants.NUMBER_OF_AVAILABLE_ANSWERS_IN_GUI; answerButton++) {
             RoundedJButton button = new RoundedJButton(new Dimension(100, 100));
             button.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.REGULAR, 22f));
             button.addMouseListener(new CustomizedButtonListener());
@@ -193,10 +193,10 @@ public class PointBuilderRoundViewer implements RoundViewerI {
      */
     protected void setUpPaddingLeft() {
         paddingLeft.setOpaque(false);
-        paddingLeft.setPreferredSize(new Dimension(240, 100));
-        paddingLeft.setLayout(new GridLayout(2, 1));
+        paddingLeft.setPreferredSize(new Dimension(240, rootPanel.getHeight()));
+        paddingLeft.setLayout(new GridLayout((int) Math.ceil(Constants.NUMBER_OF_AVAILABLE_ANSWERS_IN_GUI/2), 1));
 
-        for (int i = 0; i < 4; i += 2) {
+        for (int i = 0; i < Constants.NUMBER_OF_AVAILABLE_ANSWERS_IN_GUI; i += 2) {
             paddingLeft.add(selectionLabels.get(i));
             this.playersSelectionLabels.put(answerButtons.get(i), selectionLabels.get(i));
         }
@@ -207,10 +207,10 @@ public class PointBuilderRoundViewer implements RoundViewerI {
      */
     protected void setUpPaddingRight() {
         paddingRight.setOpaque(false);
-        paddingRight.setPreferredSize(new Dimension(240, 100));
-        paddingRight.setLayout(new GridLayout(2, 1));
+        paddingRight.setPreferredSize(new Dimension(240, rootPanel.getHeight()));
+        paddingRight.setLayout(new GridLayout((int) Math.floor(Constants.NUMBER_OF_AVAILABLE_ANSWERS_IN_GUI/2), 1));
 
-        for (int i = 1; i < 4; i += 2) {
+        for (int i = 1; i < Constants.NUMBER_OF_AVAILABLE_ANSWERS_IN_GUI; i += 2) {
             paddingRight.add(selectionLabels.get(i));
             this.playersSelectionLabels.put(answerButtons.get(i), selectionLabels.get(i));
         }
@@ -247,15 +247,22 @@ public class PointBuilderRoundViewer implements RoundViewerI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 timer.stopTimer();
-
-                /* not working with the timer, needs to be changed */
+                clearTextOnAllAnswerButtons();
                 JOptionPane.showMessageDialog(parentFrame, roundLogic.getDescription());
-
-                /*
-                something to pop up and pause execution of the rest program
-                text of the popup frame: roundLogic.getDescription()
-                 */
+                openPauseMenu();
+                updateTextOnAllAnswerButtons();
+                roundPanel.requestFocus();
                 timer.continueTimer();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                helpButton.requestFocus();
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                rootPanel.requestFocus();
             }
         });
         roundPanel.add(Box.createHorizontalStrut(5));
@@ -278,6 +285,10 @@ public class PointBuilderRoundViewer implements RoundViewerI {
             footerPanel.add(dummyPanel); // dummy panel for alignment
         }
         timer.hideTimer();
+    }
+
+    private void openPauseMenu() {
+
     }
 
     /**

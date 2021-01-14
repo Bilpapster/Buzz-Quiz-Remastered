@@ -36,6 +36,7 @@ public class GameFrame extends JFrame {
         this.setIconImage(iconImage.getImage());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1280, 720);
+//        this.setResizable(false);
         this.setLocationRelativeTo(null);
 
         this.players = players;
@@ -89,7 +90,8 @@ public class GameFrame extends JFrame {
      */
     private void initializeTwoPlayerGame() {
         for (int round = 1; round < numberOfRoundsInGame - 1; round++) {
-            int randomNumber = (Math.abs(randomNumbersGenerator.nextInt()) % 5) + 1;
+            int randomNumber = (Math.abs(randomNumbersGenerator.nextInt()) % 4) + 1;
+            System.out.println(randomNumber);
             switch (randomNumber) {
                 case 2:
                     rounds.add(new HighStakesRoundViewer(referee));
@@ -99,6 +101,7 @@ public class GameFrame extends JFrame {
                     break;
                 case 4:
                     rounds.add(new FastestFingerRoundViewer(referee));
+                    break;
                 default:
                     rounds.add(new PointBuilderRoundViewer(referee));
             }

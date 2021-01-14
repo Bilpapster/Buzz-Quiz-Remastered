@@ -1,5 +1,6 @@
 package GUI;
 
+import com.Constants;
 import com.FastestFingerRoundLogic;
 import com.Referee;
 import com.StopTheClockRoundLogic;
@@ -29,6 +30,6 @@ public class FastestFingerRoundViewer extends StopTheClockRoundViewer {
      */
     @Override
     protected void initializeRoundLogic() {
-        this.roundLogic = new FastestFingerRoundLogic(5, referee);
+        this.roundLogic = new FastestFingerRoundLogic(Constants.NUMBER_OF_QUESTIONS_IN_A_ROUND, referee);
     }
 }

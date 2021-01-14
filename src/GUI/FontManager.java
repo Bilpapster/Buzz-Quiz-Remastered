@@ -1,5 +1,7 @@
 package GUI;
 
+import com.Constants;
+
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +16,7 @@ import java.util.HashMap;
  */
 public class FontManager {
     private static final HashMap<FontStyle, Font> availableFonts = new HashMap<>();
-    private static final String basicFontDirectoryPath = "src/resources/Fonts/AkaAcidDosis";
+    private static final String basicFontDirectoryPath = Constants.FONT_FILES_PATH + "AkaAcidDosis";
 
     /**
      * A simple enumeration representing the available font styles of the custom font.

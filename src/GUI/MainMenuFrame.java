@@ -1,90 +1,134 @@
 package GUI;
 
 import com.Player;
+import com.Sound.SoundManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainMenuFrame extends JFrame implements ActionListener {
-    JButton player1btn;
-    JButton player2btn;
-    JButton highscoreBtn;
+    CustomizedMainMenuButton player1btn;
+    CustomizedMainMenuButton player2btn;
+    CustomizedMainMenuButton highscoreBtn;
+    CustomizedMainMenuButton settingsButton;
+
+    private JLabel gameTitle;
+    private JLabel gameSubTitle;
+    private JLabel basedOnOriginalGameLabel;
+    private JLabel authorsLabel;
+
+    private JPanel titlePanel;
+    private JPanel buttonsPanel;
+    private JPanel creditsPanel;
+    private BackgroundImagedPanel rootPanel;
 
     public MainMenuFrame() {
-        this.setTitle("Buzz! Quiz World!");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(1280, 720);
-        this.setLayout(new BorderLayout());
-        this.getContentPane().setBackground(Color.darkGray);
-        this.setLocationRelativeTo(null);
+        setUpSoundManager();
+        setUpTitleLabel();
+        setUpSubTitleLabel();
+        setUpCreditsLabel();
+        setUpAuthorsLabel();
+        setUpCreditsPanel();
+        setUpTitlePanel();
+        setUpButtons();
+        setUpButtonsPanel();
+        setUpRootPanel();
+        setUpMainMenuFrame();
+    }
 
-        ImageIcon gameImage = new ImageIcon("src/resources/1887880-box_buzzqw.png");
-        ImageIcon iconImage = new ImageIcon("src/resources/Buzz_Quiz_World.jpg");
-        this.setIconImage(iconImage.getImage());
+    private void setUpSoundManager() {
+        SoundManager soundManager = new SoundManager();
+        soundManager.playClip("during_game_theme");
+    }
 
-        JPanel titlePanel = new JPanel();
-        titlePanel.setBackground(Color.darkGray);
-        JPanel buttonsPanel = new JPanel();
-        buttonsPanel.setBackground(Color.darkGray);
-        JPanel paddingLeft = new JPanel();
-        paddingLeft.setPreferredSize(new Dimension(150, 100));
-        paddingLeft.setBackground(Color.darkGray);
-        JPanel paddingRight = new JPanel();
-        paddingRight.setBackground(Color.darkGray);
-        paddingRight.setPreferredSize(new Dimension(150, 100));
-        JPanel creditsPanel = new JPanel();
-
-        JLabel gameTitle = new JLabel("<html><font color=#e6c260>Buzz!</font><font color=white> Quiz World!</font></html>");
-        gameTitle.setFont(new Font("MV Boli", Font.PLAIN, 32));
-        gameTitle.setIconTextGap(20);
-        titlePanel.add(gameTitle);
-        gameTitle.setIcon(gameImage);
+    private void setUpTitleLabel() {
+        gameTitle = new JLabel("<html><font color=#e6c260>Buzz!:</font><font color=white> Quiz World!*</font></html>");
+        gameTitle.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 36f));
         gameTitle.setHorizontalAlignment(JLabel.CENTER);
-        gameTitle.setVerticalAlignment(JLabel.TOP);
-        gameTitle.setHorizontalTextPosition(JLabel.CENTER);
-        gameTitle.setVerticalTextPosition(JLabel.TOP);
+    }
 
-        JLabel creditsLabel = new JLabel("developed by fmalakis and bilpapster");
-        creditsPanel.add(creditsLabel);
-        creditsLabel.setHorizontalTextPosition(JLabel.CENTER);
+    private void setUpSubTitleLabel() {
+        gameSubTitle = new JLabel("<html><font color=gray>*remastered by Electric Boogaloo Inc<sup>&copy;</sup></font></html>");
+        gameSubTitle.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.REGULAR, 18f));
+        gameSubTitle.setHorizontalAlignment(JLabel.CENTER);
+    }
 
-        player1btn = new JButton("Start 1-player game");
-        player1btn.setBounds(200, 100, 100, 50);
-        player2btn = new JButton("Start 2-player game");
-        highscoreBtn = new JButton("View high-scores");
+    private void setUpTitlePanel() {
+        titlePanel = new JPanel();
+        titlePanel.setOpaque(false);
+        titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
+        titlePanel.add(Box.createVerticalStrut(3));
+        titlePanel.add(gameTitle);
+        titlePanel.add(gameSubTitle);
+        titlePanel.add(Box.createVerticalStrut(150));
+    }
+
+    private void setUpCreditsLabel() {
+        basedOnOriginalGameLabel = new JLabel("<html><font color = white>Based on the original Buzz!: Quiz World game.</font></html>");
+        basedOnOriginalGameLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.BOLD, 16f));
+        basedOnOriginalGameLabel.setHorizontalAlignment(SwingConstants.LEFT);
+    }
+
+    private void setUpAuthorsLabel() {
+        authorsLabel = new JLabel("<html><font color = white>Developed by fmalakis and bilpapster.</font></html>");
+        authorsLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.BOLD, 16f));
+        authorsLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+    }
+
+    private void setUpCreditsPanel() {
+        creditsPanel = new JPanel();
+        creditsPanel.setLayout(new BoxLayout(creditsPanel, BoxLayout.X_AXIS));
+        creditsPanel.setBackground(Color.DARK_GRAY);
+        creditsPanel.add(basedOnOriginalGameLabel);
+        creditsPanel.add(Box.createHorizontalGlue());
+        creditsPanel.add(authorsLabel);
+        creditsPanel.add(Box.createVerticalStrut(10));
+    }
+
+    private void setUpButtons() {
+        player1btn = new CustomizedMainMenuButton("One-player game", 108, 0);
+        player2btn = new CustomizedMainMenuButton("Two-player game", 106, 350);
+        highscoreBtn = new CustomizedMainMenuButton("View high-scores", 106, 700);
+        settingsButton = new CustomizedMainMenuButton("Settings", 134, 1050);
+
         highscoreBtn.addActionListener(this::actionPerformed);
         player1btn.addActionListener(this::actionPerformed);
         player2btn.addActionListener(this::actionPerformed);
+        settingsButton.addActionListener(this::actionPerformed);
+    }
 
-        buttonsPanel.setLayout(new GridBagLayout());
+    private void setUpButtonsPanel() {
+        buttonsPanel = new JPanel();
+        buttonsPanel.setOpaque(false);
+        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
         buttonsPanel.add(player1btn);
-        GridBagConstraints btn1C = new GridBagConstraints();
-        btn1C.fill = GridBagConstraints.CENTER;
-        btn1C.ipadx = 150;
-        btn1C.ipady = 40;
-        btn1C.gridx = 0;
-        btn1C.gridy = 0;
-        btn1C.insets = new Insets(0,0,5,0);
-        buttonsPanel.add(player1btn, btn1C);
-        btn1C.gridx = 0;
-        btn1C.gridy = 1;
-        buttonsPanel.add(player2btn, btn1C);
-        btn1C.gridy = 2;
-        buttonsPanel.add(highscoreBtn, btn1C);
+        buttonsPanel.add(Box.createVerticalStrut(20));
+        buttonsPanel.add(player2btn);
+        buttonsPanel.add(Box.createVerticalStrut(20));
+        buttonsPanel.add(highscoreBtn);
+        buttonsPanel.add(Box.createVerticalStrut(20));
+        buttonsPanel.add(settingsButton);
+    }
 
-        this.add(titlePanel, BorderLayout.NORTH);
-        this.add(buttonsPanel, BorderLayout.CENTER);
-        this.add(paddingLeft, BorderLayout.WEST);
-        this.add(paddingRight, BorderLayout.EAST);
-        this.add(creditsPanel, BorderLayout.SOUTH);
+    private void setUpRootPanel() {
+        rootPanel = new BackgroundImagedPanel();
+        rootPanel.setBackgroundImage(new ImageIcon("src/resources/Main menu image.png"));
+        rootPanel.setLayout(new BorderLayout());
+        rootPanel.add(titlePanel, BorderLayout.NORTH);
+        rootPanel.add(buttonsPanel, BorderLayout.CENTER);
+        rootPanel.add(creditsPanel, BorderLayout.SOUTH);
+    }
 
-
+    private void setUpMainMenuFrame() {
+        this.setTitle("Buzz! Quiz World!");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(1280, 720);
+        this.setLocationRelativeTo(null);
+        this.setContentPane(rootPanel);
         this.setVisible(true);
-
     }
 
     @Override
@@ -98,13 +142,24 @@ public class MainMenuFrame extends JFrame implements ActionListener {
             PlayerInfoPage playerInfoPage = new PlayerInfoPage(2);
         } else if (e.getSource() == highscoreBtn) {
             this.dispose();
-            //                HighscoreMenu highscoreMenu = new HighscoreMenu();
+//            HighscoreMenu highscoreMenu = new HighscoreMenu();
             ArrayList<Player> players = new ArrayList<>();
             players.add(new Player("Fotis", 3500));
             players.add(new Player("Giannhs", 5800));
             GameEndingWindow gameEndingWindow = new GameEndingWindow(players);
+        } else if (e.getSource() == settingsButton) {
+            // openPauseMenu()
         }
 
 
     }
+
+    private class CustomizedMainMenuButton extends AnimationButton {
+        public CustomizedMainMenuButton(String textToDisplay, int endCoordinateX, int initialDelay) {
+            super(textToDisplay, 2000, -200, endCoordinateX, initialDelay, true);
+            this.setMargin(new Insets(0, 15, 20, 15));
+            this.scheduleForwardAnimation();
+        }
+    }
+
 }

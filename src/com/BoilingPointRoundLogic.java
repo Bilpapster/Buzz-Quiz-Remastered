@@ -55,8 +55,10 @@ public class BoilingPointRoundLogic extends PointBuilderRoundLogic {
      */
     @Override
     public String getDescription() {
-        return ("In this round you are going to be asked questions, till someone reaches (at least) five correct answers!\n"
-                + "But, be careful! You need to have at least one correct answer more than all the other players, in order to win the round!\n"
+        return ("In this round you are going to be asked questions, till someone reaches (at least) five correct " +
+                "answers!\n"
+                + "But, be careful! You need to have at least one correct answer more than all the other players, " +
+                "in order to win the round!\n"
                 + "The winner gets 5000 points!\n");
     }
 
@@ -100,8 +102,8 @@ public class BoilingPointRoundLogic extends PointBuilderRoundLogic {
 
     /**
      * Executes all necessary actions on a player that has answer correctly a question of the round.
-     * Updates the player's number of correct answers in round, by adding increasing by one the correct answers of them
-     * in the round.
+     * Updates the player's number of correct answers in round, by adding increasing by one the correct
+     * answers of them in the round.
      *
      * @param player the player that has answered the current question correctly
      */
@@ -154,7 +156,8 @@ public class BoilingPointRoundLogic extends PointBuilderRoundLogic {
      * Getter for the number of correct answers of a player in the round.
      *
      * @param player the player to get the correct answers of
-     * @return the number of correct answers of the player, if the player in involved in the round, else returns -1.
+     * @return the number of correct answers of the player, if the player in involved in the round,
+     * else returns -1.
      */
     public int getNumberOfCorrectAnswersOfPlayer(Player player) {
         if (numberOfCorrectAnswersInRound.containsKey(player)) {

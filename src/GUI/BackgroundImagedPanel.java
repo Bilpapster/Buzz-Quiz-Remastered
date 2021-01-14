@@ -29,7 +29,8 @@ public class BackgroundImagedPanel extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
-        g.drawImage(backgroundImage, 0, 0, null);
+        double factor = this.getWidth()/backgroundImage.getWidth(null);
+        g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), null);
     }
 
 }
