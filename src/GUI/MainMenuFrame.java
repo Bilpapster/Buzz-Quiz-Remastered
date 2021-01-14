@@ -7,9 +7,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class MainMenuFrame extends JFrame implements ActionListener {
+    SoundManager soundManager = new SoundManager();
+
     CustomizedMainMenuButton player1btn;
     CustomizedMainMenuButton player2btn;
     CustomizedMainMenuButton highscoreBtn;
@@ -40,7 +44,6 @@ public class MainMenuFrame extends JFrame implements ActionListener {
     }
 
     private void setUpSoundManager() {
-        SoundManager soundManager = new SoundManager();
         soundManager.playClip("during_game_theme");
     }
 
@@ -158,7 +161,31 @@ public class MainMenuFrame extends JFrame implements ActionListener {
         public CustomizedMainMenuButton(String textToDisplay, int endCoordinateX, int initialDelay) {
             super(textToDisplay, 2000, -200, endCoordinateX, initialDelay, true);
             this.setMargin(new Insets(0, 15, 20, 20));
+            this.setInteractionRelatedListener();
             this.scheduleForwardAnimation();
+        }
+
+        private void setInteractionRelatedListener() {
+            this.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    setBackground(Color.DARK_GRAY);
+                    setForeground(Color.WHITE);
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    setBounds(getX(), getY(), getWidth() + 5, getHeight() + 5);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    setBounds(getX(), getY(), getWidth() - 5, getHeight() - 5);
+                    this.mouseReleased(e);
+                }
+
+
+            });
         }
     }
 
