@@ -56,7 +56,7 @@ public class AnimationButton extends RoundedJButton {
                 return;
             }
             float fraction = (float) timeElapsedAfterLaunch / animationDuration;
-            int coordinateX = (int) (endCoordinateX * (fraction));
+            int coordinateX = (int) ((endCoordinateX - startCoordinateX) * (fraction) + startCoordinateX);
             this.setBounds(coordinateX, this.getBounds().y, this.getWidth(), this.getHeight());
             this.repaint();
         });
@@ -77,7 +77,7 @@ public class AnimationButton extends RoundedJButton {
                 return;
             }
             float fraction = (float) timeElapsedAfterLaunch / animationDuration;
-            int coordinateX = (int) (endCoordinateX * (1 - fraction) + startCoordinateX);
+            int coordinateX = (int) ((endCoordinateX - startCoordinateX) * (1 - fraction) + startCoordinateX);
             this.setBounds(coordinateX, this.getBounds().y, this.getWidth(), this.getHeight());
             this.repaint();
             System.out.println("Running");

@@ -157,7 +157,7 @@ public class MainMenuFrame extends JFrame implements ActionListener {
     private class CustomizedMainMenuButton extends AnimationButton {
         public CustomizedMainMenuButton(String textToDisplay, int endCoordinateX, int initialDelay) {
             super(textToDisplay, 2000, -200, endCoordinateX, initialDelay, true);
-            this.setMargin(new Insets(0, 15, 20, 15));
+            this.setMargin(new Insets(0, 15, 20, 20));
             this.scheduleForwardAnimation();
         }
     }
