@@ -9,7 +9,6 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 public class MainMenuFrame extends JFrame implements ActionListener {
-//    SoundManager soundManager = new SoundManager();
 
     private CustomizedMainMenuButton player1btn = new CustomizedMainMenuButton("One-player game", 108, 200);
     private CustomizedMainMenuButton player2btn = new CustomizedMainMenuButton("Two-player game", 106, 500);
@@ -41,7 +40,7 @@ public class MainMenuFrame extends JFrame implements ActionListener {
     }
 
     private void setUpSoundManager() {
-        SoundManager.getManager().playClip("during_game_theme");
+        SoundManager.getManager().playClip("main_menu_theme");
     }
 
     private void setUpTitleLabel() {
@@ -86,10 +85,10 @@ public class MainMenuFrame extends JFrame implements ActionListener {
     }
 
     private void setUpButtons() {
-        player1btn.addActionListener(this::actionPerformed);
-        player2btn.addActionListener(this::actionPerformed);
-        highscoreBtn.addActionListener(this::actionPerformed);
-        settingsButton.addActionListener(this::actionPerformed);
+        player1btn.addActionListener(this);
+        player2btn.addActionListener(this);
+        highscoreBtn.addActionListener(this);
+        settingsButton.addActionListener(this);
     }
 
     private void setUpButtonsPanel() {
@@ -135,7 +134,7 @@ public class MainMenuFrame extends JFrame implements ActionListener {
         } else if (e.getSource() == highscoreBtn) {
             HighscoreMenu highscoreMenu = new HighscoreMenu(this);
         } else if (e.getSource() == settingsButton) {
-            new SettingsFrame(this);
+            new SettingsFrame(this).setVisible(true);
         }
     }
 

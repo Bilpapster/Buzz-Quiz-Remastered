@@ -28,7 +28,6 @@ public class SettingsFrame extends JDialog {
         this.setLayout(new BorderLayout());
         this.add(settingsPanel, BorderLayout.CENTER);
         this.setAlwaysOnTop(true);
-        this.setVisible(true);
     }
 
 }
