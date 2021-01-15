@@ -1,5 +1,7 @@
 package GUI;
 
+import com.Sound.SoundManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
@@ -75,6 +77,7 @@ public class TimerComponent {
 
             if (currentTime <= 0) {
                 timeOverLabel.setVisible(true);
+                SoundManager.stopClip("clock_ticking");
                 isOver = true;
                 timerLabel.setText(df.format(0));
             }
@@ -88,6 +91,10 @@ public class TimerComponent {
         if (!timer.isRunning()) {
             currentTime = 5000;
             timer.start();
+        }
+
+        if (getMainPanel().isVisible()) {
+            SoundManager.playClip("clock_ticking");
         }
     }
 
@@ -122,6 +129,9 @@ public class TimerComponent {
      */
     public void stopTimer() {
         timer.stop();
+        if (getMainPanel().isVisible()) {
+            SoundManager.stopClip("clock_ticking");
+        }
     }
 
     /**
@@ -180,7 +190,6 @@ public class TimerComponent {
      * @return the time remaining until the timer reaches 0 in milliseconds.
      */
     public long getMillisAfterLaunch() {
-//            return currentTime;
             return totalAmountOfTime - currentTime;
     }
 }

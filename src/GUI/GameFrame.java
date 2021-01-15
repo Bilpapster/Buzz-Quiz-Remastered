@@ -121,6 +121,7 @@ public class GameFrame extends JFrame {
             RoundViewerI currentRound = rounds.get(currentRoundIndex);
             currentRound.setParentFrame(this);
             this.setContentPane(currentRound.getRootPanel());
+            SoundManager.playClip("transition");
             currentRound.getRootPanel().requestFocus();
             currentRound.play();
         } else {
