@@ -289,7 +289,12 @@ public class PointBuilderRoundViewer implements RoundViewerI {
     }
 
     private void openPauseMenu() {
-
+        PauseMenuFrame pauseMenuFrame = new PauseMenuFrame(parentFrame);
+        if (pauseMenuFrame.isWillQuit()) {
+            new MainMenuFrame();
+            SoundManager.stopClip("during_game_theme");
+            parentFrame.dispose();
+        }
     }
 
     /**

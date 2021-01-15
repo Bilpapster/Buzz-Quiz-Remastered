@@ -5,10 +5,16 @@ import com.FileManagers.FileManager;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Class which handles the management of Question objects
+ */
 public class QuestionManager {
     private ArrayList<Question> listOfQuestions;
     private FileManager files;
 
+    /**
+     * Default constructor which sets up the listOfQuestions
+     */
     public QuestionManager() {
         listOfQuestions = new ArrayList<>();
         try {
@@ -19,6 +25,10 @@ public class QuestionManager {
 
     }
 
+    /**
+     * Adds new question to the listOfQuestions
+     * @param newQuestion question to be added
+     */
     public void addNewQuestion(Question newQuestion) {
         listOfQuestions.add(newQuestion);
     }
