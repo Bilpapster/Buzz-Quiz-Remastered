@@ -643,6 +643,8 @@ public class PointBuilderRoundViewer implements RoundViewerI {
                         playersSelectionLabels.get(answerButtons.get(keyButtonAssociation.get(keyPressed))).setVisible(false);
                     }
                     actionPerformed();
+                } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    new PauseMenuFrame(parentFrame);
                 }
             }
         }
