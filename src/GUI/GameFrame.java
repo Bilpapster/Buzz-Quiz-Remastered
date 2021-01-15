@@ -44,6 +44,7 @@ public class GameFrame extends JFrame {
         this.referee = new Referee(players);
 
         initializeRounds();
+        SoundManager.playClip("during_game_theme");
         this.setVisible(true);
         playNextRound();
     }
