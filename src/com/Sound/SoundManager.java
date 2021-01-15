@@ -14,20 +14,27 @@ import java.util.HashMap;
  */
 public class SoundManager {
 
+    private static SoundManager manager = new SoundManager();
+
     private static boolean mutedMusic = false;
     private static boolean mutedSFX = false;
     private static HashMap<String, SoundClip> clips;
     private static Constants constants;
     private static float[] floatControlValuesSFX, floatControlValuesTHEME;
 
+
     /**
      * Constructor which creates the SoundManager object and creates both the HashMap containing all the clips in the
      * SoundClips folder, aswell as the FloatControl valued array
      */
-    public SoundManager() {
+    private SoundManager() {
         constants = new Constants();
         createSoundMap();
         createFloatValues();
+    }
+
+    public static SoundManager getManager() {
+        return manager;
     }
 
 

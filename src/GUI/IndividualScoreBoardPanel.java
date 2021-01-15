@@ -1,7 +1,8 @@
 package GUI;
 
+import com.Sound.SoundManager;
+
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 /**
@@ -10,7 +11,7 @@ import java.awt.*;
  *
  * @author Vasileios Papastergios
  */
-class PlayerInfoPanel {
+class IndividualScoreBoardPanel {
 
     private JPanel rootPanel = new JPanel();
     private JLabel nameLabel = new CustomizedJLabel(FontManager.FontStyle.SEMI_BOLD, 22f);
@@ -23,7 +24,7 @@ class PlayerInfoPanel {
      *
      * @param name the player's name.
      */
-    public PlayerInfoPanel(String name) {
+    public IndividualScoreBoardPanel(String name) {
         this.name = name;
         setUpLabels();
         setUpRootPanel();
@@ -68,11 +69,13 @@ class PlayerInfoPanel {
      * @param score the score value to update.
      */
     public void updateScore(int score) {
-        if (this.score != score) {
+            if (this.score < score) {
+                SoundManager.playClip("not_correct_option3");
+            } else {
+                SoundManager.playClip("correct_answer");
+            }
             this.score = score;
             scoreLabel.setText(String.format("%,d", score));
-
-        }
     }
 
     /**

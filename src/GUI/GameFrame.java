@@ -2,6 +2,7 @@ package GUI;
 
 import com.Player;
 import com.Referee;
+import com.Sound.SoundManager;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -123,7 +124,7 @@ public class GameFrame extends JFrame {
             currentRound.getRootPanel().requestFocus();
             currentRound.play();
         } else {
-            new GameEndingWindow(players);
+            new GameEndingWindow(players, SoundManager.getManager());
             dispose();
         }
     }

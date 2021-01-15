@@ -5,19 +5,16 @@ import com.Sound.SoundManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 public class MainMenuFrame extends JFrame implements ActionListener {
-    SoundManager soundManager = new SoundManager();
+//    SoundManager soundManager = new SoundManager();
 
-    CustomizedMainMenuButton player1btn;
-    CustomizedMainMenuButton player2btn;
-    CustomizedMainMenuButton highscoreBtn;
-    CustomizedMainMenuButton settingsButton;
+    private CustomizedMainMenuButton player1btn = new CustomizedMainMenuButton("One-player game", 108, 200);
+    private CustomizedMainMenuButton player2btn = new CustomizedMainMenuButton("Two-player game", 106, 500);
+    private CustomizedMainMenuButton highscoreBtn = new CustomizedMainMenuButton("View high-scores", 106, 800);
+    private CustomizedMainMenuButton settingsButton = new CustomizedMainMenuButton("Settings", 136, 1100);
 
     private JLabel gameTitle;
     private JLabel gameSubTitle;
@@ -44,7 +41,7 @@ public class MainMenuFrame extends JFrame implements ActionListener {
     }
 
     private void setUpSoundManager() {
-        soundManager.playClip("during_game_theme");
+        SoundManager.getManager().playClip("during_game_theme");
     }
 
     private void setUpTitleLabel() {
@@ -72,34 +69,26 @@ public class MainMenuFrame extends JFrame implements ActionListener {
     private void setUpCreditsLabel() {
         basedOnOriginalGameLabel = new JLabel("<html><font color = white>Based on the original Buzz!: Quiz World game.</font></html>");
         basedOnOriginalGameLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.BOLD, 16f));
-        basedOnOriginalGameLabel.setHorizontalAlignment(SwingConstants.LEFT);
     }
 
     private void setUpAuthorsLabel() {
         authorsLabel = new JLabel("<html><font color = white>Developed by fmalakis and bilpapster.</font></html>");
         authorsLabel.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.BOLD, 16f));
-        authorsLabel.setHorizontalAlignment(SwingConstants.RIGHT);
     }
 
     private void setUpCreditsPanel() {
         creditsPanel = new JPanel();
-        creditsPanel.setLayout(new BoxLayout(creditsPanel, BoxLayout.X_AXIS));
+//        creditsPanel.setLayout(new BoxLayout(creditsPanel, BoxLayout.X_AXIS));
         creditsPanel.setBackground(Color.DARK_GRAY);
         creditsPanel.add(basedOnOriginalGameLabel);
         creditsPanel.add(Box.createHorizontalGlue());
         creditsPanel.add(authorsLabel);
-        creditsPanel.add(Box.createVerticalStrut(10));
     }
 
     private void setUpButtons() {
-        player1btn = new CustomizedMainMenuButton("One-player game", 108, 0);
-        player2btn = new CustomizedMainMenuButton("Two-player game", 106, 350);
-        highscoreBtn = new CustomizedMainMenuButton("View high-scores", 106, 700);
-        settingsButton = new CustomizedMainMenuButton("Settings", 134, 1050);
-
-        highscoreBtn.addActionListener(this::actionPerformed);
         player1btn.addActionListener(this::actionPerformed);
         player2btn.addActionListener(this::actionPerformed);
+        highscoreBtn.addActionListener(this::actionPerformed);
         settingsButton.addActionListener(this::actionPerformed);
     }
 
@@ -107,6 +96,7 @@ public class MainMenuFrame extends JFrame implements ActionListener {
         buttonsPanel = new JPanel();
         buttonsPanel.setOpaque(false);
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
+        buttonsPanel.add(Box.createVerticalStrut(20));
         buttonsPanel.add(player1btn);
         buttonsPanel.add(Box.createVerticalStrut(20));
         buttonsPanel.add(player2btn);
@@ -128,6 +118,7 @@ public class MainMenuFrame extends JFrame implements ActionListener {
     private void setUpMainMenuFrame() {
         this.setTitle("Buzz! Quiz World!");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setIconImage(new ImageIcon("src/resources/Buzz-Quiz-World_LOGO.jpg").getImage());
         this.setSize(1280, 720);
         this.setLocationRelativeTo(null);
         this.setContentPane(rootPanel);
@@ -136,57 +127,78 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        SoundManager.playClip("button_select");
         if (e.getSource() == player1btn) {
-            this.dispose();
-            PlayerInfoPage playerInfoPage = new PlayerInfoPage(1);
+            new PlayerInfoPage(1, this);
         } else if (e.getSource() == player2btn) {
-            this.dispose();
-            PlayerInfoPage playerInfoPage = new PlayerInfoPage(2);
+            new PlayerInfoPage(2, this);
         } else if (e.getSource() == highscoreBtn) {
-            this.dispose();
-//            HighscoreMenu highscoreMenu = new HighscoreMenu();
-            ArrayList<Player> players = new ArrayList<>();
-            players.add(new Player("Fotis", 3500));
-            players.add(new Player("Giannhs", 5800));
-            GameEndingWindow gameEndingWindow = new GameEndingWindow(players);
+            HighscoreMenu highscoreMenu = new HighscoreMenu(this);
         } else if (e.getSource() == settingsButton) {
-            // openPauseMenu()
+            new SettingsFrame(this);
         }
-
-
     }
 
-    private class CustomizedMainMenuButton extends AnimationButton {
+    private class CustomizedMainMenuButton extends RoundedJButton {
+
+        private static final int  RELOCATION_X = 3;
+        private static final int  RELOCATION_Y = 3;
+        private static final int  RELOCATION_WIDTH = 6;
+        private static final int  RELOCATION_HEIGHT = 0;
+
         public CustomizedMainMenuButton(String textToDisplay, int endCoordinateX, int initialDelay) {
-            super(textToDisplay, 2000, -200, endCoordinateX, initialDelay, true);
+            super(new Dimension(30, 30));
+            this.setVisible(true);
+            this.setText(textToDisplay);
+            this.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.REGULAR, 22f));
             this.setMargin(new Insets(0, 15, 20, 20));
-            this.setInteractionRelatedListener();
-            this.scheduleForwardAnimation();
+            this.setInteractionRelatedListeners();
+            TransitionWizard.getWizard().scheduleForwardAnimation(this, 2000, -300, endCoordinateX, initialDelay);
         }
 
-        private void setInteractionRelatedListener() {
+        private void setInteractionRelatedListeners() {
             this.addMouseListener(new MouseAdapter() {
+
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    setBackground(Color.DARK_GRAY);
-                    setForeground(Color.WHITE);
+                    executeActionsOnFocusLoss();
                 }
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    setBounds(getX(), getY(), getWidth() + 5, getHeight() + 5);
+                    executeActionsOnFocusGain();
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    setBounds(getX(), getY(), getWidth() - 5, getHeight() - 5);
-                    this.mouseReleased(e);
+                    executeActionsOnFocusLoss();
                 }
 
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    JButton buttonPressed = (JButton) e.getSource();
+                }
+            });
 
+            this.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    executeActionsOnFocusGain();
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    executeActionsOnFocusLoss();
+                }
             });
         }
-    }
 
+        private void executeActionsOnFocusGain() {
+            setBounds(getX() - RELOCATION_X, getY() - RELOCATION_Y, getWidth() + RELOCATION_WIDTH, getHeight() + RELOCATION_HEIGHT);
+        }
+
+        private void executeActionsOnFocusLoss() {
+            setBounds(getX() + RELOCATION_X, getY() + RELOCATION_Y, getWidth() - RELOCATION_WIDTH, getHeight() - RELOCATION_HEIGHT);
+        }
+    }
 }

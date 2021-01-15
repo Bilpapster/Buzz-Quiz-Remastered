@@ -16,7 +16,8 @@ public class Constants {
             "src/resources/SoundClips/not_correct_option3.wav",
             "src/resources/SoundClips/transition.wav",
             "src/resources/SoundClips/trumpet_sad.wav",
-            "src/resources/SoundClips/xylophone_sad.wav"
+            "src/resources/SoundClips/xylophone_sad.wav",
+            "src/resources/SoundClips/button_select.wav"
     } ;
 
     public static final String BACKGROUND_IMAGES_PATH = "src/resources/Background Images/";
@@ -24,6 +25,8 @@ public class Constants {
     public static final String FONT_FILES_PATH = "src/resources/Fonts/";
 
     public static final int NUMBER_OF_QUESTIONS_IN_A_ROUND = 5;
+
+    public static final int MAXIMUM_NUMBER_OF_PLAYERS_IN_GUI = 2;
 
     public static final int NUMBER_OF_AVAILABLE_ANSWERS_IN_GUI = 4;
 

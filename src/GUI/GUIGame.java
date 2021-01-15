@@ -10,7 +10,10 @@ public class GUIGame {
     }
 
     public void setUpMenuGUI() {
-        MainMenuFrame mainMenuFrame = new MainMenuFrame();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                MainMenuFrame mainMenuFrame = new MainMenuFrame();
+            }
+        });
     }
-
 }

@@ -13,7 +13,7 @@ import java.util.*;
  *A class which represents the highscore menu window
  */
 public class HighscoreMenu implements ActionListener {
-    JFrame frame;
+    JPanel rootPanel;
     JPanel header;
     JLabel highscoreTitle;
     JButton sortingBtn;
@@ -29,7 +29,7 @@ public class HighscoreMenu implements ActionListener {
     /**
      * Default constructor of the HighscoreMenu class, which creates the window and fills it up with relevant information
      */
-    public HighscoreMenu() {
+    public HighscoreMenu(JFrame parentFrame) {
         try {
             fileManager = new FileManager("highscores.txt", "questions.txt");
         } catch(IOException e) {
@@ -38,20 +38,21 @@ public class HighscoreMenu implements ActionListener {
         setUpFrame();
         setUpHeader();
         setUpHighscoreList();
+
+        JDialog frame = new JDialog(parentFrame, "Buzz!: Highscores", true);
+        frame.getContentPane().add(rootPanel);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
     /**
      * Sets up the main frame for the HighscoreMenu window
      */
     private void setUpFrame() {
-        frame = new JFrame();
-        frame.setTitle("Buzz! Highscores");
-        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
-        frame.getContentPane().setBackground(Color.darkGray);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        rootPanel = new JPanel();
+        rootPanel.setLayout(new BorderLayout());
+        rootPanel.setBackground(Color.darkGray);
     }
 
     /**
@@ -69,8 +70,7 @@ public class HighscoreMenu implements ActionListener {
         header.add(highscoreTitle, BorderLayout.CENTER);
         setUpSortingBtn();
 
-        frame.add(header, BorderLayout.NORTH);
-
+        rootPanel.add(header, BorderLayout.NORTH);
     }
 
     private void setUpSortingBtn() {
@@ -111,9 +111,7 @@ public class HighscoreMenu implements ActionListener {
         highscoreTable.setDragEnabled(false);
         highscorePane = new JScrollPane(highscoreTable);
 
-        frame.add(highscorePane, BorderLayout.CENTER);
-        frame.pack();
-
+        rootPanel.add(highscorePane, BorderLayout.CENTER);
     }
 
     private void changeSorting() {
@@ -130,7 +128,6 @@ public class HighscoreMenu implements ActionListener {
             highscoreTable.getModel().setValueAt(tableData[i][0], i, 0);
             highscoreTable.getModel().setValueAt(tableData[i][1], i, 1);
         }
-
     }
 
 

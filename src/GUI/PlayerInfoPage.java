@@ -12,42 +12,50 @@ import com.*;
 public class PlayerInfoPage implements ActionListener {
 
     int numberOfPlayers;
-    JFrame playerInfoFrame = new JFrame();
+    JPanel playerInfoPanel = new JPanel();
     JButton submitNamesBtn = new JButton("Start the game!");
     ArrayList<JLabel> playerEnterNameLabels = new ArrayList<>();
     ArrayList<JTextField> playerNameFields = new ArrayList<>();
+    JFrame parentFrame;
 
-    public PlayerInfoPage(int numberOfPlayers) {
+    public PlayerInfoPage(int numberOfPlayers, JFrame parentFrame) {
         this.numberOfPlayers = numberOfPlayers;
-        playerInfoFrame.setTitle("Buzz! Quiz World!");
-        playerInfoFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        playerInfoFrame.setSize(480, 240);
-        playerInfoFrame.setLayout(new GridLayout(numberOfPlayers*2 + 1, 1));
-        playerInfoFrame.getContentPane().setBackground(Color.darkGray);
-        playerInfoFrame.setLocationRelativeTo(null);
-        playerInfoFrame.setVisible(true);
+        this.parentFrame = parentFrame;
+
+        playerInfoPanel.setSize(480, 240);
+        playerInfoPanel.setLayout(new GridLayout(numberOfPlayers*2 + 1, 1));
+        playerInfoPanel.setBackground(Color.darkGray);
         for(int i = 0; i < numberOfPlayers; i++) {
             JLabel label = new JLabel("Player " + (i + 1) + " enter your name:");
             label.setHorizontalAlignment(JLabel.CENTER);
-//            label.setFont(new Font("Arial Black", Font.PLAIN, 24));
             label.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 22f));
             label.setForeground(Color.WHITE);
             playerEnterNameLabels.add(label);
             JTextField textField = new JTextField();
             textField.setPreferredSize(new Dimension(250, 40));
             textField.setHorizontalAlignment(SwingConstants.CENTER);
-//            textField.setFont(new Font("Arial Black", Font.BOLD, 18));
             textField.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.BOLD, 26f));
+            textField.setBackground(Color.DARK_GRAY);
+            textField.setForeground(Color.WHITE);
+            textField.setBorder(null);
+            textField.setCaretColor(Color.WHITE);
             textField.addActionListener(this::actionPerformed);
             playerNameFields.add(textField);
         }
         for (int i = 0; i < numberOfPlayers; i ++) {
-            playerInfoFrame.add(playerEnterNameLabels.get(i));
-            playerInfoFrame.add(playerNameFields.get(i));
+            playerInfoPanel.add(playerEnterNameLabels.get(i));
+            playerInfoPanel.add(playerNameFields.get(i));
         }
         submitNamesBtn.setHorizontalAlignment(JButton.CENTER);
         submitNamesBtn.addActionListener(this::actionPerformed);
-        playerInfoFrame.add(submitNamesBtn);
+        playerInfoPanel.add(submitNamesBtn);
+
+        JDialog frame = new JDialog(parentFrame, "Declare your names!", true);
+        frame.getContentPane().add(playerInfoPanel);
+        frame.pack();
+        frame.setSize(480, 240);
+        frame.setLocationRelativeTo(parentFrame);
+        frame.setVisible(true);
     }
 
     @Override
@@ -67,12 +75,12 @@ public class PlayerInfoPage implements ActionListener {
     }
 
     private void submitPlayerInfo() {
-        ArrayList<Player> listofPlayers = new ArrayList<>();
+        ArrayList<Player> listOfPlayers = new ArrayList<>();
         for (JTextField i : playerNameFields) {
-            listofPlayers.add(new Player(i.getText()));
+            listOfPlayers.add(new Player(i.getText()));
         }
-        playerInfoFrame.dispose();
-        new GameFrame(listofPlayers);
+        new GameFrame(listOfPlayers);
+        parentFrame.dispose();
     }
 
 }

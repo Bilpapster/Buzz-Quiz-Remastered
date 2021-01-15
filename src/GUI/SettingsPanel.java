@@ -66,9 +66,9 @@ public class SettingsPanel extends JPanel implements ActionListener {
     }
 
     private void setUpBtns() {
-        musicMuteBtn = new JButton(!SoundManager.isIsMutedMusic()? "Mute Music" : "Unmute Music");
+        musicMuteBtn = new JButton(!SoundManager.isMutedMusic()? "Mute Music" : "Unmute Music");
         musicMuteBtn.addActionListener(this);
-        sfxMuteBtn = new JButton(!SoundManager.isIsMutedSFX()? "Mute SFX" : "Unmute SFX");
+        sfxMuteBtn = new JButton(!SoundManager.isMutedSFX()? "Mute SFX" : "Unmute SFX");
         sfxMuteBtn.addActionListener(this);
     }
 

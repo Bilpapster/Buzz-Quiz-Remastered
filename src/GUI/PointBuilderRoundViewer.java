@@ -1,6 +1,7 @@
 package GUI;
 
 import com.*;
+import com.Sound.SoundManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,7 +61,7 @@ public class PointBuilderRoundViewer implements RoundViewerI {
     protected JPanel rootPanel = new JPanel();
 
     /* HashMap structure that store mapping between Players-Info panels, which display the player's name and score */
-    protected HashMap<Player, PlayerInfoPanel> playerInfoPanels = new HashMap<>();
+    protected HashMap<Player, IndividualScoreBoardPanel> playerInfoPanels = new HashMap<>();
 
     /* HashMap structure that store mapping between answer buttons - labels that display the name of player(s) who chose
     the specific answer */
@@ -227,8 +228,8 @@ public class PointBuilderRoundViewer implements RoundViewerI {
         footerPanel.setLayout(new GridLayout(1, 3));
 
         for (Player player : referee.getAlivePlayersInRound()) {
-            PlayerInfoPanel playerInfoPanel = new PlayerInfoPanel(player.getName());
-            playerInfoPanels.put(player, playerInfoPanel);
+            IndividualScoreBoardPanel individualScoreBoardPanel = new IndividualScoreBoardPanel(player.getName());
+            playerInfoPanels.put(player, individualScoreBoardPanel);
         }
 
         footerPanel.add(playerInfoPanels.get(referee.getAlivePlayersInRound().get(0)).getRootPanel());
@@ -574,6 +575,7 @@ public class PointBuilderRoundViewer implements RoundViewerI {
         public void mouseClicked(MouseEvent e) {
             if (isUserInteractionEnabled) {
                 if (!referee.hasPlayerAnswered(referee.getAlivePlayersInRound().get(0))) {
+                    SoundManager.playClip("button_select");
                     JButton buttonSource = (JButton) e.getSource();
                     referee.setAnswerData(referee.getAlivePlayersInRound().get(0), buttonSource.getText(), timer.getMillisAfterLaunch());
                     playersSelectionLabels.get(e.getSource()).setText(referee.getAlivePlayersInRound().get(0).getName());
@@ -628,6 +630,7 @@ public class PointBuilderRoundViewer implements RoundViewerI {
                 Character keyPressed = Character.toString(e.getKeyChar()).toLowerCase().charAt(0);  // count user interaction even if the CAPS LOCK is (by mistake) enabled
                 if (keyButtonAssociation.containsKey(keyPressed)) {
                     if (!referee.hasPlayerAnswered(playerAssociated)) {
+                        SoundManager.playClip("button_select");
                         referee.setAnswerData(playerAssociated, answerButtons.get(keyButtonAssociation.get(keyPressed)).getText(), timer.getMillisAfterLaunch());
                         playersSelectionLabels.get(answerButtons.get(keyButtonAssociation.get(keyPressed))).setText(playerAssociated.getName());
                         playersSelectionLabels.get(answerButtons.get(keyButtonAssociation.get(keyPressed))).setVisible(false);
