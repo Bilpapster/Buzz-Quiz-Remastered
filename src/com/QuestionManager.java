@@ -1,5 +1,7 @@
 package com;
 
+import com.FileManagers.FileManager;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -10,7 +12,7 @@ public class QuestionManager {
     public QuestionManager() {
         listOfQuestions = new ArrayList<>();
         try {
-            files = new FileManager();
+            files = new FileManager("highscores.txt", "questions.txt");
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -52,7 +54,7 @@ public class QuestionManager {
     }
 
     /**
-     * Creates question objects with data from the com.FileManager, after it has tokenized and parsed them and pushes the questions to the list of questions<br><br>
+     * Creates question objects with data from the com.Managers.FileManager, after it has tokenized and parsed them and pushes the questions to the list of questions<br><br>
      * <b>NOTE:</b> This method will only work if the 'questions.txt' file uses the proprietary format the developers intended, altering the delimiter symbol
      * or the way the answer is formatted will result in the code needing to be overhauled.
      */
