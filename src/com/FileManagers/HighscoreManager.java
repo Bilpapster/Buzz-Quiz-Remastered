@@ -1,27 +1,26 @@
-package com;
+package com.FileManagers;
 
-import java.io.IOException;
-import java.util.*;
+import com.Player;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 public class HighscoreManager {
+
     FileManager fileManager;
     LinkedHashMap<String, Integer> fileHighscores;
 
     /**
-     * The class constructor which initializes the com.FileManager attribute and fetches current highscores before the game starts
+     * The class constructor which initializes the com.Managers.FileManager attribute and fetches current highscores before the game starts
      */
-    public HighscoreManager() {
-        try {
-            fileManager = new FileManager();
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
+    public HighscoreManager(FileManager fileManager) {
+        this.fileManager = fileManager;
         fileHighscores = fileManager.getHighscoresFromFile();
     }
 
     /**
      * Method that checks to see if a new highscore has been attained in the current gaming session by cross-checking with the fileHighscores <code>HashMap</code>,
-     * if it finds a new player or an existing player with a new highscore, it updates the <code>HashMap</code> accordingly, and then calls <code>com.FileManager.updateHighScoresOnFile()</code>
+     * if it finds a new player or an existing player with a new highscore, it updates the <code>HashMap</code> accordingly, and then calls <code>com.Managers.FileManager.updateHighScoresOnFile()</code>
      * to update the highscore file.
      *
      * @param players list of the players from the current session.

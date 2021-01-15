@@ -1,4 +1,6 @@
-package com;
+package com.FileManagers;
+
+import com.HighscoreComparator;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -8,15 +10,19 @@ import java.util.*;
 public class FileManager {
 
     private File highScoreFile, questionsFile;
+    private String highscoreFileName, questionsFileName;
 
     /**
-     * Creates a com.FileManager object and initializes its two File fields to the correct files. If the user has deleted or has is playing
+     * Creates a com.Managers.FileManager object and initializes its two File fields to the correct files. If the user has deleted or has is playing
      * for the first time, creates the 'highscores.txt' file.
      * @throws IOException
      */
-    public FileManager() throws IOException {
-        highScoreFile = new File("highscores.txt");
-        questionsFile = new File("questions.txt");
+    public FileManager(String highscoreFileName, String questionsFileName) throws IOException {
+        this.highscoreFileName = highscoreFileName;
+        this.questionsFileName = questionsFileName;
+
+        highScoreFile = new File(this.highscoreFileName);
+        questionsFile = new File(this.questionsFileName);
         try {
             if (!highScoreFile.exists())
                 highScoreFile.createNewFile();
@@ -61,6 +67,7 @@ public class FileManager {
                 StringTokenizer highscoreLine = new StringTokenizer(temp,":");
                 highscores.put(highscoreLine.nextToken(), Integer.parseInt(highscoreLine.nextToken()));
             }
+            fileReader.close();
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -74,7 +81,7 @@ public class FileManager {
      *
      * @param newHighscores a <code>HashMap&#60;String, Integer&#62; containing 'Name':'Score' keypair values</code>
      */
-    public void updateHighscoresOnFile(LinkedHashMap<String, Integer> newHighscores) {
+    protected void updateHighscoresOnFile(LinkedHashMap<String, Integer> newHighscores) {
         try {
             FileWriter fileWriter = new FileWriter(highScoreFile);
             ArrayList<Map.Entry<String,Integer>> highscoreList = new ArrayList<>(newHighscores.entrySet());
@@ -91,4 +98,19 @@ public class FileManager {
 
     }
 
+    public String getHighscoreFileName() {
+        return highscoreFileName;
+    }
+
+    public String getQuestionsFileName() {
+        return questionsFileName;
+    }
+
+    public File getHighScoreFile() {
+        return highScoreFile;
+    }
+
+    public File getQuestionsFile() {
+        return questionsFile;
+    }
 }
