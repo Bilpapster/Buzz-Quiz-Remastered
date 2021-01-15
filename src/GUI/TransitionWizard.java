@@ -25,7 +25,7 @@ public class TransitionWizard {
     /**
      * Gives access to the one and only object of the class. It is enough for all transitions.
      *
-     * @return
+     * @return the one and only instance of the class.
      */
     public static TransitionWizard getWizard() {
         return wizard;

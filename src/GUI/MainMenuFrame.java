@@ -168,7 +168,7 @@ public class MainMenuFrame extends JFrame implements ActionListener {
     /**
      * Guides the program's execution, depending on the user button selections.
      *
-     * @param e
+     * @param e action event
      */
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -189,7 +189,7 @@ public class MainMenuFrame extends JFrame implements ActionListener {
      * in an animation.
      *
      * @author Vasileios Papastergios
-     * @versio 2021.01.15
+     * @version 2021.01.15
      */
     private class CustomizedMainMenuButton extends RoundedJButton {
 
