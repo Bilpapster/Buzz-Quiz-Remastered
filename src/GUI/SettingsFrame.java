@@ -5,15 +5,15 @@ import com.Sound.SoundManager;
 import javax.swing.*;
 import java.awt.*;
 
-public class SettingsFrame extends JFrame {
+public class SettingsFrame extends JDialog {
 
     private JPanel settingsPanel;
     private JFrame parentFrame;
 
-    public SettingsFrame(SoundManager soundManager, JFrame parentFrame) {
+    public SettingsFrame(final JFrame parentFrame) {
 
-        super();
-        settingsPanel = new SettingsPanel(soundManager);
+        super(parentFrame);
+        settingsPanel = new SettingsPanel();
         this.parentFrame = parentFrame;
         setUpFrame();
 
@@ -21,11 +21,13 @@ public class SettingsFrame extends JFrame {
 
     private void setUpFrame() {
         this.setTitle("Settings menu");
+        this.setBounds(180, 180, 680, 200);
         this.setLocationRelativeTo(parentFrame);
-        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        this.setModalityType(ModalityType.APPLICATION_MODAL);
+        this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         this.setLayout(new BorderLayout());
         this.add(settingsPanel, BorderLayout.CENTER);
-        this.pack();
+        this.setAlwaysOnTop(true);
         this.setVisible(true);
     }
 
