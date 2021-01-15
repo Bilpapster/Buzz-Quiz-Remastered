@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import com.*;
+import com.Sound.SoundManager;
 
 
 public class PlayerInfoPage implements ActionListener {
@@ -81,6 +82,7 @@ public class PlayerInfoPage implements ActionListener {
         }
         new GameFrame(listOfPlayers);
         parentFrame.dispose();
+        SoundManager.stopClip("main_menu_theme");
     }
 
 }
