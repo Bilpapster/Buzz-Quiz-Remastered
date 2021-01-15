@@ -1,6 +1,7 @@
 package GUI;
 
 import com.Player;
+import com.Sound.SoundManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -63,14 +64,8 @@ public class BetSelectionWindow implements ActionListener {
      * Sets up the header for the betting window
      */
     private void setUpHeader() {
-//        title = new JLabel();
-
         title = new CustomizedJLabel(FontManager.FontStyle.BOLD, 22f);
-
         title.setText("Place your bet, " + currentPlayer.getName() + "!");
-//        title.setHorizontalAlignment(JLabel.CENTER);
-//        title.setFont(new Font("Arial Black", Font.BOLD, 21));
-//        title.setForeground(Color.white);
         dialog.add(title, BorderLayout.NORTH);
     }
 
@@ -167,6 +162,7 @@ public class BetSelectionWindow implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        SoundManager.playClip("coins");
         finalBet = betValues[betButtons.indexOf(e.getSource())];
         dialog.dispose();
     }
