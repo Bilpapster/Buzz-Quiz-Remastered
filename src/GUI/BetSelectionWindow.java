@@ -40,7 +40,7 @@ public class BetSelectionWindow implements ActionListener {
 
     /**
      * Sets up the JDialog frame and displays it
-     * @param parentFrame
+     * @param parentFrame the parent frame of this component
      */
     private void setUpFrame(final JFrame parentFrame) {
         dialog = new JDialog(parentFrame);

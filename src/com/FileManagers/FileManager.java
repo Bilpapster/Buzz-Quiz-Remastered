@@ -15,7 +15,7 @@ public class FileManager {
     /**
      * Creates a com.Managers.FileManager object and initializes its two File fields to the correct files. If the user has deleted or has is playing
      * for the first time, creates the 'highscores.txt' file.
-     * @throws IOException
+     * @throws IOException throws IOException if an error arises with the file stream
      */
     public FileManager(String highscoreFileName, String questionsFileName) throws IOException {
         this.highscoreFileName = highscoreFileName;
