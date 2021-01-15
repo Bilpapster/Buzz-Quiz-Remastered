@@ -55,45 +55,56 @@ class SoundClip {
     }
 
     /**
-     * Checks whether or not the clip is already playing, and if not, commences playback. If the {@code SoundClip} object's
+     * Rewinds clip to its start and commences playback. If the {@code SoundClip} object's
      * {@code looping} attribute was previously set to {@code true}, then this will cause the clip to loop continuously
-     * @return {@code true} if clip has commenced playback, {@code false} if clip is already playing
      */
-    protected boolean play() {
-
+    protected void play() {
         clip.setFramePosition(0);
         if (!looping) {
             clip.start();
         } else {
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         }
-
-
-        return true;
     }
 
-    protected boolean stop() {
+    /**
+     * Checks whether or not the clip is currently playing, and if it is, ceases playback
+     */
+    protected void stop() {
         if (!clip.isRunning())
-            return false;
-
+            return;
         clip.stop();
-        return true;
     }
 
+    /**
+     * Sets the clips' sound level to the given sound level
+     * @param soundLevel value to which the clips' sound level will be set to
+     */
     protected void setSoundLevel(float soundLevel) {
         this.soundLevel = soundLevel;
         floatControl.setValue(soundLevel);
     }
 
+    /**
+     * Toggles current clips' mute
+     */
     protected void toggleMute() {
         muted = !muted;
         booleanControl.setValue(muted);
     }
 
+    /**
+     * Returns the clips' FloatControl object
+     * @return clips' FloatControl object
+     */
     protected FloatControl getFloatControl() {
         return floatControl;
     }
 
+    /**
+     * Returns the clips' SoundType (currently, either {@bold THEME} or {@bold CLIP}
+     * @return the type of the clip
+     */
     public SoundType getSoundType() {
         return soundType;
     }
