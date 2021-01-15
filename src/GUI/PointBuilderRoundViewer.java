@@ -644,7 +644,11 @@ public class PointBuilderRoundViewer implements RoundViewerI {
                     }
                     actionPerformed();
                 } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    timer.stopTimer();
+                    clearTextOnAllAnswerButtons();
                     new PauseMenuFrame(parentFrame);
+                    updateTextOnAllAnswerButtons();
+                    timer.continueTimer();
                 }
             }
         }
