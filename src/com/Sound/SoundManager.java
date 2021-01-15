@@ -44,20 +44,25 @@ public class SoundManager {
     private void createFloatValues() {
         FloatControl floatControlSFX = getFloatControlSFX();
         FloatControl floatControlTHEME = getFloatControlTHEME();
-//        floatControlValues = new ArrayList<>();
-//        floatControlValues.add(floatControl.getMinimum());
-//        floatControlValues.add(floatControl.getMaximum());
-//        floatControlValues.add(floatControl.getValue());
 
-        floatControlValuesSFX = new float[]{floatControlSFX.getMinimum(), floatControlSFX.getMaximum(), floatControlSFX.getValue()};
-        floatControlValuesTHEME = new float[]{floatControlTHEME.getMinimum(), floatControlTHEME.getMaximum(), floatControlTHEME.getValue()};
+        floatControlValuesSFX = new float[]{
+                floatControlSFX.getMinimum(),
+                floatControlSFX.getMaximum(),
+                1
+        };
+        floatControlValuesTHEME = new float[]{
+                floatControlTHEME.getMinimum(),
+                floatControlTHEME.getMaximum(),
+                1
+        };
     }
 
     public static void adjustSound(float soundLevel, SoundType soundType) {
         for(String clipName: clips.keySet()) {
             SoundClip clip = clips.get(clipName);
-            if (clip.getSoundType() == soundType)
-                clip.setSoundLevel(soundLevel);
+            if (clip.getSoundType() == soundType) {
+                clip.setSoundLevel(20f * (float) Math.log10(soundLevel));
+            }
             if (soundType == SoundType.CLIP)
                 floatControlValuesSFX[2] = soundLevel;
             else
@@ -121,4 +126,5 @@ public class SoundManager {
     public static boolean isIsMutedSFX() {
         return isMutedSFX;
     }
+
 }

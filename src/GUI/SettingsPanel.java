@@ -9,6 +9,7 @@ import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Hashtable;
 
 public class SettingsPanel extends JPanel implements ActionListener {
 
@@ -19,10 +20,13 @@ public class SettingsPanel extends JPanel implements ActionListener {
     protected JButton sfxMuteBtn;
     protected  JButton musicMuteBtn;
 
+    private Hashtable<Integer, JLabel> JSliderLabels;
+
     public SettingsPanel() {
 
         super();
         setUpPanel();
+        setUpSliderLabels();
         setUpSliders();
         setUpBtns();
         setUpBtnsPanel();
@@ -33,26 +37,32 @@ public class SettingsPanel extends JPanel implements ActionListener {
         float[] sliderValuesTHEME = SoundManager.getFloatControlValuesTHEME();
         float[] sliderValuesSFX = SoundManager.getFloatControlValuesSFX();
 
-        musicSlider = new JSlider(JSlider.HORIZONTAL, (int) sliderValuesTHEME[0], (int) sliderValuesTHEME[1], (int) sliderValuesTHEME[2]);
-        musicSlider.setMajorTickSpacing(10);
-        musicSlider.setMinorTickSpacing(1);
-        musicSlider.setPaintTicks(true);
+//        musicSlider = new JSlider(JSlider.HORIZONTAL, (int) sliderValuesTHEME[0], (int) sliderValuesTHEME[1], (int) sliderValuesTHEME[2]);
+        musicSlider = new JSlider(JSlider.HORIZONTAL, 0, 200, (int) (sliderValuesTHEME[2] * 100));
+        musicSlider.setLabelTable(JSliderLabels);
         musicSlider.setPaintLabels(true);
         musicSlider.addChangeListener(this::stateChanged);
         musicSlider.setBorder(BorderFactory.createTitledBorder("Music"));
         sliderPanel.add(musicSlider);
 
-        sfxSlider = new JSlider(JSlider.HORIZONTAL, (int) sliderValuesSFX[0], (int) sliderValuesSFX[1], (int) sliderValuesSFX[2]);
-        sfxSlider.setMajorTickSpacing(10);
-        sfxSlider.setMinorTickSpacing(1);
-        sfxSlider.setPaintTicks(true);
+        sfxSlider = new JSlider(JSlider.HORIZONTAL, 0, 200, (int) (sliderValuesSFX[2] * 100));
+        sfxSlider.setLabelTable(JSliderLabels);
         sfxSlider.setPaintLabels(true);
         sfxSlider.addChangeListener(this::stateChanged);
         sfxSlider.setBorder(BorderFactory.createTitledBorder("SFX"));
         sliderPanel.add(sfxSlider);
 
+    }
 
+    private void setUpSliderLabels() {
+        Hashtable<Integer, JLabel> jsliderLabels = new Hashtable<>();
+        jsliderLabels.put(0, new JLabel("0"));
+        jsliderLabels.put(50, new JLabel("25"));
+        jsliderLabels.put(100, new JLabel("50"));
+        jsliderLabels.put(150, new JLabel("75"));
+        jsliderLabels.put(200, new JLabel("100"));
 
+        JSliderLabels = jsliderLabels;
     }
 
     private void setUpBtns() {
@@ -74,7 +84,7 @@ public class SettingsPanel extends JPanel implements ActionListener {
     public void stateChanged(ChangeEvent e) {
         JSlider source = (JSlider) e.getSource();
 
-        float soundLevel = (float) source.getValue();
+        float soundLevel = (float) source.getValue() / 100;
         SoundType soundType = e.getSource() == musicSlider? SoundType.THEME : SoundType.CLIP;
         SoundManager.adjustSound(soundLevel, soundType);
 
@@ -95,13 +105,13 @@ public class SettingsPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == musicMuteBtn) {
             SoundManager.toggleMusicMute();
-            if (musicMuteBtn.getText() == "Mute Music")
+            if (musicMuteBtn.getText().equals("Mute Music"))
                 musicMuteBtn.setText("Unmute Music");
             else
                 musicMuteBtn.setText("Mute Music");
         } else if (e.getSource() == sfxMuteBtn) {
             SoundManager.toggleSFXMute();
-            if (sfxMuteBtn.getText() == "Mute SFX")
+            if (sfxMuteBtn.getText().equals("Mute SFX"))
                 sfxMuteBtn.setText("Unmute SFX");
             else
                 sfxMuteBtn.setText("Mute SFX");
