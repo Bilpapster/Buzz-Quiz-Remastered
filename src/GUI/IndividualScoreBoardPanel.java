@@ -1,7 +1,5 @@
 package GUI;
 
-import com.Sound.SoundManager;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -69,13 +67,11 @@ class IndividualScoreBoardPanel {
      * @param score the score value to update.
      */
     public void updateScore(int score) {
-            if (this.score < score) {
-                SoundManager.playClip("not_correct_option3");
-            } else {
-                SoundManager.playClip("correct_answer");
-            }
-            this.score = score;
-            scoreLabel.setText(String.format("%,d", score));
+        if (this.score == score) {
+            return;
+        }
+        this.score = score;
+        scoreLabel.setText(String.format("%,d", score));
     }
 
     /**

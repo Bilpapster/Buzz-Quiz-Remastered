@@ -548,6 +548,13 @@ public class PointBuilderRoundViewer implements RoundViewerI {
                         break;
                     }
                 }
+
+                if (referee.getNumberOfWrongAnswers() == referee.getAlivePlayersInRound().size()) {
+                    SoundManager.playClip("not_correct_option3");
+                } else {
+                    SoundManager.playClip("correct_answer");
+                }
+
                 roundLogic.giveCredits();
                 updateTextOnAllPlayersScoreLabels();
                 new DelayTimer(3000) {
@@ -575,7 +582,7 @@ public class PointBuilderRoundViewer implements RoundViewerI {
         public void mouseClicked(MouseEvent e) {
             if (isUserInteractionEnabled) {
                 if (!referee.hasPlayerAnswered(referee.getAlivePlayersInRound().get(0))) {
-                    SoundManager.playClip("button_select");
+                    new Thread(() -> SoundManager.playClip("button_select")).start();
                     JButton buttonSource = (JButton) e.getSource();
                     referee.setAnswerData(referee.getAlivePlayersInRound().get(0), buttonSource.getText(), timer.getMillisAfterLaunch());
                     playersSelectionLabels.get(e.getSource()).setText(referee.getAlivePlayersInRound().get(0).getName());
@@ -630,7 +637,7 @@ public class PointBuilderRoundViewer implements RoundViewerI {
                 Character keyPressed = Character.toString(e.getKeyChar()).toLowerCase().charAt(0);  // count user interaction even if the CAPS LOCK is (by mistake) enabled
                 if (keyButtonAssociation.containsKey(keyPressed)) {
                     if (!referee.hasPlayerAnswered(playerAssociated)) {
-                        SoundManager.playClip("button_select");
+                        new Thread(() -> SoundManager.playClip("button_select")).start();
                         referee.setAnswerData(playerAssociated, answerButtons.get(keyButtonAssociation.get(keyPressed)).getText(), timer.getMillisAfterLaunch());
                         playersSelectionLabels.get(answerButtons.get(keyButtonAssociation.get(keyPressed))).setText(playerAssociated.getName());
                         playersSelectionLabels.get(answerButtons.get(keyButtonAssociation.get(keyPressed))).setVisible(false);

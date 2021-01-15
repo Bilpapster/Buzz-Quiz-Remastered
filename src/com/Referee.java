@@ -188,6 +188,20 @@ public class Referee {
         return this.alivePlayersInRound.size() == this.answersGivenByPlayers.keySet().size();
     }
 
+    public int getNumberOfCorrectAnswers() {
+        int correctAnswers = 0;
+        for (Player player : alivePlayersInRound) {
+            if (hasPlayerAnsweredCorrectly(player)) {
+                correctAnswers++;
+            }
+        }
+        return correctAnswers;
+    }
+
+    public int getNumberOfWrongAnswers() {
+        return alivePlayersInRound.size() - getNumberOfCorrectAnswers();
+    }
+
     /**
      * Getter for the correct answer of the current question.
      *
