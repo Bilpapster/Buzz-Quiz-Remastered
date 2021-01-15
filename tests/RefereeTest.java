@@ -97,4 +97,14 @@ public class RefereeTest {
         assertTrue(testInstance.haveAllPlayersAnswered());
     }
 
+    @Test
+    public void getNumberOfCorrectAndWrongAnswersTest() {
+        Referee testInstance = new Referee(players);
+        testInstance.executeActionsBeforeNextQuestion();
+        String correctAnswer = testInstance.getCorrectAnswerOfCurrentQuestion();
+        testInstance.setAnswerData(players.get(0), correctAnswer, 1234);
+        testInstance.setAnswerData(players.get(0), correctAnswer + "#not", 1234);
+        assertEquals(1, testInstance.getNumberOfCorrectAnswers());
+        assertEquals(1, testInstance.getNumberOfWrongAnswers());
+    }
 }

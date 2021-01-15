@@ -1,7 +1,5 @@
 package GUI;
 
-import com.Sound.SoundManager;
-
 import javax.swing.*;
 import java.awt.*;
 

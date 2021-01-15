@@ -4,8 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * A simple class that represents a player info panel in our game. The panel contains as info the player' name and
- * score.
+ * A simple class that represents a player info panel (scoreboard) in our game. The panel contains as info the player'
+ * name and score.
  *
  * @author Vasileios Papastergios
  */

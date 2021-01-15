@@ -9,7 +9,13 @@ import java.util.ArrayList;
 import com.*;
 import com.Sound.SoundManager;
 
-
+/**
+ * Represents a name registration modal frame of our game. Contains text fields for the players in order to declare
+ * their names for the current game.
+ *
+ * @author Fotios - Dimitrios Malakis
+ * @version 2021.01.15
+ */
 public class PlayerInfoPage implements ActionListener {
 
     int numberOfPlayers;
@@ -19,14 +25,19 @@ public class PlayerInfoPage implements ActionListener {
     ArrayList<JTextField> playerNameFields = new ArrayList<>();
     JFrame parentFrame;
 
+    /**
+     * Constructs a player info frame with given attributes.
+     * @param numberOfPlayers the number of players taking part in game.
+     * @param parentFrame the parent frame of the current, modal info frame
+     */
     public PlayerInfoPage(int numberOfPlayers, JFrame parentFrame) {
         this.numberOfPlayers = numberOfPlayers;
         this.parentFrame = parentFrame;
 
         playerInfoPanel.setSize(480, 240);
-        playerInfoPanel.setLayout(new GridLayout(numberOfPlayers*2 + 1, 1));
+        playerInfoPanel.setLayout(new GridLayout(numberOfPlayers * 2 + 1, 1));
         playerInfoPanel.setBackground(Color.darkGray);
-        for(int i = 0; i < numberOfPlayers; i++) {
+        for (int i = 0; i < numberOfPlayers; i++) {
             JLabel label = new JLabel("Player " + (i + 1) + " enter your name:");
             label.setHorizontalAlignment(JLabel.CENTER);
             label.setFont(FontManager.getCustomizedFont(FontManager.FontStyle.SEMI_BOLD, 22f));
@@ -43,7 +54,7 @@ public class PlayerInfoPage implements ActionListener {
             textField.addActionListener(this::actionPerformed);
             playerNameFields.add(textField);
         }
-        for (int i = 0; i < numberOfPlayers; i ++) {
+        for (int i = 0; i < numberOfPlayers; i++) {
             playerInfoPanel.add(playerEnterNameLabels.get(i));
             playerInfoPanel.add(playerNameFields.get(i));
         }
@@ -59,6 +70,10 @@ public class PlayerInfoPage implements ActionListener {
         frame.setVisible(true);
     }
 
+    /**
+     * Submits players' info.
+     * @param e action event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (nameInputsAreValid()) {
@@ -68,13 +83,20 @@ public class PlayerInfoPage implements ActionListener {
         }
     }
 
+    /**
+     * Checks if the input is valid.
+     * @return true if all players have declared their names, else false.
+     */
     private boolean nameInputsAreValid() {
-        for(JTextField i: playerNameFields)
+        for (JTextField i : playerNameFields)
             if (i.getText().equals(""))
                 return false;
         return true;
     }
 
+    /**
+     * Submits players' info and starts game
+     */
     private void submitPlayerInfo() {
         ArrayList<Player> listOfPlayers = new ArrayList<>();
         for (JTextField i : playerNameFields) {
