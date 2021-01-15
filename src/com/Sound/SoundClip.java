@@ -4,11 +4,13 @@ import javax.sound.sampled.*;
 import java.io.File;
 
 /**
- * A class representing an audio clip, with all the necessary methods for playback, audio level etc.
+ * A class representing an audio clip, with all the necessary methods for playback, audio level etc. The class has
+ * an access modifier of 'Package-private', since the the only other class to which SoundClip is supposed to be visible
+ * to is SoundManager
  *
  * @author Fotios-Dimitrios Malakis
  */
-public class SoundClip {
+class SoundClip {
 
     private String fileLocation;
     private String clipName;
