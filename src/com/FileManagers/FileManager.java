@@ -7,6 +7,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Class which handles all the File interactions of our game
+ *
+ * @authot Fotios-Dimitrios Malakis
+ */
 public class FileManager {
 
     private File highScoreFile, questionsFile;
@@ -15,6 +20,8 @@ public class FileManager {
     /**
      * Creates a com.Managers.FileManager object and initializes its two File fields to the correct files. If the user has deleted or has is playing
      * for the first time, creates the 'highscores.txt' file.
+     * @param highscoreFileName the name of the .txt file containing the highscores
+     * @param questionsFileName the name of the .txt file containing the questions
      * @throws IOException throws IOException if an error arises with the file stream
      */
     public FileManager(String highscoreFileName, String questionsFileName) throws IOException {
@@ -98,18 +105,34 @@ public class FileManager {
 
     }
 
+    /**
+     * Returns the highscore file name
+     * @return a String with the highscore file name
+     */
     public String getHighscoreFileName() {
         return highscoreFileName;
     }
 
+    /**
+     * Returns the questions file name
+     * @return a String containing the questions file name
+     */
     public String getQuestionsFileName() {
         return questionsFileName;
     }
 
+    /**
+     * Returns the highscore file
+     * @return highscore file
+     */
     public File getHighScoreFile() {
         return highScoreFile;
     }
 
+    /**
+     * Returns the questions file
+     * @return question file
+     */
     public File getQuestionsFile() {
         return questionsFile;
     }

@@ -11,6 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Hashtable;
 
+/**
+ * The game's settings panel
+ */
 public class SettingsPanel extends JPanel implements ActionListener {
 
     protected JPanel sliderPanel;
@@ -22,6 +25,9 @@ public class SettingsPanel extends JPanel implements ActionListener {
 
     private Hashtable<Integer, JLabel> JSliderLabels;
 
+    /**
+     * Default constructor which initiates the frame and sets it up
+     */
     public SettingsPanel() {
 
         super();
@@ -33,6 +39,9 @@ public class SettingsPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Sets up the sliders
+     */
     private void setUpSliders() {
         float[] sliderValuesTHEME = SoundManager.getFloatControlValuesTHEME();
         float[] sliderValuesSFX = SoundManager.getFloatControlValuesSFX();
@@ -54,6 +63,9 @@ public class SettingsPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * Sets up the slider labels
+     */
     private void setUpSliderLabels() {
         Hashtable<Integer, JLabel> jsliderLabels = new Hashtable<>();
         jsliderLabels.put(0, new JLabel("0"));
@@ -65,6 +77,9 @@ public class SettingsPanel extends JPanel implements ActionListener {
         JSliderLabels = jsliderLabels;
     }
 
+    /**
+     * Sets up the Buttons
+     */
     private void setUpBtns() {
         musicMuteBtn = new JButton(!SoundManager.isMutedMusic()? "Mute Music" : "Unmute Music");
         musicMuteBtn.addActionListener(this);
@@ -72,6 +87,9 @@ public class SettingsPanel extends JPanel implements ActionListener {
         sfxMuteBtn.addActionListener(this);
     }
 
+    /**
+     * Sets up the panel
+     */
     private void setUpPanel() {
         this.setLayout(new BorderLayout());
         sliderPanel = new JPanel();
@@ -81,6 +99,10 @@ public class SettingsPanel extends JPanel implements ActionListener {
         this.setVisible(true);
     }
 
+    /**
+     * sets up button class
+     * @param e
+     */
     public void stateChanged(ChangeEvent e) {
         JSlider source = (JSlider) e.getSource();
 
