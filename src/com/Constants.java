@@ -8,7 +8,15 @@ public class Constants {
             "src/resources/SoundClips/main_menu_theme.wav",
             "src/resources/SoundClips/during_game_theme.wav",
             "src/resources/SoundClips/clapping1.wav",
-            "src/resources/SoundClips/clapping2.wav"
+            "src/resources/SoundClips/clapping2.wav",
+            "src/resources/SoundClips/clock_ticking.wav",
+            "src/resources/SoundClips/coins.wav",
+            "src/resources/SoundClips/answer.wav",
+            "src/resources/SoundClips/crowd_boo.wav",
+            "src/resources/SoundClips/not_correct_option3.wav",
+            "src/resources/SoundClips/transition.wav",
+            "src/resources/SoundClips/trumpet_sad.wav",
+            "src/resources/SoundClips/xylophone_sad.wav"
     } ;
 
     public static final String BACKGROUND_IMAGES_PATH = "src/resources/Background Images/";
