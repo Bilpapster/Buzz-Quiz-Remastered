@@ -1,13 +1,12 @@
 package GUI;
 
-import com.FileManager;
+import com.FileManagers.FileManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -29,10 +28,13 @@ public class HighscoreMenu implements ActionListener {
 
     /**
      * Default constructor of the HighscoreMenu class, which creates the window and fills it up with relevant information
-     * @throws IOException
      */
-    public HighscoreMenu() throws IOException {
-        fileManager = new FileManager();
+    public HighscoreMenu() {
+        try {
+            fileManager = new FileManager("highscores.txt", "questions.txt");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
         setUpFrame();
         setUpHeader();
         setUpHighscoreList();
@@ -47,9 +49,9 @@ public class HighscoreMenu implements ActionListener {
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.getContentPane().setBackground(Color.darkGray);
+        frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        frame.pack();
     }
 
     /**
@@ -74,7 +76,7 @@ public class HighscoreMenu implements ActionListener {
     private void setUpSortingBtn() {
         sortingBtn = new JButton();
         sortingBtn.setText("\uD83E\uDC6B");
-        sortingBtn.addActionListener(this::actionPerformed);
+        sortingBtn.addActionListener(this);
         sortingBtn.setToolTipText("Sorting");
         header.add(sortingBtn, BorderLayout.WEST);
     }

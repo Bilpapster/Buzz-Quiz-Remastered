@@ -1,14 +1,16 @@
 package GUI;
 
-import com.HighscoreManager;
+import com.FileManagers.FileManager;
+import com.FileManagers.HighscoreManager;
 import com.Player;
+import com.Sound.SoundManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 public class GameEndingWindow extends JFrame implements ActionListener {
 
@@ -21,9 +23,15 @@ public class GameEndingWindow extends JFrame implements ActionListener {
     protected JPanel playerCardsPanel;
     protected ArrayList<PlayerEndInfoPanel> playerEndInfoPanels;
     protected HighscoreManager highscoreManager;
+    private SoundManager soundManager;
 
-    public GameEndingWindow(ArrayList<Player> listOfPlayers) {
-        highscoreManager = new HighscoreManager();
+    public GameEndingWindow(ArrayList<Player> listOfPlayers, SoundManager soundManager) {
+        this.soundManager = soundManager;
+        try {
+            highscoreManager = new HighscoreManager(new FileManager("highscores.txt", "questions.txt"));
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
         this.listOfPlayers = listOfPlayers;
         calculatePositions();
 
@@ -43,6 +51,8 @@ public class GameEndingWindow extends JFrame implements ActionListener {
         setUpFooter();
         setUpPlayerCardsPanel();
         setUpPlayerCards();
+
+        soundManager.playClip("clapping1");
 
         this.setVisible(true);
     }
@@ -72,7 +82,7 @@ public class GameEndingWindow extends JFrame implements ActionListener {
 
     private void setUpFooter() {
         backToMenuBtn = new JButton("Back to main menu");
-        backToMenuBtn.addActionListener(this::actionPerformed);
+        backToMenuBtn.addActionListener(this);
         backToMenuBtn.setPreferredSize(new Dimension(480,60));
 
         GridBagConstraints gbc = new GridBagConstraints();
