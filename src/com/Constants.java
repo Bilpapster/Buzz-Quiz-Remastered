@@ -2,11 +2,13 @@ package com;
 
 public class Constants {
 
-    public static String[] SOUND_PATHS = {
+    public static final String[] SOUND_PATHS = {
             "src/resources/SoundClips/correct_answer.wav",
             "src/resources/SoundClips/wrong_answer.wav",
             "src/resources/SoundClips/main_menu_theme.wav",
-            "src/resources/SoundClips/during_game_theme.wav"
+            "src/resources/SoundClips/during_game_theme.wav",
+            "src/resources/SoundClips/clapping1.wav",
+            "src/resources/SoundClips/clapping2.wav"
     } ;
 
     public static final String BACKGROUND_IMAGES_PATH = "src/resources/Background Images/";
